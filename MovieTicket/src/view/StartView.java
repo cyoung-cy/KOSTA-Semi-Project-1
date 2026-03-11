@@ -156,7 +156,7 @@ public class StartView {
         System.out.print("비밀번호 : ");
         String password = sc.nextLine();
 
-        //MemberController.login(userId, );
+        //MemberController.login(userId, password);
     }
 
 
