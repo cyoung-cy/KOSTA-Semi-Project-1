@@ -1,4 +1,4 @@
 package dao;
 
-public class MemberDAOImpl {
+public class MemberDAOImpl implements MemberDAO {
 }
