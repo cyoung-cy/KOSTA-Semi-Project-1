@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0311 패키지 생성" />
+    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0311 패키지 생성">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1773195462207</updated>
       <workItem from="1773195463566" duration="144000" />
-      <workItem from="1773195698426" duration="2663000" />
+      <workItem from="1773195698426" duration="2723000" />
     </task>
     <task id="LOCAL-00001" summary="0311 Test">
       <option name="closed" value="true" />
