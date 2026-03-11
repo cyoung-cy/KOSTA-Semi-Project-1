@@ -1,5 +1,6 @@
 package view;
 
+import controller.MemberController;
 import session.Session;
 import session.SessionSet;
 
@@ -16,9 +17,6 @@ public class StartView {
 
     public static void menu() {
         while(true) {
-            SessionSet ss = SessionSet.getInstance();
-            System.out.println("ss.getSet() = "+ss.getSet());
-
             StartView.printMenu();
 
             int menu = Integer.parseInt(sc.nextLine());
@@ -43,7 +41,7 @@ public class StartView {
      * */
     public static void printMenu() {
         System.out.println("=============================================================");
-        System.out.println("                 Hello! Welcome MOVIE TICKET                 ");
+        System.out.println("                Hello! Welcome to MOVIE TICKET                ");
         System.out.println("=============================================================");
         System.out.println("                      [1] 로그인");
         System.out.println("                      [2] 회원가입");
@@ -59,10 +57,8 @@ public class StartView {
      * */
     public static void printUserMenu(String userId) {
         while(true) {
-            SessionSet ss = SessionSet.getInstance();
-
             System.out.println("=============================================================");
-            String text = "Hello! " + userId + " Welcome MOVIE TICKET";
+            String text = "Hello! " + userId + " Welcome to MOVIE TICKET";
             System.out.println(center(text, 60));
             System.out.println("=============================================================");
             System.out.println("                    [1] 영화 예매");
@@ -117,10 +113,8 @@ public class StartView {
      * */
     public static void printAdminMenu(String userId) {
         while(true){
-            SessionSet ss = SessionSet.getInstance();
-
             System.out.println("=============================================================");
-            String text = "Hello! " + userId + " Welocme MOVIE TICKET Admin Page";
+            String text = "Hello! " + userId + " Welocme to MOVIE TICKET Admin Page";
             System.out.println(center(text, 60));
             System.out.println("=============================================================");
             System.out.println("                      [1] 회원 관리");
@@ -133,6 +127,7 @@ public class StartView {
             switch(menu) {
                 case 1 :
                     //회원 관리
+                    MemberController.selectUsers();
                 case 2 :
                     //영화 관리
                 case 3 :

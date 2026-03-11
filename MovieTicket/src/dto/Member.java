@@ -14,6 +14,9 @@ public class Member {
 	private String [] preferredGenre;
 	private String cardInfo;
 	private String role;
-	
-	
+
+
+    public String getRole() {
+        return role;
+    }
 }
