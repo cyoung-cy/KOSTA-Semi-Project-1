@@ -5,6 +5,12 @@ import session.SessionSet;
 
 import java.util.Scanner;
 
+/*
+ * 날짜
+ * 이름
+ * 수정 사항
+ * */
+
 public class StartView {
     private static Scanner sc = new Scanner(System.in);
 
@@ -18,10 +24,13 @@ public class StartView {
             int menu = Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
-                    StartView.login();// 로그인
+                    StartView.login();// 로그인 - 만약 role=user이면 printUserMenu()로
                     break;
                 case 2 :
                     // 회원가입
+                    break;
+                case 3 :
+                    // 관리자 회원가입 ACCESSCODE 받기
                     break;
                 case 0 :
                     System.exit(0);
@@ -37,6 +46,7 @@ public class StartView {
         System.out.println("=============================================================");
         System.out.println("                      [1] 로그인");
         System.out.println("                      [2] 회원가입");
+        System.out.println("                      [3] 관리자 회원가입");
         System.out.println("                      [0] 프로그램 종료");
         System.out.println("=============================================================");
         System.out.println("이용하실 서비스를 선택하세요: ");
@@ -60,8 +70,9 @@ public class StartView {
             System.out.println("                    [6] 로그아웃");
             System.out.println("                    [7] 회원탈퇴");
             System.out.println("                    [0] 종료");
+            System.out.println("=============================================================");
 
-            int menu =Integer.parseInt( sc.nextLine());
+            int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
                     //영화 예매
@@ -97,10 +108,42 @@ public class StartView {
     }
 
     public static void printAdminMenu(String userId) {
-        System.out.println("=============================================================");
-        String text = "Hello! " + userId + " Welocme MOVIE TICKET";
-        System.out.println(center(text, 60));
-        System.out.println("=============================================================");
+        while(true){
+            SessionSet ss = SessionSet.getInstance();
+
+            System.out.println("=============================================================");
+            String text = "Hello! " + userId + " Welocme MOVIE TICKET Admin Page";
+            System.out.println(center(text, 60));
+            System.out.println("=============================================================");
+            System.out.println("                      [1] 회원 관리");
+            System.out.println("                      [2] 영화 관리");
+            System.out.println("                      [3] 문의 관리");
+            if(userId == "King"){
+                System.out.println("                      [4] 권한 코드 부여");
+            }
+            System.out.println("                      [0] 프로그램 종료");
+            System.out.println("=============================================================");
+
+            int menu =Integer.parseInt( sc.nextLine());
+            switch(menu) {
+                case 1 :
+                    //회원 관리
+                case 2 :
+                    //영화 관리
+                case 3 :
+                    //문의 관리
+                case 4 :
+                    if(userId != "King"){
+                        System.out.println("접근 권한이 없습니다.");
+                    }else{
+                        //권한 코드 부여
+                    }
+                case 0 :
+                    //종료
+                    System.exit(0);
+            }
+
+        }
 
     }
 
@@ -113,8 +156,8 @@ public class StartView {
 
         System.out.print("비밀번호 : ");
         String userPwd = sc.nextLine();
-
     }
+
 
     /**
      * 로그아웃
