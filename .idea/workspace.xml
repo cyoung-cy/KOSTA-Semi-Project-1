@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0312 관리자 회원 관리 기능 개발 완료">
+    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0312 관리자 문의 관리 기능 개발 완료">
+      <change afterPath="$PROJECT_DIR$/MovieTicket/src/controller/InquiryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MovieTicket/src/dao/InquiryDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MovieTicket/src/dao/impl/InquiryDAOImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MovieTicket/src/dto/Inquiry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MovieTicket/src/exception/DMLException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MovieTicket/src/service/InquiryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/dao/MemberDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/dao/impl/MemberDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/view/AdminView.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/view/AdminView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MovieTicket/src/view/EndView.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/view/EndView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/view/StartView.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/view/StartView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +25,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -90,7 +103,7 @@
       <updated>1773195462207</updated>
       <workItem from="1773195463566" duration="144000" />
       <workItem from="1773195698426" duration="13482000" />
-      <workItem from="1773272421128" duration="12059000" />
+      <workItem from="1773272421128" duration="24847000" />
     </task>
     <task id="LOCAL-00001" summary="0311 Test">
       <option name="closed" value="true" />
@@ -212,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773284261278</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="0312 관리자 회원 관리 기능 개발 완료">
+      <option name="closed" value="true" />
+      <created>1773284611838</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1773284611838</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,6 +249,18 @@
     <MESSAGE value="repository" />
     <MESSAGE value="0312 auth-test &amp; admin merge 완료" />
     <MESSAGE value="0312 관리자 회원 관리 기능 개발 완료" />
-    <option name="LAST_COMMIT_MESSAGE" value="0312 관리자 회원 관리 기능 개발 완료" />
+    <MESSAGE value="0312 관리자 문의 관리 기능 개발 완료" />
+    <option name="LAST_COMMIT_MESSAGE" value="0312 관리자 문의 관리 기능 개발 완료" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/MovieTicket/src/view/AdminView.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
