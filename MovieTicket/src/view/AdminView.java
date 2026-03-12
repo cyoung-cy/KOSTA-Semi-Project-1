@@ -29,6 +29,7 @@ public class AdminView {
                     deleteUserByName();
                     break;
                 case 2 :
+                    //회원 목록 조회
                     MemberController.selectUsers(member);
                 case 3 :
                     //회원 상세 조회
@@ -46,9 +47,9 @@ public class AdminView {
     }
 
     private static void selectUserDetail() {
-        System.out.print("상세 검색할 회원의 이름을 입력하세요 : ");
-        String name = sc.nextLine();
-        MemberController.selectUserDetail(name);
+        System.out.print("상세 검색할 회원의 아이디를 입력하세요 : ");
+        String userId = sc.nextLine();
+        MemberController.selectUserDetail(userId);
     }
 
     private static void deleteUserByName() {

@@ -63,5 +63,5 @@ public interface MemberDAO {
      * 김채영
      * TODO: 전체 사용자 상세검색
      * */
-    List<Member> selectUserDetail(String name);
+    List<Member> selectUserDetail(String userId);
 }

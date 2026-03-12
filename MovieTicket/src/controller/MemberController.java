@@ -103,9 +103,9 @@ public class MemberController {
 	 * 김채영
 	 * TODO: 사용자 상세 목록 조회
 	 * */
-	public static void selectUserDetail(String name) {
+	public static void selectUserDetail(String userId) {
 		try{
-			List<Member> list = memberService.selectUserDetail(name);
+			List<Member> list = memberService.selectUserDetail(userId);
 			EndView.printUserList(list);
 		}catch (Exception e){
 			e.printStackTrace();

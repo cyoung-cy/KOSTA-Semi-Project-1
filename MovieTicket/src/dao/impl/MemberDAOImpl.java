@@ -76,18 +76,18 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
-    public List<Member> selectUserDetail(String name) {
+    public List<Member> selectUserDetail(String userId) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select * from MEMBER where ROLE = 'user' and NAME = ?";
+        String sql = "select * from MEMBER where (ROLE = 'user' or ROLE is null) and USER_ID = ?";
         Member member = null;
         List<Member> list = new ArrayList<>();
 
         try {
             con = DbManager.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1, name);
+            ps.setString(1, userId);
             rs = ps.executeQuery();
 
             while(rs.next()){
@@ -122,7 +122,7 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user'";
+        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user' or ROLE is null";
         Member member = null;
         List<Member> list = new ArrayList<>();
 

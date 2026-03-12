@@ -70,6 +70,5 @@ public class EndView {
         for(Inquiry inquiry : list) {
             System.out.println(inquiry);
         }
-
     }
 }

@@ -64,9 +64,9 @@ public class MemberService {
      * 김채영
      * TODO: 전체 사용자 상세목록 조회
      * */
-    public List<Member> selectUserDetail(String name) throws NotFoundException {
-        List<Member> list = memberDao.selectUserDetail(name);
-        if(list.size()==0) throw new NotFoundException("현재 상품이 없습니다.");
+    public List<Member> selectUserDetail(String userId) throws NotFoundException {
+        List<Member> list = memberDao.selectUserDetail(userId);
+        if(list.size()==0) throw new NotFoundException("현재 회원이 없습니다.");
         return list;
     }
 

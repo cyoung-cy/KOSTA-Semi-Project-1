@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0312 관리자 문의 관리 기능 개발 완료" />
+    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0312 관리자 문의 관리 기능 개발 완료">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/dao/MemberDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/dao/MemberDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/dao/impl/MemberDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/dao/impl/MemberDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/service/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/service/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/view/AdminView.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/view/AdminView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/view/EndView.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/view/EndView.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="feature/admin" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,7 +61,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "feature/admin에 #5개",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Edu/semi-project/semi-project",
@@ -253,16 +261,5 @@
     <MESSAGE value="0312 관리자 회원 관리 기능 개발 완료" />
     <MESSAGE value="0312 관리자 문의 관리 기능 개발 완료" />
     <option name="LAST_COMMIT_MESSAGE" value="0312 관리자 문의 관리 기능 개발 완료" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/MovieTicket/src/view/AdminView.java</url>
-          <line>91</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
