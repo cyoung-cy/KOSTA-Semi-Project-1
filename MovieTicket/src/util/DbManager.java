@@ -20,8 +20,13 @@ public class DbManager {
         try {
             // 1. ClassLoader를 사용하여 Classpath(Resources Root) 내의 파일을 찾음
             // 맥, 윈도우 상관없이 'resources' 폴더가 노란색이면 무조건 읽어온다.
-            InputStream is = DbManager.class.getClassLoader().getResourceAsStream("dbinfo.properties");
+        	InputStream is = DbManager.class.getClassLoader().getResourceAsStream("dbinfo.properties");
 
+//        	 proFile.load(new FileInputStream("resources/dbinfo.properties"));
+//        	 
+//        	 Class.forName(proFile.getProperty("driverName"));
+        	 
+            		
             if (is == null) {
                 // 파일이 없을 경우 예외를 명시적으로 던져서 초기 로딩 실패를 알림
                 throw new FileNotFoundException("dbinfo.properties 파일을 찾을 수 없습니다. (Resources Root 설정 확인)");
