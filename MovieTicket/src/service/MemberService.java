@@ -3,6 +3,7 @@ package service;
 import dao.MemberDAO;
 import dao.impl.MemberDAOImpl;
 import dto.Member;
+import exception.ExistedException;
 import exception.NotFoundException;
 import session.Session;
 import session.SessionSet;
@@ -74,12 +75,14 @@ public class MemberService {
 	 * 이동혁
 	 * TODO:사용자 회원가입 서비스
 	 * */
+    public void register(
+    		Member member
+    	) throws ExistedException, SQLException {
 
-	/*
-	 * 20260311
-	 * 이동혁
-	 * TODO:사용자 회원가입 서비스
-	 * */
+    	int result = memberDao.register(member);
+    	if(result == 0) throw new ExistedException("이미 존재하는 사용자 정보입니다.");
+
+    }
 
 	
 }

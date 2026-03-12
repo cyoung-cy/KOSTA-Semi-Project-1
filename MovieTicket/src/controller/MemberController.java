@@ -4,6 +4,7 @@ import dto.Member;
 import service.MemberService;
 import view.AdminView;
 import view.EndView;
+import view.FailView;
 import view.StartView;
 
 import java.util.List;
@@ -36,6 +37,34 @@ public class MemberController {
 	 * 이동혁
 	 * TODO:사용자 회원가입 컨트롤러
 	 * */
+	public static void register(
+			String userId,
+			String password,
+			String name,
+			String phone,
+			String address,
+			String birth,
+			List<String> preferredGenre,
+			String cardInfo
+	) {
+		try {
+			Member member = new Member(0,    			
+				userId,
+    			password,
+    			name,
+    			phone,
+    			address,
+    			birth,
+    			preferredGenre,
+    			cardInfo,
+    			"user");
+			memberService.register(member);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+//			FailView.errorMessage(e.getMessage());
+		}
+	}
 
 
 	/*
