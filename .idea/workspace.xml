@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0312 관리자 문의 관리 기능 개발 완료">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MovieTicket/src/controller/InquiryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/controller/InquiryController.java" afterDir="false" />
-    </list>
+    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0312 관리자 문의 관리 기능 개발 완료" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,7 +53,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "feature/admin에 #2개",
+    "git-widget-placeholder": "feature/admin에 #5개",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Edu/semi-project/semi-project",
