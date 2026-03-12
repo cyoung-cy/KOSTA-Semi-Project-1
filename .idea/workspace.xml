@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0311 MemberDAO 수정">
+    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="repository">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/controller/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/dao/MemberDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/dao/MemberDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MovieTicket/src/dao/MemberDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MovieTicket/src/dao/MemberDAOImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +66,9 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.editor",
-    "vue.rearranger.settings.migration": "true"
+    "vue.rearranger.settings.migration": "true",
+    "애플리케이션.Main.executor": "Run",
+    "애플리케이션.StartView.executor": "Run"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -88,7 +93,7 @@
       <updated>1773195462207</updated>
       <workItem from="1773195463566" duration="144000" />
       <workItem from="1773195698426" duration="13482000" />
-      <workItem from="1773272421128" duration="1126000" />
+      <workItem from="1773272421128" duration="3594000" />
     </task>
     <task id="LOCAL-00001" summary="0311 Test">
       <option name="closed" value="true" />
@@ -186,7 +191,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773221743364</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="repository">
+      <option name="closed" value="true" />
+      <created>1773273744735</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1773273744735</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +212,7 @@
     <MESSAGE value="0311 view" />
     <MESSAGE value="0311 Startview" />
     <MESSAGE value="0311 MemberDAO 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="0311 MemberDAO 수정" />
+    <MESSAGE value="repository" />
+    <option name="LAST_COMMIT_MESSAGE" value="repository" />
   </component>
 </project>
