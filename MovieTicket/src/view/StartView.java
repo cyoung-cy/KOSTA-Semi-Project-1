@@ -5,7 +5,10 @@ import dto.Member;
 import session.Session;
 import session.SessionSet;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /*
  * 날짜 : 0311
@@ -196,12 +199,23 @@ public class StartView {
         String birth = sc.nextLine();
 
         System.out.print("선호 장르 : ");
-        String prferredGenre = sc.nextLine();
+        List<String> preferredGenre = Arrays.stream(sc.nextLine().split(","))
+        		.map(String::trim).filter(s -> !s.isEmpty())
+        		.collect(Collectors.toList());
 
         System.out.print("결제 정보 : ");
         String cardInfo = sc.nextLine();
 
-        //MemberController.login(userId, );
+        MemberController.register(
+    			userId,
+    			password,
+    			name,
+    			phone,
+    			address,
+    			birth,
+    			preferredGenre,
+    			cardInfo
+    	);
     }
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package dao;
+package dao.impl;
 
 import dto.Member;
 import util.DbManager;
@@ -12,14 +12,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import dao.MemberDAO;
+
 public class MemberDAOImpl implements MemberDAO {
 
 
 
     @Override
     public int register(Member member) throws SQLException {
-
-        return 0;
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "insert into MEMBER(USER_ID, PASSWORD, NAME, PHONE, ADDRESS, BIRTH_DATE, PREFERRED_GENRE, CARD_INFO) values(?,?,?,?,?,?,?,?)";
+        int re = 0;
+        try {
+        	con = DbManager.getConnection();
+        	ps = con.prepareStatement(sql);
+        	
+        	ps.setString(1, member.getUserId());
+        	ps.setString(2, member.getPassword());
+        	ps.setString(3, member.getPhone());
+        	ps.setString(4, member.getName());
+        	ps.setString(5, member.getAddress());
+        	ps.setString(6, member.getBirthDate());
+        	ps.setString(7, String.join(",", member.getPreferredGenre()));
+        	ps.setString(8, member.getCardInfo());
+        	
+        	re = ps.executeUpdate();
+        } catch (SQLException e) {
+//        	e.printStackTrace();
+            throw new RuntimeException();
+        } finally {
+            DbManager.close(con, ps, null);
+        }
+        
+        return re;
     }
 
     @Override
