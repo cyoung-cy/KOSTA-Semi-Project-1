@@ -2,7 +2,11 @@ package controller;
 
 import dto.Member;
 import service.MemberService;
+import view.AdminView;
+import view.EndView;
 import view.StartView;
+
+import java.util.List;
 
 public class MemberController {
 	static MemberService memberService = new MemberService();
@@ -17,9 +21,9 @@ public class MemberController {
 			Member member = memberService.login(userId, password);
 			// 총 관리자는 AdminView 보이도록
 			String verifiedUserRole = member.getRole();
-			if("admin".equals(verifiedUserRole)) StartView.printAdminMenu(verifiedUserRole);
+			if("admin".equals(verifiedUserRole)) StartView.printAdminMenu(member);
 			// 일반 유저는 UserMenuView 보이도록
-			else StartView.printUserMenu(verifiedUserRole);
+			else StartView.printUserMenu(member);
 		} catch(Exception e) {
 			e.printStackTrace();
 			// 이후에 StartView로 가도록 처리
@@ -34,8 +38,49 @@ public class MemberController {
 	 * */
 
 
-
-    public static void selectUsers() {
+	/*
+	 * 20260312
+	 * 김채영
+	 * TODO: 사용자 검색
+	 * */
+    public static void selectUsers(Member member) {
+		try{
+			List<Member> list = memberService.selectUsers();
+			EndView.printUserShort(list);
+			AdminView.userManage(member);
+		}catch (Exception e){
+			e.printStackTrace();
+			//startview 이동
+		}
     }
 
+	/*
+	 * 20260312
+	 * 김채영
+	 * TODO: 사용자 목록 조회
+	 * */
+	public static void deleteUserByName(String name) {
+		try{
+			String user  = memberService.deleteUserByName(name);
+			EndView.deleteUser(name);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+	}
+
+	/*
+	 * 20260312
+	 * 김채영
+	 * TODO: 사용자 상세 목록 조회
+	 * */
+	public static void selectUserDetail(String name) {
+		try{
+			List<Member> list = memberService.selectUserDetail(name);
+			EndView.printUserList(list);
+		}catch (Exception e){
+			e.printStackTrace();
+			//AdminView로 이동
+		}
+	}
 }

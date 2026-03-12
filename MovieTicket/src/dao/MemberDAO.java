@@ -12,7 +12,7 @@ public interface MemberDAO {
      * 김채영
      * TODO: 전체 사용자 검색
      * */
-    List<Member> goodsSelect() throws SQLException;
+    List<Member> selectUsers();
 
     /*
      * 20260311
@@ -51,4 +51,17 @@ public interface MemberDAO {
     
     
 
+    /*
+     * 20260311
+     * 김채영
+     * TODO:사용자 삭제 DAO 인터페이스
+     * */
+    String deleteUserByName(String name);
+
+    /*
+     * 20260311
+     * 김채영
+     * TODO: 전체 사용자 상세검색
+     * */
+    List<Member> selectUserDetail(String name);
 }

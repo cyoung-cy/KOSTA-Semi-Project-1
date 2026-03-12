@@ -1,6 +1,8 @@
 package dto;
 
+
 import java.util.List;
+
 
 /**
  * 2026-03-11
@@ -24,6 +26,16 @@ public class Member {
 	private String cardInfo;
 	private String role;
 
+	public Member() {
+
+	}
+
+	public Member(int memberId, String userId, String name) {
+		this.memberId = memberId;
+		this.userId = userId;
+		this.name = name;
+	}
+
 	public int getMemberId() {
 		return memberId;
 	}
@@ -36,7 +48,7 @@ public class Member {
 		return userId;
 	}
 
-	public void setUserId(String userID) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -118,5 +130,21 @@ public class Member {
 		this.preferredGenre = preferredGenre;
 		this.cardInfo = cardInfo;
 		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "===== 회원 정보 =====\n" +
+				"회원 번호 : " + memberId + "\n" +
+				"회원 아이디 : " + userId + "\n" +
+				"비밀번호 : " + password + "\n" +
+				"이름 : " + name + "\n" +
+				"전화번호 : " + phone + "\n" +
+				"주소 : " + address + "\n" +
+				"생년월일 : " + birthDate + "\n" +
+				"선호 장르 : " + preferredGenre.toString() + "\n" +
+				"카드 정보 : " + cardInfo + "\n" +
+				"권한 : " + role + "\n" +
+				"====================";
 	}
 }
