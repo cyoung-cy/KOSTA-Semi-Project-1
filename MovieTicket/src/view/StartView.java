@@ -143,6 +143,7 @@ public class StartView {
                     //영화 관리
                 case 3 :
                     //문의 관리
+                    AdminView.inquiryManage(member);
                 case 0 :
                     //종료
                     System.exit(0);
@@ -216,10 +217,6 @@ public class StartView {
     			preferredGenre,
     			cardInfo
     	);
-    }
-
-    public static void main(String[] args) {
-        new StartView();
     }
 }
 

@@ -1,5 +1,6 @@
 package dao.impl;
 
+import dao.MemberDAO;
 import dto.Member;
 import util.DbManager;
 
