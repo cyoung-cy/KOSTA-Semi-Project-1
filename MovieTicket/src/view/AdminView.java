@@ -2,8 +2,10 @@ package view;
 
 import controller.InquiryController;
 import controller.MemberController;
+import controller.MovieController;
 import dto.Inquiry;
 import dto.Member;
+import dto.Movie;
 
 import java.util.Scanner;
 
@@ -20,8 +22,8 @@ public class AdminView {
             System.out.println("                      [3] 회원 상세 조회");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-
             System.out.println("회원 관리 메뉴를 선택하세요 : ");
+
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
                 case 1 :
@@ -79,8 +81,8 @@ public class AdminView {
             System.out.println("                      [3] 문의 답변");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-
             System.out.println("문의 관리 메뉴를 선택하세요 : ");
+
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
                 case 1 :
@@ -121,5 +123,69 @@ public class AdminView {
         String response = sc.nextLine();
         InquiryController.insertInquiryreResponse(inquiryId, response);
 
+    }
+
+    public static void moivieManager(Member member) {
+        while(true){
+            System.out.println("=============================================================");
+            System.out.println("                       [영화 관리]");
+            System.out.println("=============================================================");
+            System.out.println("                      [1] 영화 목록 조회");
+            System.out.println("                      [2] 영화 목록 상세 조회");
+            System.out.println("                      [3] 새로운 영화 등록");
+            System.out.println("                      [4] 영화 정보 수정");
+            System.out.println("                      [5] 영화 삭제");
+            System.out.println("                      [0] 이전으로 돌아가기");
+            System.out.println("=============================================================");
+            System.out.println("영화 관리 메뉴를 선택하세요 : ");
+
+            int menu = Integer.parseInt(sc.nextLine());
+            switch (menu){
+                case 1 :
+                    //영화 목록 조회
+                    MovieController.selectAllMovies();
+                    break;
+                case 2:
+                    //영화 목록 상세 조회
+                    selectMovieDetail();
+                case 3 :
+                    //새로운 영화 등록
+                    //insertMovie();
+                    break;
+                case 4 :
+                    //영화 정보 수정
+                     updateMovie();
+                    break;
+                case 5 :
+                    //영화 삭제
+                    deleteMovieById();
+                    break;
+                case 0 :
+
+                    break;
+            }
+        }
+    }
+
+    private static void deleteMovieById() {
+        System.out.print("조회할 영화 ID를 입력하세요 : ");
+        int movieId = Integer.parseInt(sc.nextLine());
+        MovieController.deleteMovieById(movieId);
+    }
+
+    private static void updateMovie() {
+        System.out.print("수정할 영화 ID를 입력하세요 : ");
+        int updateId = Integer.parseInt(sc.nextLine());
+
+        System.out.print("수정할 칼럼을 입력하세요 : ");
+        int colName = Integer.parseInt(sc.nextLine());
+
+        MovieController.updateMovie(updateId, colName);
+    }
+
+    private static void selectMovieDetail() {
+        System.out.print("삭제할 영화 ID를 입력하세요 : ");
+        int movieId = Integer.parseInt(sc.nextLine());
+        MovieController.selectMovieDetail(movieId);
     }
 }

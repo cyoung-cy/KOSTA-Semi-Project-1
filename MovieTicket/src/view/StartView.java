@@ -141,6 +141,7 @@ public class StartView {
                     break;
                 case 2 :
                     //영화 관리
+                    AdminView.moivieManager(member);
                 case 3 :
                     //문의 관리
                     AdminView.inquiryManage(member);
