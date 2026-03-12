@@ -1,6 +1,7 @@
 package view;
 
 import controller.MemberController;
+import dto.Member;
 import session.Session;
 import session.SessionSet;
 
@@ -58,10 +59,10 @@ public class StartView {
      * 기능 : userId='user'일 때 사용자 View
      * @param : userId(String)
      * */
-    public static void printUserMenu(String userId) {
+    public static void printUserMenu(Member member) {
         while(true) {
             System.out.println("=============================================================");
-            String text = "Hello! " + userId + " Welcome to MOVIE TICKET";
+            String text = "Hello! " + member.getUserId() + " Welcome to MOVIE TICKET";
             System.out.println(center(text, 60));
             System.out.println("=============================================================");
             System.out.println("                    [1] 영화 예매");
@@ -88,12 +89,14 @@ public class StartView {
                     //문의하기
                 case 6 :
                     //로그아웃
-                    StartView.logout(userId);
+                    StartView.logout(member.getUserId());
+                    break;
                 case 7 :
                     //회원탈퇴
                 case 0 :
                     //종료
                     System.exit(0);
+                    break;
             }
         }
 
@@ -114,10 +117,10 @@ public class StartView {
      * 기능 : userId='admin' or 'subadmin' 일 때 관리자 View
      * @param : userId(String)
      * */
-    public static void printAdminMenu(String userId) {
+    public static void printAdminMenu(Member member) {
         while(true){
             System.out.println("=============================================================");
-            String text = "Hello! " + userId + " Welocme to MOVIE TICKET Admin Page";
+            String text = "Hello! " + member.getName() + " Welocme to MOVIE TICKET Admin Page";
             System.out.println(center(text, 60));
             System.out.println("=============================================================");
             System.out.println("                      [1] 회원 관리");
@@ -126,11 +129,13 @@ public class StartView {
             System.out.println("                      [0] 프로그램 종료");
             System.out.println("=============================================================");
 
-            int menu =Integer.parseInt( sc.nextLine());
+            System.out.println("관리 메뉴를 선택하세요 : ");
+            int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
                     //회원 관리
-                    MemberController.selectUsers();
+                    MemberController.selectUsers(member);
+                    break;
                 case 2 :
                     //영화 관리
                 case 3 :
@@ -138,6 +143,7 @@ public class StartView {
                 case 0 :
                     //종료
                     System.exit(0);
+                    break;
             }
 
         }
