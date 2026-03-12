@@ -25,7 +25,7 @@ public class EndView {
      * TODO: 삭제 된 사용자 조회 View 형식 개발
      * */
     public static void deleteUser(String name) {
-        System.out.println(name + "사용자가 삭제되었습니다.");
+        System.out.println(name + " 사용자가 삭제되었습니다.");
         //System.out.println("현재 사용자 수"+  +"명");
         System.out.println();
     }
