@@ -251,7 +251,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773305767087</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="0312 관리자 문의, 회원 관리 / 사용자 로그인 회원가입 Merge">
+      <option name="closed" value="true" />
+      <created>1773305860927</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1773305860927</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
