@@ -23,7 +23,7 @@ public class MemberDAOImpl implements MemberDAO {
     public int register(Member member) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "insert into MEMBER(USER_ID, PASSWORD, NAME, PHONE, ADDRESS, BIRTH_DATE, PREFERRED_GENRE, CARD_INFO) values(?,?,?,?,?,?,?,?)";
+        String sql = "insert into MEMBER(USER_ID, PASSWORD, NAME, PHONE, ADDRESS, BIRTH_DATE, PREFERRED_GENRE, CARD_INFO, ROLE) values(?,?,?,?,?,?,?,?,'user')";
         int re = 0;
         try {
         	con = DbManager.getConnection();
@@ -31,8 +31,8 @@ public class MemberDAOImpl implements MemberDAO {
         	
         	ps.setString(1, member.getUserId());
         	ps.setString(2, member.getPassword());
-        	ps.setString(3, member.getPhone());
-        	ps.setString(4, member.getName());
+        	ps.setString(3, member.getName());
+        	ps.setString(4, member.getPhone());
         	ps.setString(5, member.getAddress());
         	ps.setString(6, member.getBirthDate());
         	ps.setString(7, String.join(",", member.getPreferredGenre()));

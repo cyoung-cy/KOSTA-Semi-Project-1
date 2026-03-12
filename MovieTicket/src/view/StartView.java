@@ -167,7 +167,6 @@ public class StartView {
         MemberController.login(userId, password);
     }
 
-
     /*
      * 기능 : 로그아웃
      * */
@@ -190,21 +189,21 @@ public class StartView {
         System.out.print("이름 : ");
         String name = sc.nextLine();
 
-        System.out.print("전화번호 : ");
+        System.out.print("전화번호 (ex: 010-xxxx-xxxx) : ");
         String phone = sc.nextLine();
 
-        System.out.print("주소 : ");
+        System.out.print("주소 (ex:서울시 강남구) : ");
         String address = sc.nextLine();
 
-        System.out.print("생일 : ");
+        System.out.print("생일 (ex:2000-01-01) : ");
         String birth = sc.nextLine();
 
-        System.out.print("선호 장르 : ");
+        System.out.print("선호 장르('ACTION', 'ANIMATION', 'THRILLER', 'HORROR', 'COMEDY', 'ROMANCE', 'DOCUMENTARY', 'DRAMA', 'SF' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
         List<String> preferredGenre = Arrays.stream(sc.nextLine().split(","))
         		.map(String::trim).filter(s -> !s.isEmpty())
         		.collect(Collectors.toList());
 
-        System.out.print("결제 정보 : ");
+        System.out.print("결제 정보(ex:1111-1111-1111-1111) : ");
         String cardInfo = sc.nextLine();
 
         MemberController.register(
@@ -217,6 +216,10 @@ public class StartView {
     			preferredGenre,
     			cardInfo
     	);
+    }
+    
+    public static void main(String[] args) {
+    	new StartView();
     }
 }
 
