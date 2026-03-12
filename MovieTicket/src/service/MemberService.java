@@ -1,7 +1,7 @@
 package service;
 
 import dao.MemberDAO;
-import dao.MemberDAOImpl;
+import dao.impl.MemberDAOImpl;
 import dto.Member;
 import exception.NotFoundException;
 import session.Session;

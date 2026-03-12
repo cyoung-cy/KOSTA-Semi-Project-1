@@ -1,5 +1,6 @@
 package view;
 
+import dto.Inquiry;
 import dto.Member;
 
 import java.util.List;
@@ -15,8 +16,6 @@ public class EndView {
         for(Member member : list) {
             System.out.println(member);
         }
-
-        System.out.println();
     }
 
     /*
@@ -36,15 +35,41 @@ public class EndView {
      * TODO: 전체 사용자 목록 조회 View 형식 개발
      * */
     public static void printUserShort(List<Member> list) {
-        System.out.println("-----사용자 "+ list.size() +"명 -------------");
+        System.out.println("-----------< 사용자 "+ list.size() +"명 >-----------");
         for(Member member : list) {
             System.out.println("회원 번호 : " + member.getMemberId()+
                     " | 회원 아이디 : " + member.getUserId() +
                     " | 이름 : " + member.getName() + "\n" );
-            System.out.println("------------------------------------------");
+            System.out.println("--------------------------------------------------------------------------");
 
         }
+    }
 
-        System.out.println();
+    public static void printInquiryShort(List<Inquiry> list) {
+        Member member = new Member();
+        System.out.println("-------------< 문의 "+ list.size() +"개 >-------------");
+        for(Inquiry inquiry : list) {
+            String processed = null;
+            if(inquiry.getProcessed() == true){
+                processed = "resolved";
+            }else{
+                processed = "pending";
+            }
+            System.out.println("문의 번호 : " + inquiry.getInquiryId()+
+                    " | 회원 아이디 : " + inquiry.getMemberId() +
+                    " | 제목 : " + inquiry.getTitle()+
+                    " | 회원 아이디 : " + inquiry.getMemberId() +
+                    " | 구분 : " + inquiry.getCategory() +
+                    " | 처리여부 : " + processed +"\n" );
+            System.out.println("----------------------------------------------------------------------------");
+
+        }
+    }
+
+    public static void printInquiryDetail(List<Inquiry> list) {
+        for(Inquiry inquiry : list) {
+            System.out.println(inquiry);
+        }
+
     }
 }

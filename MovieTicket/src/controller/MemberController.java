@@ -41,7 +41,7 @@ public class MemberController {
 	/*
 	 * 20260312
 	 * 김채영
-	 * TODO: 사용자 검색
+	 * TODO: 사용자 목록 조회
 	 * */
     public static void selectUsers(Member member) {
 		try{
@@ -57,7 +57,7 @@ public class MemberController {
 	/*
 	 * 20260312
 	 * 김채영
-	 * TODO: 사용자 목록 조회
+	 * TODO: 사용자 삭제
 	 * */
 	public static void deleteUserByName(String name) {
 		try{
