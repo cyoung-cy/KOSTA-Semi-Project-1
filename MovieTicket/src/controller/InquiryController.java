@@ -43,6 +43,12 @@ public class InquiryController {
             //startview 이동
         }
     }
+
+    /*
+     * 20260312
+     * 김채영
+     * TODO: 사용자 문의 답변
+     * */
     public static void insertInquiryreResponse(int inquiryId, String response) {
         try {
             inquiryService.insertInquiryreResponse(inquiryId, response);
