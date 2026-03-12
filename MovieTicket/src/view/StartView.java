@@ -15,6 +15,9 @@ import java.util.Scanner;
 public class StartView {
     private static Scanner sc = new Scanner(System.in);
 
+    public StartView () {
+        menu();
+    }
     public static void menu() {
         while(true) {
             StartView.printMenu();
@@ -151,7 +154,7 @@ public class StartView {
         System.out.print("비밀번호 : ");
         String password = sc.nextLine();
 
-        //MemberController.login(userId, password);
+        MemberController.login(userId, password);
     }
 
 
@@ -193,6 +196,10 @@ public class StartView {
         String cardInfo = sc.nextLine();
 
         //MemberController.login(userId, );
+    }
+
+    public static void main(String[] args) {
+        new StartView();
     }
 }
 
