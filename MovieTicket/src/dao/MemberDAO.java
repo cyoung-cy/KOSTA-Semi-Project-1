@@ -24,8 +24,31 @@ public interface MemberDAO {
     /*
      * 20260311
      * 이동혁
-     * TODO:사용자 회원가입 DAO 인터페이스 구현
+     * TODO:사용자 회원가입 DAO 인터페이스
      * */
     int register(Member member) throws SQLException;
+    
+    /*
+     * 20260312
+     * 이동혁
+     * TODO: 사용자 정보 수정 DAO 인터페이스
+     */
+    int updateMemberById(String password, String phone, String address, String[] preferredGenre, String cardInfo) throws SQLException;
+    
+    /*
+     * 20260312
+     * 이동혁
+     * TODO: 로그아웃
+     */
+//    void logout(Member member);
+    
+    /*
+     * 20260312
+     * 이동혁
+     * TODO: 회원탈퇴
+     */
+//    int deleteByMemberId() throws SQLException;
+    
+    
 
 }

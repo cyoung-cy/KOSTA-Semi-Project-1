@@ -1,4 +1,7 @@
 package dto;
+
+import java.util.List;
+
 /**
  * 2026-03-11
  * 이동혁
@@ -12,7 +15,12 @@ public class Member {
 	private String phone;
 	private String address;
 	private String birthDate;
-	private String [] preferredGenre;
+	/**
+	 * 20260312
+	 * 이동혁
+	 * 장르를 리스트 형태로 받아오도록 수정
+	 */
+	private List<String> preferredGenre;
 	private String cardInfo;
 	private String role;
 
@@ -72,11 +80,13 @@ public class Member {
 		this.birthDate = birthDate;
 	}
 
-	public String[] getPreferredGenre() {
+
+
+	public List<String> getPreferredGenre() {
 		return preferredGenre;
 	}
 
-	public void setPreferredGenre(String[] preferredGenre) {
+	public void setPreferredGenre(List<String> preferredGenre) {
 		this.preferredGenre = preferredGenre;
 	}
 
@@ -96,7 +106,8 @@ public class Member {
 		this.role = role;
 	}
 
-	public Member(int memberId, String userId, String password, String name, String phone, String address, String birthDate, String[] preferredGenre, String cardInfo, String role) {
+	public Member(int memberId, String userId, String password, String name, String phone, 
+			String address, String birthDate, List<String> preferredGenre, String cardInfo, String role) {
 		this.memberId = memberId;
 		this.userId = userId;
 		this.password = password;
