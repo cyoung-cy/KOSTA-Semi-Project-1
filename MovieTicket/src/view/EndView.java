@@ -84,6 +84,13 @@ public class EndView {
     }
 
     /*
+     * 회원 탈퇴 여부 View
+     */
+    public static void deleteUserByMemberId() {
+    	System.out.println("회원 탈퇴 되었습니다!");
+    }
+
+    /*
      * 0312
      * 김채영
      * TODO: 전체 영화 조회 View
@@ -121,5 +128,6 @@ public class EndView {
      * */
     public static void successMessage(String s) {
         System.out.println(s);
+
     }
 }

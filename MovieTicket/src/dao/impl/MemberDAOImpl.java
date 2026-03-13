@@ -40,7 +40,7 @@ public class MemberDAOImpl implements MemberDAO {
         	
         	re = ps.executeUpdate();
         } catch (SQLException e) {
-//        	e.printStackTrace();
+        	e.printStackTrace();
             throw new RuntimeException();
         } finally {
             DbManager.close(con, ps, null);
@@ -195,5 +195,35 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	/*
+	 * 20260313
+	 * 이동혁
+	 * TODO: MemberId로 회원 탈퇴
+	 */
+	@Override
+	public int deleteByMemberId(int memberId) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "delete from MEMBER where MEMBER_ID = ?";
+        int re = 0;
+        try {
+           con = DbManager.getConnection();
+           ps = con.prepareStatement(sql);
+
+           ps.setInt(1, memberId);
+
+           re = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
+        }
+        return re;
+	}
+	
+
+	
 
 }
