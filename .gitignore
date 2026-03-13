@@ -1,10 +1,11 @@
-# 1. 모든 파일을 일단 무시 대상으로 설정
-/*
+# 컴파일 결과물 무시
+bin/
+MovieTicket/bin/
 
-# 2. 하지만 아래 항목들은 예외로 둠 (무시하지 않음)
-!/src/
-!/resources/
-!/.gitignore
+# 설정 파일 무시
+.idea/
+MovieTicket/.settings/
+MovieTicket/.project
+MovieTicket/.classpath
 
-# (선택) 만약 README.md 파일이 있다면 이것도 예외로 두는 게 좋습니다.
-!/README.md
+# 소급 적용 방지를 위해 명시적으로 제외하지 않음 (그냥 버릴 것만 적으세요)
