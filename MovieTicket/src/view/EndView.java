@@ -38,10 +38,10 @@ public class EndView {
     public static void printUserShort(List<Member> list) {
         System.out.println("-----------< 사용자 "+ list.size() +"명 >-----------");
         for(Member member : list) {
-            System.out.println("회원 번호 : " + member.getMemberId()+
+            System.out.print("회원 번호 : " + member.getMemberId()+
                     " | 회원 아이디 : " + member.getUserId() +
                     " | 이름 : " + member.getName() + "\n" );
-            System.out.print("--------------------------------------------------------------");
+            System.out.println("--------------------------------------------------------------");
 
         }
     }

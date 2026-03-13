@@ -80,7 +80,7 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select * from MEMBER where (ROLE = 'user' or ROLE is null) and USER_ID = ?";
+        String sql = "select * from MEMBER where ROLE = 'user' and USER_ID = ?";
         Member member = null;
         List<Member> list = new ArrayList<>();
 
@@ -122,7 +122,7 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user' or ROLE is null";
+        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user'";
         Member member = null;
         List<Member> list = new ArrayList<>();
 

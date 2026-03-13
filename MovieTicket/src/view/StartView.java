@@ -77,7 +77,7 @@ public class StartView {
     	 */
     	SessionSet sessionSet = SessionSet.getInstance();
     	System.out.println("sessionSet() = " + sessionSet.getSet());
-        StartView.printMenu();
+
         while(true) {
             System.out.println("=============================================================");
             String text = "Hello! " + member.getUserId() + " Welcome to MOVIE TICKET";
@@ -141,7 +141,7 @@ public class StartView {
     	 */
     	SessionSet sessionSet = SessionSet.getInstance();
     	System.out.println("sessionSet() = " + sessionSet.getSet());
-        StartView.printMenu();
+
         while(true){
             System.out.println("=============================================================");
             String text = "Hello! " + member.getName() + " Welocme to MOVIE TICKET Admin Page";
@@ -169,7 +169,8 @@ public class StartView {
                     AdminView.inquiryManage(member);
                 case 4 :
                     //로그아웃
-                    StartView.logout(member.getUserId());
+                    StartView.logout(member.getMemberId(), member.getUserId());
+                    return;
                 case 0 :
                     //종료
                     System.exit(0);
