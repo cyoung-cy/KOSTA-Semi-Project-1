@@ -2,6 +2,8 @@ package controller;
 
 import dto.Member;
 import service.MemberService;
+import session.Session;
+import session.SessionSet;
 import view.AdminView;
 import view.EndView;
 import view.FailView;
@@ -20,6 +22,9 @@ public class MemberController {
 		try {
 			// 로그인 로직
 			Member member = memberService.login(userId, password);
+			SessionSet sessionSet = SessionSet.getInstance();
+			Session session = new Session(member.getMemberId(), member.getUserId());
+			sessionSet.add(session);
 			// 총 관리자는 AdminView 보이도록
 			String verifiedUserRole = member.getRole();
 			if("admin".equals(verifiedUserRole)) StartView.printAdminMenu(member);
