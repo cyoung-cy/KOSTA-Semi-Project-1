@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="semi-project">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/MovieTicket/src" />
+    </SOURCES>
+  </library>
+</component>

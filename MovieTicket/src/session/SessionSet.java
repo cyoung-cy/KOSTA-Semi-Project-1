@@ -20,9 +20,9 @@ public class SessionSet {
     /**
      * 사용자 찾기
      * */
-    public Session get(String sessionId) {
+    public Session get(int sessionId) {
         for(Session session : set) {
-            if(session.getSessionId().equals(sessionId)) {
+            if(session.getSessionId() == sessionId) {
                 return session;
             }
         }

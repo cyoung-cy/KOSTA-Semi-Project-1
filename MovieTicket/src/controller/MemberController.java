@@ -2,8 +2,11 @@ package controller;
 
 import dto.Member;
 import service.MemberService;
+import session.Session;
+import session.SessionSet;
 import view.AdminView;
 import view.EndView;
+import view.FailView;
 import view.StartView;
 
 import java.util.List;
@@ -19,6 +22,9 @@ public class MemberController {
 		try {
 			// 로그인 로직
 			Member member = memberService.login(userId, password);
+			SessionSet sessionSet = SessionSet.getInstance();
+			Session session = new Session(member.getMemberId(), member.getUserId());
+			sessionSet.add(session);
 			// 총 관리자는 AdminView 보이도록
 			String verifiedUserRole = member.getRole();
 			if("admin".equals(verifiedUserRole)) StartView.printAdminMenu(member);
@@ -36,12 +42,40 @@ public class MemberController {
 	 * 이동혁
 	 * TODO:사용자 회원가입 컨트롤러
 	 * */
+	public static void register(
+			String userId,
+			String password,
+			String name,
+			String phone,
+			String address,
+			String birth,
+			List<String> preferredGenre,
+			String cardInfo
+	) {
+		try {
+			Member member = new Member(0,    			
+				userId,
+    			password,
+    			name,
+    			phone,
+    			address,
+    			birth,
+    			preferredGenre,
+    			cardInfo,
+    			"user");
+			memberService.register(member);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+//			FailView.errorMessage(e.getMessage());
+		}
+	}
 
 
 	/*
 	 * 20260312
 	 * 김채영
-	 * TODO: 사용자 검색
+	 * TODO: 사용자 목록 조회
 	 * */
     public static void selectUsers(Member member) {
 		try{
@@ -57,14 +91,16 @@ public class MemberController {
 	/*
 	 * 20260312
 	 * 김채영
-	 * TODO: 사용자 목록 조회
+	 * TODO: 사용자 삭제
 	 * */
 	public static void deleteUserByName(String name) {
 		try{
 			String user  = memberService.deleteUserByName(name);
 			EndView.deleteUser(name);
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			//에러 페이지이동...
+			e.getMessage();
 		}
 
 	}
@@ -74,9 +110,9 @@ public class MemberController {
 	 * 김채영
 	 * TODO: 사용자 상세 목록 조회
 	 * */
-	public static void selectUserDetail(String name) {
+	public static void selectUserDetail(String userId) {
 		try{
-			List<Member> list = memberService.selectUserDetail(name);
+			List<Member> list = memberService.selectUserDetail(userId);
 			EndView.printUserList(list);
 		}catch (Exception e){
 			e.printStackTrace();
