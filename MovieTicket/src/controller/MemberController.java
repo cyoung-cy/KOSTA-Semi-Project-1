@@ -93,7 +93,9 @@ public class MemberController {
 			String user  = memberService.deleteUserByName(name);
 			EndView.deleteUser(name);
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			//에러 페이지이동...
+			e.getMessage();
 		}
 
 	}
