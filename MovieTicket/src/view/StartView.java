@@ -25,8 +25,13 @@ public class StartView {
     }
     public static void menu() {
         while(true) {
+        	/*
+        	 * 세션Set에 담긴 세션 정보들 조회
+        	 */
+        	SessionSet sessionSet = SessionSet.getInstance();
+        	System.out.println("sessionSet() = " + sessionSet.getSet());
             StartView.printMenu();
-
+            
             int menu = Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -67,6 +72,12 @@ public class StartView {
      * @param : userId(String)
      * */
     public static void printUserMenu(Member member) {
+    	/*
+    	 * 세션Set에 담긴 세션 정보들 조회
+    	 */
+    	SessionSet sessionSet = SessionSet.getInstance();
+    	System.out.println("sessionSet() = " + sessionSet.getSet());
+        StartView.printMenu();
         while(true) {
             System.out.println("=============================================================");
             String text = "Hello! " + member.getUserId() + " Welcome to MOVIE TICKET";
@@ -96,8 +107,8 @@ public class StartView {
                     //문의하기
                 case 6 :
                     //로그아웃
-                    StartView.logout(member.getUserId());
-                    break;
+                    StartView.logout(member.getMemberId(), member.getUserId());
+                    return;
                 case 7 :
                     //회원탈퇴
                 case 0 :
@@ -125,6 +136,12 @@ public class StartView {
      * @param : userId(String)
      * */
     public static void printAdminMenu(Member member) {
+    	/*
+    	 * 세션Set에 담긴 세션 정보들 조회
+    	 */
+    	SessionSet sessionSet = SessionSet.getInstance();
+    	System.out.println("sessionSet() = " + sessionSet.getSet());
+        StartView.printMenu();
         while(true){
             System.out.println("=============================================================");
             String text = "Hello! " + member.getName() + " Welocme to MOVIE TICKET Admin Page";
@@ -182,8 +199,8 @@ public class StartView {
     /*
      * 기능 : 로그아웃
      * */
-    public static void logout(String userId) {
-        Session session = new Session(userId);
+    public static void logout(int memberId, String userId) {
+        Session session = new Session(memberId, userId);
         SessionSet ss = SessionSet.getInstance();
         ss.remove(session);
     }

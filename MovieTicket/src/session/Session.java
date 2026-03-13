@@ -4,19 +4,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Session {
-    private String sessionId; // =userId (pk)
+	/*
+	 * 2026-03-13
+	 * 이동혁
+	 * 세션에 memberId(PK)와 userId(사용자 Id) 정보 담도록 수정
+	 */
+    private int sessionId; // memberId (pk)
+    private String userId; // userId (사용자 Id)
     private Map<String,Object> attributes;
 
 
     public Session() {}
 
-    public Session(String sessionId) {
+    public Session(int sessionId, String userId) {
         this.sessionId = sessionId;
+        this.userId = userId;
         attributes = new HashMap<>();
     }
 
+    
 
-    public String getSessionId() {
+    public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public int getSessionId() {
         return sessionId;
     }
 
@@ -36,7 +52,7 @@ public class Session {
     }
 
 
-    public void setSessionId(String sessionId) {
+    public void setSessionId(int sessionId) {
         this.sessionId = sessionId;
     }
 
@@ -52,23 +68,23 @@ public class Session {
 
     @Override
     public String toString() {
-        return "Session [sessionId=" + sessionId + ", attributes=" + attributes + "]"+"\n";
+        return "Session [sessionId=" + sessionId + ", userId=" + userId + ", attributes=" + attributes + "]"+"\n";
     }
+    
 
 
     @Override
     public int hashCode() {
-        return sessionId.hashCode();
+        return sessionId;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null || getClass() != obj.getClass()) return false;
+        
         Session other = (Session) obj;
-        if(sessionId.equals(other.sessionId)) {
-            return true;
-        }else {
-            return false;
-        }
+        return this.sessionId == other.sessionId;
 
     }
 }

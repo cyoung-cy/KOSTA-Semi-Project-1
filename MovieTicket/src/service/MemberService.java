@@ -29,6 +29,10 @@ public class MemberService {
      * 20260311
      * 김채영
      * TODO:멤버 로그인 서비스
+     * 
+     * 20260313
+     * 이동혁
+     * SessionSet에 사용자 정보 저장 기능 구현
      * */
     public Member login(String userId, String password) throws SQLException, NotFoundException {
         Member member = memberDao.login(userId, password);
@@ -36,7 +40,7 @@ public class MemberService {
             throw new NotFoundException("등록된 정보가 없습니다.");
         }
 
-        Session session = new Session(userId);
+        Session session = new Session(member.getMemberId(), member.getUserId());
 
         SessionSet sessionSet = SessionSet.getInstance();
 
