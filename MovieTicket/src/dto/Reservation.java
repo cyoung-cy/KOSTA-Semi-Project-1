@@ -1,9 +1,14 @@
 package dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Reservation {
-	
+	/*
+	 * 0313
+	 * 이동혁
+	 * 예약 조회 시 
+	 */
 	private int reservationId;
 	private int memberId;
 	private int movieId;
@@ -12,7 +17,36 @@ public class Reservation {
 	private int count;
 	private Timestamp startTime;
 	private Timestamp endTime;
+	private Movie movie;
+	private Schedules schedule;
+	private List<Seat> seats;
 	
+	
+
+	public Schedules getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedules schedule) {
+		this.schedule = schedule;
+	}
+
+	public List<Seat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<Seat> seats) {
+		this.seats = seats;
+	}
+
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
+
 	public Reservation() {
 		
 	}
