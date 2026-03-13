@@ -3,6 +3,7 @@ package view;
 import dto.Inquiry;
 import dto.Member;
 import dto.Movie;
+import dto.Reservation;
 
 import java.util.List;
 
@@ -137,6 +138,21 @@ public class EndView {
     public static void successMessage(String s) {
         System.out.println(s);
 
+    }
+    
+    /*
+     * 0313
+     * 이동혁
+     * TODO: 예약 리스트 조회 View
+     */
+    public static void printReservations(List<Reservation> list) {
+        System.out.println("-------------< 예약 "+ list.size() +"개 >-------------");
+        
+        for(Reservation reserv : list) {
+        	// VO 기준으로 가져오기
+        }
+        
+        System.out.println("----------------------------------------------------------------------------");
     }
 
 }

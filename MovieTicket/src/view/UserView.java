@@ -38,6 +38,7 @@ public class UserView {
             		break;
             	case 2:
             		//예매 내역 조회
+            		
             		break;
             	case 3:
             		//리뷰 내역 조회
@@ -84,4 +85,6 @@ public class UserView {
 			}
 		}
 	}
+	
+	
 }
