@@ -235,7 +235,13 @@ public class StartView {
         System.out.print("생일 (ex:2000-01-01) : ");
         String birth = sc.nextLine();
 
-        System.out.print("선호 장르('ACTION', 'ANIMATION', 'THRILLER', 'HORROR', 'COMEDY', 'ROMANCE', 'DOCUMENTARY', 'DRAMA', 'SF' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
+
+        /*
+         * 20260313
+         * 이동혁
+         * 선호 장르 한글 입력으로 수정
+         */
+        System.out.print("선호 장르('액션', '애니매이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
         List<String> preferredGenre = Arrays.stream(sc.nextLine().split(","))
         		.map(String::trim).filter(s -> !s.isEmpty())
         		.collect(Collectors.toList());
