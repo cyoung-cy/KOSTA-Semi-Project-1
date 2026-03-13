@@ -4,16 +4,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import common.jdbc.RowMapper;
+import dto.Room;
+import dto.Seat;
 
-public class RoomMapper implements RowMapper<RoomDto> {
+public class RoomMapper implements RowMapper<Room> {
+	
+	private static RoomMapper instance;
+	
+	private RoomMapper() {};
+	
+	public static RoomMapper getInstance() {
+		if(instance == null) {
+			instance = new RoomMapper();
+		}
+		return instance;
+	}
 	
 	@Override
-    public SeatDTO mapRow(ResultSet rs) throws SQLException {
-        SeatDTO dto = new SeatDTO();
-        dto.setSeatNo(rs.getInt("seat_no"));
-        dto.setSeatRow(rs.getString("seat_row"));
-        dto.setSeatCol(rs.getInt("seat_col"));
-        dto.setIsAvailable(rs.getString("is_available"));
-        return dto;
+    public Room mapRow(ResultSet rs) throws SQLException {
+        Room room = new Room();
+        room.setRoomId(rs.getInt("ROOM_ID"));
+        room.setMovieId(rs.getInt("MOVIE_ID"));
+        room.setShowing(rs.getBoolean("IS_SHOWING"));
+        room.setName(rs.getString("NAME"));
+        return room;
     }
 }
