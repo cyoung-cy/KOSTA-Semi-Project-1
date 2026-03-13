@@ -1,19 +1,35 @@
 package dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.Set;
 
+import common.jdbc.BaseDAO;
 import dao.RoomDAO;
 import dto.Room;
 import dto.request.RoomCreateRequest;
 
-public class RoomDAOImpl implements RoomDAO{
+public class RoomDAOImpl extends BaseDAO implements RoomDAO{
+	
+	private static RoomDAOImpl instance;
+	
+	private RoomDAOImpl() {}
+	
+	public static RoomDAOImpl getInstance() {
+		if(instance == null) {
+			instance = new RoomDAOImpl();
+		}
+		return instance;
+	}
 
 	@Override
-	public void insert(RoomCreateRequest roomRequest) {
-		Connection con = null;
-		PreparedStatement ps = null;
+	public int insert(RoomCreateRequest roomRequest) {
+		String sql = "insert into ROOM(NAME, IS_SHOWING"
+				+ ") values(?, ?)";
+		
+		Object[] params = { 
+				roomRequest.getName(), roomRequest.isShowing()
+				};
+		
+		return insertAndGetPk(sql,params);
 	}
 
 	@Override

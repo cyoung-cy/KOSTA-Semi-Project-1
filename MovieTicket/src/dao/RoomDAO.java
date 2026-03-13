@@ -1,6 +1,5 @@
 package dao;
 
-import java.util.List;
 import java.util.Set;
 
 import dto.Room;
@@ -13,7 +12,7 @@ public interface RoomDAO {
      * 한상혁
      * TODO:  상영관 등록
      * */
-	void insert(RoomCreateRequest roomRequest);
+	int insert(RoomCreateRequest roomRequest);
 
 	 /*
      * 20260312

@@ -13,28 +13,28 @@ import dto.Room;
 import dto.Seat;
 
 public class CinemaCache {
-	
+
 	private Map<String, Room> roomMap = new HashMap<>();
-	
+
 	private final SeatDAO seatDAO;
     private final RoomDAO roomDAO;
-	
+
     private CinemaCache(SeatDAO seatDAO, RoomDAO roomDAO) {
         this.seatDAO = seatDAO;
         this.roomDAO = roomDAO;
         init();
     }
-    
+
     private static CinemaCache instance;
-    
+
     public static CinemaCache getInstance() {
     	if(instance == null) {
     		instance = 
-    				new CinemaCache(new SeatDAOImpl(), new RoomDAOImpl());
+    				new CinemaCache(new SeatDAOImpl(), RoomDAOImpl.getInstance());
     	}
         return instance;
     }
-    
+
     public static CinemaCache getInstance(SeatDAO seatDAO, RoomDAO roomDAO) {
     	if(instance == null) {
     		instance = new CinemaCache(seatDAO, roomDAO);
@@ -63,9 +63,9 @@ public class CinemaCache {
     	Set<Room> roomSet =  roomDAO.selectAllRooms();    	
     	for(Room room : roomSet) {
     		Set<Seat> seatSet = (seatDAO.selectSeatsByRoomId(room.getRoomId()));
-    		
+
     		room.setSeatsAndBuildLayout(seatSet);
-    		
+
     		roomMap.put(room.getName(), room);
     	}
     	
