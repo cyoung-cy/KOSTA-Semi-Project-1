@@ -57,7 +57,8 @@ public class MemberService {
     public String deleteUserByName(String name) throws SQLException, NotFoundException{
         String user = memberDao.deleteUserByName(name);
         if(user == null){
-            throw new NotFoundException("사용자가 삭제되지 않았습니다.");
+            System.out.println("\'" + name +"\' 회원이 없습니다.");
+            throw new NotFoundException("회원이 삭제되지 않았습니다.");
         }
         return null;
 
@@ -80,7 +81,10 @@ public class MemberService {
      * */
     public List<Member> selectUserDetail(String userId) throws NotFoundException {
         List<Member> list = memberDao.selectUserDetail(userId);
-        if(list.size()==0) throw new NotFoundException("현재 회원이 없습니다.");
+        if(list.size()==0) {
+            System.out.println("\'" + userId +"\' 회원이 없습니다.");
+            throw new NotFoundException("현재 회원이 없습니다.");
+        }
         return list;
     }
 

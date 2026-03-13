@@ -2,6 +2,7 @@ package view;
 
 import controller.MemberController;
 import dto.Member;
+import exception.WrongInput;
 import session.Session;
 import session.SessionSet;
 
@@ -43,6 +44,9 @@ public class StartView {
                     break;
                 case 0 :
                     System.exit(0);
+                default:
+                    new WrongInput();
+                    break;
             }
         }
 
@@ -59,7 +63,7 @@ public class StartView {
         System.out.println("                      [2] 회원가입");
         System.out.println("                      [0] 프로그램 종료");
         System.out.println("=============================================================");
-        System.out.println("이용하실 서비스를 선택하세요: ");
+        System.out.println("이용하실 서비스 번호를 입력하세요: ");
 
     }
 
@@ -149,10 +153,11 @@ public class StartView {
             System.out.println("                      [1] 회원 관리");
             System.out.println("                      [2] 영화 관리");
             System.out.println("                      [3] 문의 관리");
-            System.out.println("                      [0] 프로그램 종료");
+            System.out.println("                      [4] 로그아웃");
+            System.out.println("                      [0] 종료");
             System.out.println("=============================================================");
 
-            System.out.println("관리 메뉴를 선택하세요 : ");
+            System.out.println("관리 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -161,12 +166,19 @@ public class StartView {
                     break;
                 case 2 :
                     //영화 관리
+                    AdminView.moivieManager(member);
                 case 3 :
                     //문의 관리
                     AdminView.inquiryManage(member);
+                case 4 :
+                    //로그아웃
+                    StartView.logout(member.getMemberId(), member.getUserId());
                 case 0 :
                     //종료
                     System.exit(0);
+                    break;
+                default:
+                    new WrongInput();
                     break;
             }
 
