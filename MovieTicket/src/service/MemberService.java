@@ -101,6 +101,16 @@ public class MemberService {
     	if(result == 0) throw new ExistedException("이미 존재하는 사용자 정보입니다.");
 
     }
+    
+    /*
+     * 20260313
+     * 이동혁
+     * TODO: 사용자 정보 수정 서비스
+     */
+    public void updateUser(Member member) throws SQLException, NotFoundException{
+    	int result = memberDao.updateMember(member);
+    	if(result == 0) throw new NotFoundException("사용자 업데이트에 실패했습니다.");
+    }
 
 	
 }
