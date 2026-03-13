@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="0312 관리자 문의, 회원 관리 / 사용자 로그인 회원가입 Merge" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Exception" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;cyoung-cy&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/cyoung-cy/KOSTA-Semi-Project-1.git&quot;,
+    &quot;accountId&quot;: &quot;5e7511a9-e51a-44d1-96fe-347cb6ba5a3d&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="3AmQr6ED5xTcpJFuLunOd08337y" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Edu/semi-project/semi-project",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "모듈",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true",
+    "애플리케이션.Main.executor": "Run",
+    "애플리케이션.StartView.executor": "Run"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Edu\semi-project\semi-project\MovieTicket" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="semi-project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="semi-project" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.31033.145" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="26bc48d2-c21c-426b-aa4c-0b1a201d27cc" name="변경" comment="" />
+      <created>1773195462207</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1773195462207</updated>
+      <workItem from="1773195463566" duration="144000" />
+      <workItem from="1773195698426" duration="13482000" />
+      <workItem from="1773272421128" duration="24982000" />
+      <workItem from="1773358613408" duration="14459000" />
+    </task>
+    <task id="LOCAL-00001" summary="0311 Test">
+      <option name="closed" value="true" />
+      <created>1773196350745</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1773196350745</updated>
+    </task>
+    <task id="LOCAL-00002" summary="0311 Test">
+      <option name="closed" value="true" />
+      <created>1773196443442</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1773196443442</updated>
+    </task>
+    <task id="LOCAL-00003" summary="0311 패키지 생성">
+      <option name="closed" value="true" />
+      <created>1773198360705</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1773198360705</updated>
+    </task>
+    <task id="LOCAL-00004" summary="0311 패키지 생성">
+      <option name="closed" value="true" />
+      <created>1773198684516</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1773198684516</updated>
+    </task>
+    <task id="LOCAL-00005" summary="0311 패키지 생성">
+      <option name="closed" value="true" />
+      <created>1773198991734</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1773198991734</updated>
+    </task>
+    <task id="LOCAL-00006" summary="0311 패키지 생성">
+      <option name="closed" value="true" />
+      <created>1773198999200</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1773198999200</updated>
+    </task>
+    <task id="LOCAL-00007" summary="0311 패키지 생성">
+      <option name="closed" value="true" />
+      <created>1773199260361</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1773199260361</updated>
+    </task>
+    <task id="LOCAL-00008" summary="0311 session 생성">
+      <option name="closed" value="true" />
+      <created>1773216461653</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1773216461653</updated>
+    </task>
+    <task id="LOCAL-00009" summary="0311 view">
+      <option name="closed" value="true" />
+      <created>1773218210820</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1773218210820</updated>
+    </task>
+    <task id="LOCAL-00010" summary="0311 Startview">
+      <option name="closed" value="true" />
+      <created>1773219362216</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1773219362216</updated>
+    </task>
+    <task id="LOCAL-00011" summary="0311 Startview">
+      <option name="closed" value="true" />
+      <created>1773220974486</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1773220974486</updated>
+    </task>
+    <task id="LOCAL-00012" summary="0311 MemberDAO 수정">
+      <option name="closed" value="true" />
+      <created>1773221743364</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1773221743364</updated>
+    </task>
+    <task id="LOCAL-00013" summary="repository">
+      <option name="closed" value="true" />
+      <created>1773273744735</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1773273744735</updated>
+    </task>
+    <task id="LOCAL-00014" summary="0312 auth-test &amp; admin merge 완료">
+      <option name="closed" value="true" />
+      <created>1773276129545</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1773276129545</updated>
+    </task>
+    <task id="LOCAL-00015" summary="0312 관리자 회원 관리 기능 개발 완료">
+      <option name="closed" value="true" />
+      <created>1773284261278</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1773284261278</updated>
+    </task>
+    <task id="LOCAL-00016" summary="0312 관리자 회원 관리 기능 개발 완료">
+      <option name="closed" value="true" />
+      <created>1773284611838</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1773284611838</updated>
+    </task>
+    <task id="LOCAL-00017" summary="0312 관리자 문의 관리 기능 개발 완료">
+      <option name="closed" value="true" />
+      <created>1773301779492</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1773301779492</updated>
+    </task>
+    <task id="LOCAL-00018" summary="0312 관리자 문의 관리 기능 개발 완료">
+      <option name="closed" value="true" />
+      <created>1773302245541</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1773302245541</updated>
+    </task>
+    <task id="LOCAL-00019" summary="0312 관리자 문의, 회원 관리 / 사용자 로그인 회원가입 Merge">
+      <option name="closed" value="true" />
+      <created>1773305570394</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1773305570394</updated>
+    </task>
+    <task id="LOCAL-00020" summary="0312 관리자 문의, 회원 관리 / 사용자 로그인 회원가입 Merge">
+      <option name="closed" value="true" />
+      <created>1773305767087</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1773305767087</updated>
+    </task>
+    <task id="LOCAL-00021" summary="0312 관리자 문의, 회원 관리 / 사용자 로그인 회원가입 Merge">
+      <option name="closed" value="true" />
+      <created>1773305860927</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1773305860927</updated>
+    </task>
+    <task id="LOCAL-00022" summary="0312 관리자 문의, 회원 관리 / 사용자 로그인 회원가입 Merge">
+      <option name="closed" value="true" />
+      <created>1773305942203</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1773305942203</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="0311 Test" />
+    <MESSAGE value="0311 패키지 생성" />
+    <MESSAGE value="0311 session 생성" />
+    <MESSAGE value="0311 view" />
+    <MESSAGE value="0311 Startview" />
+    <MESSAGE value="0311 MemberDAO 수정" />
+    <MESSAGE value="repository" />
+    <MESSAGE value="0312 auth-test &amp; admin merge 완료" />
+    <MESSAGE value="0312 관리자 회원 관리 기능 개발 완료" />
+    <MESSAGE value="0312 관리자 문의 관리 기능 개발 완료" />
+    <MESSAGE value="0312 관리자 문의, 회원 관리 / 사용자 로그인 회원가입 Merge" />
+    <MESSAGE value="0313 관리자 기능 개발 완료" />
+    <option name="LAST_COMMIT_MESSAGE" value="0313 관리자 기능 개발 완료" />
+  </component>
+</project>
