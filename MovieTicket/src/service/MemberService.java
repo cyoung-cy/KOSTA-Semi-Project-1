@@ -29,6 +29,10 @@ public class MemberService {
      * 20260311
      * 김채영
      * TODO:멤버 로그인 서비스
+     * 
+     * 20260313
+     * 이동혁
+     * SessionSet에 사용자 정보 저장 기능 구현
      * */
     public Member login(String userId, String password) throws SQLException, NotFoundException {
         Member member = memberDao.login(userId, password);
@@ -36,7 +40,7 @@ public class MemberService {
             throw new NotFoundException("등록된 정보가 없습니다.");
         }
 
-        Session session = new Session(userId);
+        Session session = new Session(member.getMemberId(), member.getUserId());
 
         SessionSet sessionSet = SessionSet.getInstance();
 
@@ -53,7 +57,8 @@ public class MemberService {
     public String deleteUserByName(String name) throws SQLException, NotFoundException{
         String user = memberDao.deleteUserByName(name);
         if(user == null){
-            throw new NotFoundException("사용자가 삭제되지 않았습니다.");
+            System.out.println("\'" + name +"\' 회원이 없습니다.");
+            throw new NotFoundException("회원이 삭제되지 않았습니다.");
         }
         return null;
 
@@ -66,7 +71,10 @@ public class MemberService {
      * */
     public List<Member> selectUserDetail(String userId) throws NotFoundException {
         List<Member> list = memberDao.selectUserDetail(userId);
-        if(list.size()==0) throw new NotFoundException("현재 회원이 없습니다.");
+        if(list.size()==0) {
+            System.out.println("\'" + userId +"\' 회원이 없습니다.");
+            throw new NotFoundException("현재 회원이 없습니다.");
+        }
         return list;
     }
 
