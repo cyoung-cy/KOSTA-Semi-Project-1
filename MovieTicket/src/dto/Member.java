@@ -41,7 +41,7 @@ public class Member {
 		return userId;
 	}
 
-	public void setUserId(String userID) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
