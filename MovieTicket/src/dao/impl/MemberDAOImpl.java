@@ -36,6 +36,7 @@ public class MemberDAOImpl implements MemberDAO {
         	ps.setString(5, member.getAddress());
         	ps.setString(6, member.getBirthDate());
         	ps.setString(7, String.join(",", member.getPreferredGenre()));
+        	System.out.println(member.getPreferredGenre());
         	ps.setString(8, member.getCardInfo());
         	
         	re = ps.executeUpdate();
