@@ -8,13 +8,13 @@ import dto.Seat;
 
 public class SeatMapper implements RowMapper<Seat> {
 	
-	private SeatMapper instance;
+	private static SeatMapper instance;
 	
 	private SeatMapper() {};
 	
-	public SeatMapper getInstance() {
+	public static SeatMapper getInstance() {
 		if(instance == null) {
-			return new SeatMapper();
+			instance = new SeatMapper();
 		}
 		return instance;
 	}
@@ -24,7 +24,7 @@ public class SeatMapper implements RowMapper<Seat> {
         Seat seat = new Seat();
         seat.setSeatId(rs.getInt("SEAT_ID"));
         seat.setRoomId(rs.getInt("ROOM_ID"));
-        seat.setReserved(rs.getBoolean("IS_REVERSED"));
+        seat.setReserved(rs.getBoolean("IS_REVSERED"));
         seat.setName(rs.getString("NAME"));
         seat.setColNum(rs.getInt("COL_NUM"));
         seat.setRowNum(rs.getInt("ROW_NUM"));
