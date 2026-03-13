@@ -105,6 +105,7 @@ public class StartView {
                 case 4 :
                     //마이페이지
                 	UserView.myPage(member);
+                    break;
                 case 5 :
                     //문의하기
                 case 6 :

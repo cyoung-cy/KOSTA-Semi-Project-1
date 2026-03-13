@@ -1,11 +1,10 @@
 package view;
 
-import dto.Inquiry;
-import dto.Member;
-import dto.Movie;
-import dto.Reservation;
+import dto.*;
+import vo.Ticket;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EndView {
 
@@ -15,7 +14,7 @@ public class EndView {
      * TODO: 전체 사용자 상세목록 조회 View 형식 개발
      * */
     public static void printUserList(List<Member> list) {
-        for(Member member : list) {
+        for (Member member : list) {
             System.out.println(member);
         }
     }
@@ -37,11 +36,11 @@ public class EndView {
      * TODO: 전체 사용자 목록 조회 View
      * */
     public static void printUserShort(List<Member> list) {
-        System.out.println("-----------< 사용자 "+ list.size() +"명 >-----------");
-        for(Member member : list) {
-            System.out.println("회원 번호 : " + member.getMemberId()+
+        System.out.println("-----------< 사용자 " + list.size() + "명 >-----------");
+        for (Member member : list) {
+            System.out.println("회원 번호 : " + member.getMemberId() +
                     " | 회원 아이디 : " + member.getUserId() +
-                    " | 이름 : " + member.getName() + "\n" );
+                    " | 이름 : " + member.getName() + "\n");
             System.out.print("--------------------------------------------------------------");
 
         }
@@ -54,20 +53,20 @@ public class EndView {
      * */
     public static void printInquiryShort(List<Inquiry> list) {
         Member member = new Member();
-        System.out.println("-------------< 문의 "+ list.size() +"개 >-------------");
-        for(Inquiry inquiry : list) {
+        System.out.println("-------------< 문의 " + list.size() + "개 >-------------");
+        for (Inquiry inquiry : list) {
             String processed = null;
-            if(inquiry.getProcessed() == true){
+            if (inquiry.getProcessed() == true) {
                 processed = "resolved";
-            }else{
+            } else {
                 processed = "pending";
             }
-            System.out.println("문의 번호 : " + inquiry.getInquiryId()+
+            System.out.println("문의 번호 : " + inquiry.getInquiryId() +
                     " | 회원 아이디 : " + inquiry.getMemberId() +
-                    " | 제목 : " + inquiry.getTitle()+
+                    " | 제목 : " + inquiry.getTitle() +
                     " | 회원 아이디 : " + inquiry.getMemberId() +
                     " | 구분 : " + inquiry.getCategory() +
-                    " | 처리여부 : " + processed +"\n" );
+                    " | 처리여부 : " + processed + "\n");
             System.out.println("----------------------------------------------------------------------------");
 
         }
@@ -79,7 +78,7 @@ public class EndView {
      * TODO: 문의 상세 조회 View
      * */
     public static void printInquiryDetail(List<Inquiry> list) {
-        for(Inquiry inquiry : list) {
+        for (Inquiry inquiry : list) {
             System.out.println(inquiry);
         }
     }
@@ -88,14 +87,14 @@ public class EndView {
      * 회원 탈퇴 여부 View
      */
     public static void deleteUserByMemberId() {
-    	System.out.println("회원 탈퇴 되었습니다!");
+        System.out.println("회원 탈퇴 되었습니다!");
     }
 
     /*
      * 사용자 자신 정보 업데이트 View
      */
     public static void updateUser() {
-    	System.out.println("사용자 정보가 수정되었습니다!");
+        System.out.println("사용자 정보가 수정되었습니다!");
     }
 
 
@@ -109,13 +108,13 @@ public class EndView {
         System.out.println("-----------------------------------------------------------------------");
         for (Movie m : list) {
             String status = null;
-            if(m.getIsScreening() == true){
+            if (m.getIsScreening() == true) {
                 status = "상영중";
-            }else{
+            } else {
                 status = "상영종료";
             }
             System.out.printf("%-5d | %-20s | %-10s | %-10s | %-10s\n",
-                    m.getMovieId(), m.getMovieTitle(), m.getGenre(), m.getScreeningTime()+"분", status);
+                    m.getMovieId(), m.getMovieTitle(), m.getGenre(), m.getScreeningTime() + "분", status);
         }
     }
 
@@ -125,7 +124,7 @@ public class EndView {
      * TODO: 영화 상세 조회 View
      * */
     public static void printMovieDetail(List<Movie> list) {
-        for(Movie movie : list) {
+        for (Movie movie : list) {
             System.out.println(movie);
         }
     }
@@ -139,20 +138,31 @@ public class EndView {
         System.out.println(s);
 
     }
-    
+
     /*
      * 0313
      * 이동혁
      * TODO: 예약 리스트 조회 View
      */
-    public static void printReservations(List<Reservation> list) {
-        System.out.println("-------------< 예약 "+ list.size() +"개 >-------------");
-        
-        for(Reservation reserv : list) {
-        	// VO 기준으로 가져오기
-        }
-        
-        System.out.println("----------------------------------------------------------------------------");
-    }
+    public static void printTickets(List<Ticket> list) {
+        System.out.println("-------------< 예약 " + list.size() + "개 >-------------");
 
+        for (Ticket ticket : list) {
+            System.out.println("예약 번호 : " + ticket.getReservationId() +
+                    " | 예약자 이름 : " + ticket.getUserName() +
+                    " | 영화 제목 : " + ticket.getMovieTitle() +
+                    " | 총 가격 : " + ticket.getTotalPrice() +
+                    " | 예약 좌석 수 : " + ticket.getCount() +
+                    "\n상영관 : " + ticket.getRoomName() +
+                    " | 상영 시작 시간 : " + ticket.getStartTime() +
+                    " | 상영 종료 시간 : " + ticket.getEndTime());
+            String seatNames = ticket.getSeats().stream()
+                    .map(Seat::getName)
+                    .collect(Collectors.joining(", "));
+            System.out.println("좌석 번호 : " + seatNames);
+
+            System.out.println("----------------------------------------------------------------------------");
+        }
+
+    }
 }

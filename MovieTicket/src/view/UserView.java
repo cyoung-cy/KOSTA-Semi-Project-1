@@ -3,6 +3,7 @@ package view;
 import java.util.Scanner;
 
 import controller.MemberController;
+import controller.TicketController;
 import dto.Member;
 
 /*
@@ -38,7 +39,7 @@ public class UserView {
             		break;
             	case 2:
             		//예매 내역 조회
-            		
+					TicketController.getTicketsInfo(member.getMemberId());
             		break;
             	case 3:
             		//리뷰 내역 조회

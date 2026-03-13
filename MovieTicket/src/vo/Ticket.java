@@ -10,33 +10,42 @@ public class Ticket {
 	/*
 	 * 0313
 	 * 이동혁
-	 * 예약 조회 시 
+	 * TODO:영화 예매 정보 담는 VO
 	 */
 	private int reservationId; // 예약 번호
 	private String userName; // 예약자 이름
-	private int movieName; // 예약한 영화 이름
+	private String movieTitle; // 예약한 영화 이름
 	private int totalPrice; // 총 가격
 	private int count; // 예약 좌석 수
 	private List<Seat> seats; // 예약한 좌석 정보
-	private Timestamp startTime; 
-	private Timestamp endTime;
+	private String roomName; // 몇 관인지
+	private Timestamp startTime; // 상영 시작 시간
+	private Timestamp endTime; // 상영 종료 시간
 	
 	// VO 따로 만들어서 좌석, 스케줄, 영화 정보까지 담기.
 
 	public Ticket() {
 		
 	}
-	
-	public Ticket(int reservationId, int memberId, int movieId, int scheduleId, int totalPrice, int count,
-			Timestamp startTime, Timestamp endTime) {
+
+	public Ticket(int reservationId, String userName, String movieTitle, int totalPrice, int count, String roomName, List<Seat> seats, Timestamp startTime, Timestamp endTime) {
 		this.reservationId = reservationId;
-		this.memberId = memberId;
-		this.movieId = movieId;
-		this.scheduleId = scheduleId;
+		this.userName = userName;
+		this.movieTitle = movieTitle;
 		this.totalPrice = totalPrice;
 		this.count = count;
+		this.roomName = roomName;
+		this.seats = seats;
 		this.startTime = startTime;
 		this.endTime = endTime;
+	}
+
+	public String getRoomName() {
+		return roomName;
+	}
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
 
 	public int getReservationId() {
@@ -47,28 +56,20 @@ public class Ticket {
 		this.reservationId = reservationId;
 	}
 
-	public int getMemberId() {
-		return memberId;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setMemberId(int memberId) {
-		this.memberId = memberId;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public int getMovieId() {
-		return movieId;
+	public String getMovieTitle() {
+		return movieTitle;
 	}
 
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
-	}
-
-	public int getScheduleId() {
-		return scheduleId;
-	}
-
-	public void setScheduleId(int scheduleId) {
-		this.scheduleId = scheduleId;
+	public void setMovieTitle(String movieTitle) {
+		this.movieTitle = movieTitle;
 	}
 
 	public int getTotalPrice() {
@@ -87,6 +88,14 @@ public class Ticket {
 		this.count = count;
 	}
 
+	public List<Seat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<Seat> seats) {
+		this.seats = seats;
+	}
+
 	public Timestamp getStartTime() {
 		return startTime;
 	}
@@ -103,27 +112,5 @@ public class Ticket {
 		this.endTime = endTime;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Reservation [reservationId=");
-		builder.append(reservationId);
-		builder.append(", memberId=");
-		builder.append(memberId);
-		builder.append(", movieId=");
-		builder.append(movieId);
-		builder.append(", scheduleId=");
-		builder.append(scheduleId);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
-		builder.append(", count=");
-		builder.append(count);
-		builder.append(", startTime=");
-		builder.append(startTime);
-		builder.append(", endTime=");
-		builder.append(endTime);
-		builder.append("]");
-		return builder.toString();
-	}
 }
 
