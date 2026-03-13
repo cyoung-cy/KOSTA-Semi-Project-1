@@ -169,7 +169,7 @@ public class StartView {
                     AdminView.inquiryManage(member);
                 case 4 :
                     //로그아웃
-                    StartView.logout(member.getUserId());
+//                    StartView.logout(member.getUserId());
                 case 0 :
                     //종료
                     System.exit(0);
