@@ -16,7 +16,7 @@ public interface MovieDAO {
      * 김채영
      * TODO: 영화 상세 조회
      * */
-    Movie selectMovieDetail(int movieId);
+    List<Movie> selectMovieDetail(int movieId);
 
     /*
      * 0312
@@ -30,7 +30,7 @@ public interface MovieDAO {
      * 김채영
      * TODO: 영화 수정
      * */
-    int updateMovie(Movie movie);
+    int updateMovie(int movieId, String colName, String content);
 
     /*
      * 0312
@@ -38,4 +38,5 @@ public interface MovieDAO {
      * TODO: 영화 삭제
      * */
     int deleteMovie(int movieId);
+
 }

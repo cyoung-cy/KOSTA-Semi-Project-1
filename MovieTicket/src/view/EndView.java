@@ -41,7 +41,7 @@ public class EndView {
             System.out.println("회원 번호 : " + member.getMemberId()+
                     " | 회원 아이디 : " + member.getUserId() +
                     " | 이름 : " + member.getName() + "\n" );
-            System.out.println("--------------------------------------------------------------------------");
+            System.out.print("--------------------------------------------------------------");
 
         }
     }
@@ -89,12 +89,17 @@ public class EndView {
      * TODO: 전체 영화 조회 View
      * */
     public static void printAllMovies(List<Movie> list) {
-        System.out.printf("%-5s | %-20s | %-10s | %-10s\n", "ID", "제목", "장르", "상영여부");
-        System.out.println("-------------------------------------------------------------");
+        System.out.printf("%-5s | %-20s | %-10s | %-10s | %-10s\n", "ID", "제목", "장르", "상영시간", "상영여부");
+        System.out.println("-----------------------------------------------------------------------");
         for (Movie m : list) {
-            String status = m.isScreening() ? "상영중" : "종료";
-            System.out.printf("%-5d | %-20s | %-10s | %-10s\n",
-                    m.getMovieId(), m.getMovieTitle(), m.getGenre(), status);
+            String status = null;
+            if(m.getIsScreening() == true){
+                status = "상영중";
+            }else{
+                status = "상영종료";
+            }
+            System.out.printf("%-5d | %-20s | %-10s | %-10s | %-10s\n",
+                    m.getMovieId(), m.getMovieTitle(), m.getGenre(), m.getScreeningTime()+"분", status);
         }
     }
 
@@ -103,7 +108,10 @@ public class EndView {
      * 김채영
      * TODO: 영화 상세 조회 View
      * */
-    public static void printMovieDetail(Movie movie) {
+    public static void printMovieDetail(List<Movie> list) {
+        for(Movie movie : list) {
+            System.out.println(movie);
+        }
     }
 
     /*

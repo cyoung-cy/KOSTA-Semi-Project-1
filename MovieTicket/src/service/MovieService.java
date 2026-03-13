@@ -26,9 +26,9 @@ public class MovieService {
      * 김채영
      * TODO: 영화 상세 조회 서비스
      * */
-    public Movie selectMovieDetail(int movieId) throws NotFoundException {
-        Movie movie = movieDao.selectMovieDetail(movieId);
-        if(movie == null) throw new NotFoundException(movieId + "번 영화를 찾을 수 없습니다.");
+    public List<Movie> selectMovieDetail(int movieId) throws NotFoundException {
+        List<Movie> movie = movieDao.selectMovieDetail(movieId);
+        if(movie.isEmpty()) throw new NotFoundException("\'" + movieId + "\' 번 영화를 찾을 수 없습니다.");
         return movie;
     }
 
@@ -43,8 +43,34 @@ public class MovieService {
     }
 
     /*
-     * 0312
+     * 0313
      * 김채영
      * TODO: 영화 수정 서비스
      * */
+    public void updateMovie(int movieId, String colName, String content) throws DMLException{
+        String colNameEqual = switch (colName) {
+            case "제목" -> "MOVIE_TITLE";
+            case "배우" -> "ACTOR";
+            case "개봉일" -> "RELEASE_DATE";
+            case "장르" -> "GENRE";
+            case "상영시간" -> "SCREENING_TIME";
+            case "감독" -> "DIRECTOR";
+            case "상영여부" -> "IS_SCREENING";
+            default -> null;
+        };
+        int result = movieDao.updateMovie(movieId, colNameEqual, content);
+    }
+
+    /*
+     * 0313
+     * 김채영
+     * TODO: 영화 등록 서비스
+     * */
+    public Movie insertMovie(Movie m) throws DMLException{
+        int result = movieDao.insertMovie(m);
+        if(result == 0) throw new DMLException("영화가 등록되지 않았습니다.");
+        return m;
+    }
+
+
 }

@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.MovieDAO;
 import dto.Movie;
+import exception.NotFoundException;
 import util.DbManager;
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,20 +15,23 @@ public class MovieDAOImpl implements MovieDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+
         List<Movie> list = new ArrayList<>();
         // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
-        String sql = "SELECT MOVIE_ID, MOVIE_TITLE, GENRE, IS_SCREENING FROM MOVIE";
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE";
 
         try {
             con = DbManager.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
+
             while(rs.next()){
                 Movie m = new Movie();
                 m.setMovieId(rs.getInt("MOVIE_ID"));
                 m.setMovieTitle(rs.getString("MOVIE_TITLE"));
                 m.setGenre(rs.getString("GENRE"));
-                m.setScreeningTime(rs.getInt("IS_SCREENING"));
+                m.setScreeningTime((rs.getInt("SCREENING_TIME")));
+                m.setIsScreening(rs.getBoolean("IS_SCREENING"));
                 list.add(m);
             }
         } catch (SQLException e) {
@@ -39,42 +43,95 @@ public class MovieDAOImpl implements MovieDAO {
     }
 
     @Override
-    public Movie selectMovieDetail(int movieId) {
+    public List<Movie> selectMovieDetail(int movieId) {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Movie m = null;
         String sql = "SELECT * FROM MOVIE WHERE MOVIE_ID = ?";
-
+        List<Movie> list = new ArrayList<>();
         try {
             con = DbManager.getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, movieId);
             rs = ps.executeQuery();
-            if(rs.next()){
+            while (rs.next()){
                 m = new Movie(
                         rs.getInt("MOVIE_ID"), rs.getString("MOVIE_TITLE"),
-                        rs.getString("ACTOR"), rs.getDate("RELEASE_DATE"),
+                        rs.getString("ACTOR"), rs.getString("RELEASE_DATE"),
                         rs.getString("GENRE"), rs.getInt("SCREENING_TIME"),
                         rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING")
                 );
+                list.add(m);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DbManager.close(con, ps, rs);
         }
-        return m;
+        return list;
     }
 
     @Override
     public int insertMovie(Movie movie) {
-        return 0;
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        int re = 0;
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+
+            ps.setString(1, movie.getMovieTitle());
+            ps.setString(2, movie.getActor());
+            ps.setDate(3, java.sql.Date.valueOf(movie.getReleaseDate())); // 날짜 처리
+            ps.setString(4, movie.getGenre());
+            ps.setInt(5, movie.getScreeningTime());
+            ps.setString(6, movie.getDirector());
+            ps.setBoolean(7, movie.getIsScreening());
+
+            re = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return re;
     }
 
     @Override
-    public int updateMovie(Movie movie) {
-        return 0;
+    public int updateMovie(int movieId, String colNameEqual, String content) {
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        String sql = "update MOVIE set " + colNameEqual + " = ? WHERE MOVIE_ID = ?";
+        int re = 0;
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+
+            if (colNameEqual.equals("IS_SCREENING")) {
+                if(content.equals("상영중")){
+                    ps.setBoolean(1, true);
+                }else if (content.equals("상영종료")){
+                    ps.setBoolean(1, false);
+                }
+            }else{
+                ps.setString(1, content);
+            }
+            ps.setInt(2, movieId);
+
+            re = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return re;
     }
 
     @Override
@@ -96,5 +153,4 @@ public class MovieDAOImpl implements MovieDAO {
         return result;
     }
 
-    // insertMovie, updateMovie 생략 (패턴 동일)
 }

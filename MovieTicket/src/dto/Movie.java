@@ -6,7 +6,7 @@ public class Movie {
     private int movieId;
     private String movieTitle;
     private String actor;
-    private Date releaseDate;
+    private String releaseDate;
     private String genre;
     private int screeningTime;
     private String director;
@@ -14,8 +14,18 @@ public class Movie {
 
     public Movie() {}
 
-    public Movie(int movieId, String movieTitle, String actor, Date releaseDate, String genre, int screeningTime, String director, boolean isScreening) {
+    public Movie(int movieId, String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening) {
         this.movieId = movieId;
+        this.movieTitle = movieTitle;
+        this.actor = actor;
+        this.releaseDate = releaseDate;
+        this.genre = genre;
+        this.screeningTime = screeningTime;
+        this.director = director;
+        this.isScreening = isScreening;
+    }
+
+    public Movie(String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening) {
         this.movieTitle = movieTitle;
         this.actor = actor;
         this.releaseDate = releaseDate;
@@ -49,11 +59,11 @@ public class Movie {
         this.actor = actor;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -81,26 +91,25 @@ public class Movie {
         this.director = director;
     }
 
-    public boolean isScreening() {
+    public boolean getIsScreening() {
         return isScreening;
     }
 
-    public void setScreening(boolean screening) {
-        isScreening = screening;
+    public void setIsScreening(boolean isScreening) {
+        this.isScreening = isScreening;
     }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Movie{");
-        sb.append("movieId=").append(movieId);
-        sb.append(", movieTitle='").append(movieTitle).append('\'');
-        sb.append(", actor='").append(actor).append('\'');
-        sb.append(", releaseDate=").append(releaseDate);
-        sb.append(", genre='").append(genre).append('\'');
-        sb.append(", screeningTime=").append(screeningTime);
-        sb.append(", director='").append(director).append('\'');
-        sb.append(", isScreening=").append(isScreening);
-        sb.append('}');
-        return sb.toString();
+        return "\n===== 영화 정보 =====\n" +
+                "영화 번호        : " + movieId + "\n" +
+                "제목            : " + movieTitle + "\n" +
+                "배우            : " + actor + "\n" +
+                "개봉일          : " + releaseDate + "\n" +
+                "장르            : " + genre + "\n" +
+                "상영시간         : " + screeningTime + " 분\n" +
+                "감독            : " + director + "\n" +
+                "상영여부         : " + (isScreening ? "상영중" : "상영종료") + "\n" +
+                "======================";
     }
 }

@@ -30,15 +30,15 @@ public class MovieController {
      * */
     public static void selectMovieDetail(int movieId) {
         try {
-            Movie movie = movieService.selectMovieDetail(movieId);
+            List<Movie> movie = movieService.selectMovieDetail(movieId);
             EndView.printMovieDetail(movie); // 상세 정보 출력용
         } catch (Exception e) {
-            FailView.errorMessage(e.getMessage());
+            FailView.errorMessage(movieId + "번 영화를 찾을 수 없습니다.");
         }
     }
 
     /*
-     * 0312
+     * 0313
      * 김채영
      * TODO: 영화 삭제
      * */
@@ -52,10 +52,32 @@ public class MovieController {
     }
 
     /*
-     * 0312
+     * 0313
      * 김채영
-     * TODO: 전체 영화 조회
+     * TODO: 영화 수정
      * */
-    public static void updateMovie(int updateId, int colName) {
+    public static void updateMovie(int movieId, String colName, String content) {
+        try{
+            movieService.updateMovie(movieId, colName, content);
+            selectMovieDetail(movieId);
+            EndView.successMessage("영화가 수정되었습니다.");
+        }catch (Exception e){
+
+        }
+    }
+
+    /*
+     * 0313
+     * 김채영
+     * TODO: 영화 등록
+     * */
+    public static void insertMovie(Movie m) {
+        try{
+            Movie movie = movieService.insertMovie(m);
+            selectMovieDetail(movie.getMovieId());
+            System.out.println("영화가 등록되었습니다.");
+        }catch (Exception e){
+
+        }
     }
 }
