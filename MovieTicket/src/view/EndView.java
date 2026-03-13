@@ -78,4 +78,13 @@ public class EndView {
     public static void deleteUserByMemberId() {
     	System.out.println("회원 탈퇴 되었습니다!");
     }
+    
+    /*
+     * 사용자 자신 정보 업데이트 View
+     */
+    public static void updateUser() {
+    	System.out.println("사용자 정보가 수정되었습니다!");
+    }
+    
+    
 }

@@ -33,7 +33,7 @@ public interface MemberDAO {
      * 이동혁
      * TODO: 사용자 정보 수정 DAO 인터페이스
      */
-    int updateMemberById(String password, String phone, String address, String[] preferredGenre, String cardInfo) throws SQLException;
+    int updateMember(Member member) throws SQLException;
     
 
     /*

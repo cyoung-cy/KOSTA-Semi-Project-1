@@ -30,7 +30,7 @@ public class MemberController {
 			if("admin".equals(verifiedUserRole)) StartView.printAdminMenu(member);
 			// 일반 유저는 UserMenuView 보이도록
 			else StartView.printUserMenu(member);
-		} catch(Exception e) {
+		} catch(Exception e) { 
 			e.printStackTrace();
 			// 이후에 StartView로 가도록 처리
 		}
@@ -134,9 +134,24 @@ public class MemberController {
 			StartView.menu();
 		} catch (Exception e) {
 //			e.printStackTrace();
-			FailView.errorMessage("회원 탈퇴에 실패하였습니다.");
+			FailView.errorMessage(e.getMessage());
 			//StartView의 printUserMenu로 이동
 			StartView.printUserMenu(member);
+		}
+	}
+	
+	/*
+	 * 20260313
+	 * 이동혁
+	 * TODO: 사용자 정보 수정
+	 */
+	public static void updateUser(Member member) {
+		try {
+			memberService.updateUser(member);
+			EndView.updateUser();
+		} catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 }

@@ -100,6 +100,7 @@ public class StartView {
                     //영화 리뷰 작성
                 case 4 :
                     //마이페이지
+                	UserView.myPage(member);
                 case 5 :
                     //문의하기
                 case 6 :
@@ -140,7 +141,6 @@ public class StartView {
     	 */
     	SessionSet sessionSet = SessionSet.getInstance();
     	System.out.println("sessionSet() = " + sessionSet.getSet());
-        StartView.printMenu();
         while(true){
             System.out.println("=============================================================");
             String text = "Hello! " + member.getName() + " Welocme to MOVIE TICKET Admin Page";
