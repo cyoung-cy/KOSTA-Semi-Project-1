@@ -35,19 +35,13 @@ public interface MemberDAO {
      */
     int updateMemberById(String password, String phone, String address, String[] preferredGenre, String cardInfo) throws SQLException;
     
-    /*
-     * 20260312
-     * 이동혁
-     * TODO: 로그아웃
-     */
-//    void logout(Member member);
-    
+
     /*
      * 20260312
      * 이동혁
      * TODO: 회원탈퇴
      */
-//    int deleteByMemberId() throws SQLException;
+    int deleteByMemberId(int memberId) throws SQLException;
     
     
 

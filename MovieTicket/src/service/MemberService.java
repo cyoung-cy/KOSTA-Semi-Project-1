@@ -62,6 +62,16 @@ public class MemberService {
         return null;
 
     }
+    
+    /*
+     * 20260313
+     * 이동혁
+     * TODO: 사용자 회원 탈퇴 서비스
+     */
+    public void deleteMemberByMemberId(int memberId) throws SQLException, NotFoundException {
+    	int result = memberDao.deleteByMemberId(memberId);
+    	if(result == 0) throw new NotFoundException("찾을 수 없는 회원 정보입니다.");
+    }
 
     /*
      * 20260312

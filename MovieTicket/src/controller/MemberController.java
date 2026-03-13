@@ -117,4 +117,26 @@ public class MemberController {
 			//AdminView로 이동
 		}
 	}
+	
+	/*
+	 * 20260313
+	 * 이동혁
+	 * TODO: 사용자 탈퇴
+	 */
+	public static void deleteUserByMemberId(Member member) {
+		try {
+			memberService.deleteMemberByMemberId(member.getMemberId());
+        	Session session = new Session(member.getMemberId(), member.getUserId());
+            SessionSet ss = SessionSet.getInstance();
+            ss.remove(session);
+            EndView.deleteUserByMemberId();
+			//처음 시작 View로 이동
+			StartView.menu();
+		} catch (Exception e) {
+//			e.printStackTrace();
+			FailView.errorMessage("회원 탈퇴에 실패하였습니다.");
+			//StartView의 printUserMenu로 이동
+			StartView.printUserMenu(member);
+		}
+	}
 }

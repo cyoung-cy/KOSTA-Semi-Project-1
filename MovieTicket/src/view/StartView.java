@@ -73,7 +73,7 @@ public class StartView {
     	 */
     	SessionSet sessionSet = SessionSet.getInstance();
     	System.out.println("sessionSet() = " + sessionSet.getSet());
-        StartView.printMenu();
+
         while(true) {
             System.out.println("=============================================================");
             String text = "Hello! " + member.getUserId() + " Welcome to MOVIE TICKET";
@@ -89,6 +89,7 @@ public class StartView {
             System.out.println("                    [0] 종료");
             System.out.println("=============================================================");
 
+            System.out.println("사용자 메뉴를 선택하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -107,6 +108,8 @@ public class StartView {
                     return;
                 case 7 :
                     //회원탈퇴
+                	StartView.withDrawal(member);
+                	break;
                 case 0 :
                     //종료
                     System.exit(0);
@@ -191,6 +194,23 @@ public class StartView {
         Session session = new Session(memberId, userId);
         SessionSet ss = SessionSet.getInstance();
         ss.remove(session);
+    }
+    
+    /*
+     * 2026-03-13
+     * 이동혁
+     * 기능 : 회원탈퇴
+     */
+    public static void withDrawal(Member member) {
+        System.out.print("정말 탈퇴하시겠습니까? (Y/N): ");
+        String select = sc.nextLine();
+        if(select.toUpperCase().equals("Y")) {
+
+        	MemberController.deleteUserByMemberId(member);
+        } else {
+        	return; // 사용자 메뉴로 돌아감.
+        }
+    	
     }
 
     /*

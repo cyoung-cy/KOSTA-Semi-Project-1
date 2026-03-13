@@ -71,4 +71,11 @@ public class EndView {
             System.out.println(inquiry);
         }
     }
+    
+    /*
+     * 회원 탈퇴 여부 View
+     */
+    public static void deleteUserByMemberId() {
+    	System.out.println("회원 탈퇴 되었습니다!");
+    }
 }
