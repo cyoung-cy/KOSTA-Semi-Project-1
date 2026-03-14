@@ -1,7 +1,11 @@
 package view;
 
 import controller.MemberController;
+import controller.ReservationController;
+import controller.ReviewController;
 import dto.Member;
+import dto.Reservation;
+import dto.Review;
 import exception.WrongInput;
 import session.Session;
 import session.SessionSet;
@@ -102,6 +106,8 @@ public class StartView {
                     //영화 추천
                 case 3 :
                     //영화 리뷰 작성
+                    insertReview(member.getMemberId());
+                    printUserMenu(member);
                 case 4 :
                     //마이페이지
                 case 5 :
@@ -247,6 +253,23 @@ public class StartView {
     			preferredGenre,
     			cardInfo
     	);
+    }
+
+    public static void insertReview(int memberId) {
+
+        ReservationController.selectReservationsByMemberId(memberId);
+
+        System.out.print("리뷰를 작성할 영화를 선택하세요 : ");
+        int movieId = Integer.parseInt(sc.nextLine());
+
+        System.out.print("평점을 입력하세요(1~5) : ");
+        int rating = Integer.parseInt(sc.nextLine());
+
+        System.out.println("리뷰를 작성하세요 : ");
+        String content = sc.nextLine();
+
+        Review re = new Review(memberId, movieId, rating, content);
+        ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
     }
     
     public static void main(String[] args) {

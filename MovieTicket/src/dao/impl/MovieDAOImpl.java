@@ -48,7 +48,7 @@ public class MovieDAOImpl implements MovieDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Movie m = null;
-        String sql = "SELECT * FROM MOVIE WHERE MOVIE_ID = ?";
+        String sql = "select * from MOVIE where MOVIE_ID = ?";
         List<Movie> list = new ArrayList<>();
         try {
             con = DbManager.getConnection();
@@ -77,8 +77,8 @@ public class MovieDAOImpl implements MovieDAO {
     public int insertMovie(Movie movie) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "INSERT INTO MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
+                "values (?, ?, ?, ?, ?, ?, ?)";
         int re = 0;
 
         try {
@@ -138,7 +138,7 @@ public class MovieDAOImpl implements MovieDAO {
     public int deleteMovie(int movieId) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "DELETE FROM MOVIE WHERE MOVIE_ID = ?";
+        String sql = "delete from MOVIE where MOVIE_ID = ?";
         int result = 0;
         try {
             con = DbManager.getConnection();
