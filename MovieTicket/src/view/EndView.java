@@ -1,6 +1,7 @@
 package view;
 
 import dto.*;
+import vo.ReviewVO;
 import vo.Ticket;
 
 import java.util.List;
@@ -65,6 +66,30 @@ public class EndView {
                     " | 회원 아이디 : " + inquiry.getMemberId() +
                     " | 제목 : " + inquiry.getTitle() +
                     " | 회원 아이디 : " + inquiry.getMemberId() +
+                    " | 구분 : " + inquiry.getCategory() +
+                    " | 처리여부 : " + processed + "\n");
+            System.out.println("----------------------------------------------------------------------------");
+
+        }
+    }
+
+    /*
+     * 0314
+     * 이동혁
+     * TODO: 사용자 문의 조회 View
+     * */
+    public static void printUserInquiryShort(List<Inquiry> list) {
+        Member member = new Member();
+        System.out.println("-------------< 문의 " + list.size() + "개 >-------------");
+        for (Inquiry inquiry : list) {
+            String processed = null;
+            if (inquiry.getProcessed() == true) {
+                processed = "resolved";
+            } else {
+                processed = "pending";
+            }
+            System.out.println("문의 번호 : " + inquiry.getInquiryId() +
+                    " | 제목 : " + inquiry.getTitle() +
                     " | 구분 : " + inquiry.getCategory() +
                     " | 처리여부 : " + processed + "\n");
             System.out.println("----------------------------------------------------------------------------");
@@ -165,4 +190,21 @@ public class EndView {
         }
 
     }
+
+    /*
+     * 0314
+     * 이동혁
+     * TODO: 리뷰 리스트 조회 View
+     */
+    public static void reviewList(List<ReviewVO> list) {
+        System.out.println("-------------< 리뷰 " + list.size() + "개 >-------------");
+        for (ReviewVO review : list) {
+            System.out.println("리뷰 번호 : " + review.getReviewId() +
+                    " | 영화 제목 : " + review.getMovieTitle() +
+                    " | 평점 : " + review.getRating() +
+                    " | 내용 : " + review.getContent());
+            System.out.println("----------------------------------------------------------------------------");
+        }
+    }
+
 }

@@ -108,6 +108,8 @@ public class StartView {
                     break;
                 case 5 :
                     //문의하기
+                    UserView.inquiry(member);
+                    break;
                 case 6 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());

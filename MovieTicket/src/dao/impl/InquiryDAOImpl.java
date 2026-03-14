@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.InquiryDAO;
 import dto.Inquiry;
+import dto.Member;
 import util.DbManager;
 
 import java.sql.Connection;
@@ -42,6 +43,34 @@ public class InquiryDAOImpl implements InquiryDAO {
     }
 
     @Override
+    public List<Inquiry> selectInquiryByMemberId(int memberId) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select INQUIRY_ID, MEMBER_ID, TITLE, CATEGORY, PROCESSED from INQUIRY where MEMBER_ID = ?";
+        Inquiry inquiry = null;
+        List<Inquiry> list = new ArrayList<>();
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, memberId);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                inquiry = new Inquiry(rs.getInt("INQUIRY_ID"), rs.getInt("MEMBER_ID"), rs.getString("TITLE"),
+                        rs.getString("CATEGORY"), rs.getBoolean("PROCESSED"));
+                list.add(inquiry);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, rs);
+        }
+        return list;
+    }
+
+    @Override
     public List<Inquiry> selectInquiryDetail(int inquiryId) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -55,6 +84,38 @@ public class InquiryDAOImpl implements InquiryDAO {
             ps = con.prepareStatement(sql);
 
             ps.setInt(1, inquiryId);
+
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                inquiry = new Inquiry(rs.getInt("INQUIRY_ID"), rs.getInt("MEMBER_ID"), rs.getString("TITLE"),
+                        rs.getString("CONTENT") ,rs.getString("CATEGORY"), rs.getTimestamp("CREATED_AT"),
+                        rs.getBoolean("PROCESSED"), rs.getString("RESPONSE"));
+                list.add(inquiry);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Inquiry> selectInquiryDetailByMemberId(int inquiryId, int memberId) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from INQUIRY where INQUIRY_ID = ? and MEMBER_ID = ? and PROCESSED = 1";
+        Inquiry inquiry = null;
+        List<Inquiry> list = new ArrayList<>();
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+
+            ps.setInt(1, inquiryId);
+            ps.setInt(2, memberId);
 
             rs = ps.executeQuery();
 
@@ -109,6 +170,28 @@ public class InquiryDAOImpl implements InquiryDAO {
 
 
         return 0;
+    }
+
+    @Override
+    public int insertInquiry(Member member, String content, String category, String title) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "insert into INQUIRY(MEMBER_ID, TITLE, CATEGORY, CONTENT, CREATED_AT, PROCESSED) values(?,?,?,?,now(),0)";
+        int re = 0;
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, member.getMemberId());
+            ps.setString(2, title);
+            ps.setString(3, category);
+            ps.setString(4, content);
+            re = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
+        }
+        return re;
     }
 
 

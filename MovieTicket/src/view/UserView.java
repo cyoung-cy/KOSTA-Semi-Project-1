@@ -2,7 +2,9 @@ package view;
 
 import java.util.Scanner;
 
+import controller.InquiryController;
 import controller.MemberController;
+import controller.ReviewController;
 import controller.TicketController;
 import dto.Member;
 
@@ -43,6 +45,7 @@ public class UserView {
             		break;
             	case 3:
             		//리뷰 내역 조회
+					ReviewController.selectReviews(member);
             		break;
             	case 0:
             		StartView.printUserMenu(member);
@@ -86,6 +89,47 @@ public class UserView {
 			}
 		}
 	}
-	
-	
+
+
+	/**
+	 * 20260314
+	 * 이동혁
+	 * 문의 뷰
+	 * @param member
+	 */
+	public static void inquiry(Member member) {
+		while(true) {
+			System.out.println("=============================================================");
+			System.out.println("                       [문의]");
+			System.out.println("=============================================================");
+			System.out.println("                      [1] 문의하기");
+			System.out.println("                      [2] 문의 내역 조회");
+			System.out.println("                      [3] 뒤로가기");
+			System.out.println("=============================================================");
+
+			System.out.println("메뉴를 선택하세요 : ");
+			int menu = Integer.parseInt(sc.nextLine());
+
+			switch(menu) {
+				case 1:
+					System.out.println("문의 내용을 입력해주세요. : ");
+					String content = sc.nextLine();
+					System.out.println("문의 구분을 입력해주세요. (예: MOVIE, SYSTEM, PAYMENT, ETC) : ");
+					String category = sc.nextLine();
+					System.out.println("문의 제목을 입력해주세요. : ");
+					String title = sc.nextLine();
+					InquiryController.insertInquiry(member, content, category, title);
+					break;
+				case 2:
+					InquiryController.selectInquiryByMember(member);
+					System.out.println("상세 조회할 문의 번호를 입력해주세요.(처리된 문의만 가능) : ");
+					int inquiryId = Integer.parseInt(sc.nextLine());
+					InquiryController.selectInquiryDetailByMember(inquiryId, member);
+					break;
+				case 3:
+					StartView.printUserMenu(member);
+					return;
+			}
+		}
+	}
 }

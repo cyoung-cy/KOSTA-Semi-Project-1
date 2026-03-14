@@ -152,7 +152,7 @@ public class MemberController {
 			memberService.updateUser(member);
 			EndView.updateUser();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			FailView.errorMessage(e.getMessage());
 		}
 	}
