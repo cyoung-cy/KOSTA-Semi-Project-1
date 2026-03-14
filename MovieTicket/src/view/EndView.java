@@ -5,6 +5,7 @@ import dto.Member;
 import dto.Movie;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class EndView {
 
@@ -97,25 +98,139 @@ public class EndView {
     	System.out.println("사용자 정보가 수정되었습니다!");
     }
 
-
     /*
-     * 0312
+     * 0313
      * 김채영
-     * TODO: 전체 영화 조회 View
+     * TODO: 전체 영화 조회 View - 페이징 + 한글 정렬 버전
      * */
     public static void printAllMovies(List<Movie> list) {
-        System.out.printf("%-5s | %-20s | %-10s | %-10s | %-10s\n", "ID", "제목", "장르", "상영시간", "상영여부");
-        System.out.println("-----------------------------------------------------------------------");
-        for (Movie m : list) {
-            String status = null;
-            if(m.getIsScreening() == true){
-                status = "상영중";
-            }else{
-                status = "상영종료";
+        final int PAGE_SIZE = 15; // 한 페이지당 출력할 영화 수
+        int totalPages = (int) Math.ceil((double) list.size() / PAGE_SIZE);
+        int currentPage = 0;
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            // 헤더 출력
+            System.out.println("\n[전체 영화 목록]  " + (currentPage + 1) + " / " + totalPages + " 페이지");
+
+            // 컬럼 너비 (출력 기준 너비 = 화면에서 차지하는 칸 수)
+            // 한글 1자 = 2칸, 영문/숫자 1자 = 1칸
+            int idW     = 10;
+            int titleW  = 36;  // 한글 최대 약 18자 → 36칸
+            int genreW  = 14;  // 한글 최대 약 7자  → 14칸
+            int timeW   = 10;
+            int statusW = 12;
+
+            String separator = makeSeparator(idW, titleW, genreW, timeW, statusW);
+
+            System.out.println(separator);
+            System.out.println(
+                    padRight("ID",     idW)    + " | " +
+                            padRight("제목",   titleW) + " | " +
+                            padRight("장르",   genreW) + " | " +
+                            padRight("상영시간", timeW) + " | " +
+                            padRight("상영여부", statusW)
+            );
+            System.out.println(separator);
+
+            // ── 현재 페이지 데이터 출력 ────────────────────────────────
+            int from = currentPage * PAGE_SIZE;
+            int to   = Math.min(from + PAGE_SIZE, list.size());
+
+            for (int i = from; i < to; i++) {
+                Movie m = list.get(i);
+                String status = m.getIsScreening() ? "상영중" : "상영종료";
+
+                System.out.println(
+                        padRight(String.valueOf(m.getMovieId()), idW)   + " | " +
+                                padRight(m.getMovieTitle(),              titleW) + " | " +
+                                padRight(m.getGenre(),                   genreW) + " | " +
+                                padRight(m.getScreeningTime() + "분",    timeW)  + " | " +
+                                padRight(status,                         statusW)
+                );
             }
-            System.out.printf("%-5d | %-20s | %-10s | %-10s | %-10s\n",
-                    m.getMovieId(), m.getMovieTitle(), m.getGenre(), m.getScreeningTime()+"분", status);
+
+            System.out.println(separator);
+
+            //페이지 이동
+            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("목록을 종료합니다.");
+                break;
+            } else if (input.equals(">")) {
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                } else {
+                    System.out.println("마지막 페이지입니다.");
+                }
+            } else if (input.equals("<")) {
+                if (currentPage > 0) {
+                    currentPage--;
+                } else {
+                    System.out.println("첫 번째 페이지입니다.");
+                }
+            } else {
+                System.out.println("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
+            }
         }
+    }
+
+    /*
+     * 0313
+     * 김채영
+     * TODO: 구분선 맞추기
+     * */
+    private static String padRight(String text, int targetWidth) {
+        if (text == null) text = "";
+        int displayWidth = getDisplayWidth(text);
+        int padding = targetWidth - displayWidth;
+        if (padding < 0) {
+            // 너비를 초과하면 잘라냄
+            text = truncateToWidth(text, targetWidth);
+            padding = 0;
+        }
+        return text + " ".repeat(padding);
+    }
+
+    private static int getDisplayWidth(String text) {
+        int width = 0;
+        for (char c : text.toCharArray()) {
+            width += isFullWidth(c) ? 2 : 1;
+        }
+        return width;
+    }
+
+    private static boolean isFullWidth(char c) {
+        return (c >= '\uAC00' && c <= '\uD7A3')   // 한글 완성형
+                || (c >= '\u1100' && c <= '\u11FF')   // 한글 자모
+                || (c >= '\u3130' && c <= '\u318F')   // 한글 호환 자모
+                || (c >= '\u4E00' && c <= '\u9FFF')   // CJK 통합 한자
+                || (c >= '\uFF01' && c <= '\uFF60')   // 전각 ASCII
+                || (c >= '\uFFE0' && c <= '\uFFE6');  // 전각 기호
+    }
+
+    private static String truncateToWidth(String text, int targetWidth) {
+        StringBuilder sb = new StringBuilder();
+        int used = 0;
+        for (char c : text.toCharArray()) {
+            int cw = isFullWidth(c) ? 2 : 1;
+            if (used + cw > targetWidth) break;
+            sb.append(c);
+            used += cw;
+        }
+        // 홀수 칸이 남으면 공백 1개로 채움
+        if (used < targetWidth) sb.append(" ");
+        return sb.toString();
+    }
+
+    private static String makeSeparator(int idW, int titleW, int genreW, int timeW, int statusW) {
+        return "-".repeat(idW) + "-+-" +
+                "-".repeat(titleW) + "-+-" +
+                "-".repeat(genreW) + "-+-" +
+                "-".repeat(timeW)  + "-+-" +
+                "-".repeat(statusW);
     }
 
     /*

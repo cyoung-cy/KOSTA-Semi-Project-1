@@ -93,6 +93,7 @@ public class StartView {
             System.out.println("                    [0] 종료");
             System.out.println("=============================================================");
 
+            System.out.println("회원 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
