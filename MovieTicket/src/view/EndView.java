@@ -3,7 +3,7 @@ package view;
 import dto.Inquiry;
 import dto.Member;
 import dto.Movie;
-
+import util.PagingUtil;
 import java.util.List;
 import java.util.Scanner;
 
@@ -99,7 +99,7 @@ public class EndView {
     }
 
     /*
-     * 0313
+     * 0314
      * 김채영
      * TODO: 전체 영화 조회 View - 페이징 + 한글 정렬 버전
      * */
@@ -121,15 +121,15 @@ public class EndView {
             int timeW   = 10;
             int statusW = 12;
 
-            String separator = makeSeparator(idW, titleW, genreW, timeW, statusW);
+            String separator = PagingUtil.makeSeparator(idW, titleW, genreW, timeW, statusW);
 
             System.out.println(separator);
             System.out.println(
-                    padRight("ID",     idW)    + " | " +
-                            padRight("제목",   titleW) + " | " +
-                            padRight("장르",   genreW) + " | " +
-                            padRight("상영시간", timeW) + " | " +
-                            padRight("상영여부", statusW)
+                    PagingUtil.padRight("ID",     idW)    + " | " +
+                            PagingUtil.padRight("제목",   titleW) + " | " +
+                            PagingUtil.padRight("장르",   genreW) + " | " +
+                            PagingUtil.padRight("상영시간", timeW) + " | " +
+                            PagingUtil.padRight("상영여부", statusW)
             );
             System.out.println(separator);
 
@@ -142,11 +142,11 @@ public class EndView {
                 String status = m.getIsScreening() ? "상영중" : "상영종료";
 
                 System.out.println(
-                        padRight(String.valueOf(m.getMovieId()), idW)   + " | " +
-                                padRight(m.getMovieTitle(),              titleW) + " | " +
-                                padRight(m.getGenre(),                   genreW) + " | " +
-                                padRight(m.getScreeningTime() + "분",    timeW)  + " | " +
-                                padRight(status,                         statusW)
+                        PagingUtil.padRight(String.valueOf(m.getMovieId()), idW)   + " | " +
+                                PagingUtil.padRight(m.getMovieTitle(),              titleW) + " | " +
+                                PagingUtil.padRight(m.getGenre(),                   genreW) + " | " +
+                                PagingUtil.padRight(m.getScreeningTime() + "분",    timeW)  + " | " +
+                                PagingUtil.padRight(status,                         statusW)
                 );
             }
 
@@ -175,62 +175,6 @@ public class EndView {
                 System.out.println("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
             }
         }
-    }
-
-    /*
-     * 0313
-     * 김채영
-     * TODO: 구분선 맞추기
-     * */
-    private static String padRight(String text, int targetWidth) {
-        if (text == null) text = "";
-        int displayWidth = getDisplayWidth(text);
-        int padding = targetWidth - displayWidth;
-        if (padding < 0) {
-            // 너비를 초과하면 잘라냄
-            text = truncateToWidth(text, targetWidth);
-            padding = 0;
-        }
-        return text + " ".repeat(padding);
-    }
-
-    private static int getDisplayWidth(String text) {
-        int width = 0;
-        for (char c : text.toCharArray()) {
-            width += isFullWidth(c) ? 2 : 1;
-        }
-        return width;
-    }
-
-    private static boolean isFullWidth(char c) {
-        return (c >= '\uAC00' && c <= '\uD7A3')   // 한글 완성형
-                || (c >= '\u1100' && c <= '\u11FF')   // 한글 자모
-                || (c >= '\u3130' && c <= '\u318F')   // 한글 호환 자모
-                || (c >= '\u4E00' && c <= '\u9FFF')   // CJK 통합 한자
-                || (c >= '\uFF01' && c <= '\uFF60')   // 전각 ASCII
-                || (c >= '\uFFE0' && c <= '\uFFE6');  // 전각 기호
-    }
-
-    private static String truncateToWidth(String text, int targetWidth) {
-        StringBuilder sb = new StringBuilder();
-        int used = 0;
-        for (char c : text.toCharArray()) {
-            int cw = isFullWidth(c) ? 2 : 1;
-            if (used + cw > targetWidth) break;
-            sb.append(c);
-            used += cw;
-        }
-        // 홀수 칸이 남으면 공백 1개로 채움
-        if (used < targetWidth) sb.append(" ");
-        return sb.toString();
-    }
-
-    private static String makeSeparator(int idW, int titleW, int genreW, int timeW, int statusW) {
-        return "-".repeat(idW) + "-+-" +
-                "-".repeat(titleW) + "-+-" +
-                "-".repeat(genreW) + "-+-" +
-                "-".repeat(timeW)  + "-+-" +
-                "-".repeat(statusW);
     }
 
     /*
