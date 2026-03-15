@@ -64,10 +64,10 @@ public class MemberController {
     			cardInfo,
     			"user");
 			memberService.register(member);
-			
+			EndView.successMessage("회원가입이 완료되었습니다.");
 		} catch (Exception e) {
-			e.printStackTrace();
-//			FailView.errorMessage(e.getMessage());
+//			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 

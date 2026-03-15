@@ -2,6 +2,7 @@ package view;
 
 import controller.MemberController;
 import dto.Member;
+import enums.MovieCategory;
 import exception.WrongInput;
 import session.Session;
 import session.SessionSet;
@@ -255,11 +256,25 @@ public class StartView {
          * 20260313
          * 이동혁
          * 선호 장르 한글 입력으로 수정
+         * 20260315 추가: ENUM MovieCategory의 valueOf() 메서드를 활용하여 입력된 장르가 유효한지 검증
          */
-        System.out.print("선호 장르('액션', '애니매이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
-        List<String> preferredGenre = Arrays.stream(sc.nextLine().split(","))
-        		.map(String::trim).filter(s -> !s.isEmpty())
-        		.collect(Collectors.toList());
+        List<String> preferredGenre = null;
+        while(true) {
+            System.out.print("선호 장르('액션', '애니매이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
+            try {
+                preferredGenre = Arrays.stream(sc.nextLine().split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .map(s -> {
+                            MovieCategory.valueOf(s.toUpperCase());
+                            return s;
+                        })
+                        .collect(Collectors.toList());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("잘못된 장르 입력입니다. 다시 입력해주세요.");
+            }
+        }
 
         System.out.print("결제 정보(ex:1111-1111-1111-1111) : ");
         String cardInfo = sc.nextLine();
