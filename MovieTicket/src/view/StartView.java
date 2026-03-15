@@ -263,16 +263,11 @@ public class StartView {
             System.out.print("선호 장르('액션', '애니매이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
             try {
                 preferredGenre = Arrays.stream(sc.nextLine().split(","))
-                        .map(String::trim)
-                        .filter(s -> !s.isEmpty())
-                        .map(s -> {
-                            MovieCategory.valueOf(s.toUpperCase());
-                            return s;
-                        })
+                        .map(MovieCategory::validate)
                         .collect(Collectors.toList());
                 break;
             } catch (IllegalArgumentException e) {
-                System.out.println("잘못된 장르 입력입니다. 다시 입력해주세요.");
+                System.out.println(e.getMessage());
             }
         }
 
