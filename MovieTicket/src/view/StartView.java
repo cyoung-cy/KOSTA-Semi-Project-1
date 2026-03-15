@@ -1,10 +1,15 @@
 package view;
 
 import controller.MemberController;
+import controller.ReservationController;
+import controller.ReviewController;
 import dto.Member;
+import dto.Reservation;
+import dto.Review;
 import exception.WrongInput;
 import session.Session;
 import session.SessionSet;
+import util.BadWordUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -93,6 +98,7 @@ public class StartView {
             System.out.println("                    [0] 종료");
             System.out.println("=============================================================");
 
+            System.out.println("회원 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -101,6 +107,8 @@ public class StartView {
                     //영화 추천
                 case 3 :
                     //영화 리뷰 작성
+                    insertReview(member.getMemberId());
+                    printUserMenu(member);
                 case 4 :
                     //마이페이지
                 case 5 :
@@ -164,9 +172,11 @@ public class StartView {
                 case 2 :
                     //영화 관리
                     AdminView.moivieManager(member);
+                    break;
                 case 3 :
                     //문의 관리
                     AdminView.inquiryManage(member);
+                    break;
                 case 4 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
@@ -246,6 +256,30 @@ public class StartView {
     			preferredGenre,
     			cardInfo
     	);
+    }
+
+    public static void insertReview(int memberId) {
+
+        ReservationController.selectReservationsByMemberId(memberId);
+
+        System.out.print("리뷰를 작성할 영화를 선택하세요 : ");
+        int movieId = Integer.parseInt(sc.nextLine());
+
+        System.out.print("평점을 입력하세요(1~5) : ");
+        int rating = Integer.parseInt(sc.nextLine());
+
+        System.out.println("리뷰를 작성하세요 : ");
+        String content = sc.nextLine();
+
+        if (BadWordUtil.containsBadWord(content)) {
+            System.out.println("욕설이 포함되어 있습니다.");
+            return;
+        }
+
+        String filtered = BadWordUtil.filter(content);
+
+        Review re = new Review(memberId, movieId, rating, filtered);
+        ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
     }
     
     public static void main(String[] args) {
