@@ -83,4 +83,37 @@ public class ReviewDAOImpl implements ReviewDAO {
 
         return list;
     }
+
+    @Override
+    public List<ReviewVO> selectReviewsByMovie(int movieId) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from REVIEW join MOVIE using(MOVIE_ID) where MOVIE_ID = ? order by CREATED_AT desc";
+        List<ReviewVO> list = new ArrayList<>();
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, movieId);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                ReviewVO review = new ReviewVO(
+                        rs.getInt("REVIEW_ID"),
+                        rs.getInt("MEMBER_ID"),
+                        rs.getInt("MOVIE_ID"),
+                        rs.getInt("RATING"),
+                        rs.getString("CONTENT"),
+                        rs.getTimestamp("CREATED_AT"),
+                        rs.getString("MOVIE_TITLE")
+                );
+                list.add(review);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DbManager.close(con, ps, rs);
+        }
+
+        return list;
+    }
 }

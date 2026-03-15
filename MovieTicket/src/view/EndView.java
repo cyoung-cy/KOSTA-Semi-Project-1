@@ -144,6 +144,20 @@ public class EndView {
     }
 
     /*
+    * 0315
+    * 이동혁
+    * TODO: 추천 영화 조회 View
+     */
+    public static void printRecommendationMovies(List<Movie> list) {
+        System.out.printf("%-5s | %-20s | %-10s | %-10s | %-10s\n", "ID", "제목", "장르", "상영시간");
+        System.out.println("-----------------------------------------------------------------------");
+        for (Movie m : list) {
+            System.out.printf("%-5d | %-20s | %-10s | %-10s | %-10s\n",
+                    m.getMovieId(), m.getMovieTitle(), m.getGenre(), m.getScreeningTime() + "분");
+        }
+    }
+
+    /*
      * 0312
      * 김채영
      * TODO: 영화 상세 조회 View

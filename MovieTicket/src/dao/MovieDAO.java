@@ -12,6 +12,13 @@ public interface MovieDAO {
     List<Movie> selectAllMovies();
 
     /*
+     * 0315
+     * 이동혁
+     * TODO: 사용자 맞춤형 추천 영화 조회
+     * */
+    List<Movie> selectAllMoviesByPreferredGenre(List<String> preferredGenre);
+
+    /*
      * 0312
      * 김채영
      * TODO: 영화 상세 조회

@@ -26,6 +26,19 @@ public class ReviewService {
     }
 
     /*
+    * 0315
+    * 이동혁
+    * TODO: 특정 영화 리뷰 리스트 조회 서비스
+     */
+    public List<ReviewVO> selectReviewsByMovie(int movieId) throws SQLException, NotFoundException {
+        List<ReviewVO> list = reviewDao.selectReviewsByMovie(movieId);
+        if(list == null) {
+            throw new NotFoundException("리뷰 내역이 존재하지 않습니다.");
+        }
+        return list;
+    }
+
+    /*
      *  20260314
      * 이동혁
      * TODO: 사용자 리뷰 조회 서비스

@@ -26,6 +26,20 @@ public class ReviewController {
     }
 
     /*
+    * 0315
+    * 이동혁
+    * TODO: 특정 영화 리뷰 리스트 조회
+     */
+    public static void selectReviewsByMovie(int movieId) {
+        try {
+            List<ReviewVO> list = reviewService.selectReviewsByMovie(movieId);
+            EndView.reviewList(list);
+        } catch (Exception e) {
+            FailView.errorMessage(e.getMessage());
+        }
+    }
+
+    /*
      * 20260312
      * 이동혁
      * TODO: 리뷰 내역 조회

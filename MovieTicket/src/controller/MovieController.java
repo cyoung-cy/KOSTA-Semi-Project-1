@@ -4,6 +4,8 @@ import dto.Movie;
 import service.MovieService;
 import view.EndView;
 import view.FailView;
+import view.UserView;
+
 import java.util.List;
 
 public class MovieController {
@@ -18,6 +20,20 @@ public class MovieController {
         try {
             List<Movie> list = movieService.selectAllMovies();
             EndView.printAllMovies(list); // 간략한 목록 출력용
+        } catch (Exception e) {
+            FailView.errorMessage(e.getMessage());
+        }
+    }
+
+    /*
+     * 0315
+     * 이동혁
+     * TODO: 사용자 추천 영화 조회
+     * */
+    public static void selectAllMoviesByPreferredGenre(List<String> preferredGenre) {
+        try {
+            List<Movie> list = movieService.selectAllMoviesByPreferredGenre(preferredGenre);
+            UserView.recommendationMovie(list);
         } catch (Exception e) {
             FailView.errorMessage(e.getMessage());
         }

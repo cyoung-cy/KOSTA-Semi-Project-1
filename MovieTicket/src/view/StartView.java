@@ -1,6 +1,7 @@
 package view;
 
 import controller.MemberController;
+import controller.MovieController;
 import dto.Member;
 import enums.MovieCategory;
 import exception.WrongInput;
@@ -101,6 +102,8 @@ public class StartView {
                     //영화 예매
                 case 2 :
                     //영화 추천
+                    MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre());
+                    break;
                 case 3 :
                     //영화 리뷰 작성
                 case 4 :
@@ -260,7 +263,7 @@ public class StartView {
          */
         List<String> preferredGenre = null;
         while(true) {
-            System.out.print("선호 장르('액션', '애니매이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
+            System.out.print("선호 장르('액션', '애니메이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
             try {
                 preferredGenre = Arrays.stream(sc.nextLine().split(","))
                         .map(MovieCategory::validate)

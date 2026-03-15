@@ -1,5 +1,6 @@
 package view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import controller.InquiryController;
@@ -7,6 +8,7 @@ import controller.MemberController;
 import controller.ReviewController;
 import controller.TicketController;
 import dto.Member;
+import dto.Movie;
 
 /*
  * 20260313
@@ -128,6 +130,38 @@ public class UserView {
 					break;
 				case 3:
 					StartView.printUserMenu(member);
+					return;
+			}
+		}
+	}
+
+	/*
+	* 20260315
+	* 이동혁
+	* 영화 추천 후 선택 View
+	 */
+	public static void recommendationMovie(List<Movie> list) {
+		while(true) {
+			EndView.printAllMovies(list); // 간략한 목록 출력용
+			System.out.println("=============================================================");
+			System.out.println("                       [영화 추천]");
+			System.out.println("=============================================================");
+			System.out.println("                      [1] 영화 예매하기");
+			System.out.println("                      [2] 영화 리뷰보기");
+			System.out.println("                      [3] 뒤로가기");
+			System.out.println("=============================================================");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch(menu) {
+				case 1:
+					// TODO: 영화 예매 뷰 호출
+					break;
+				case 2:
+					System.out.println("리뷰를 볼 영화를 선택해주세요. : ");
+					int movieId = Integer.parseInt(sc.nextLine());
+					// 영화	리뷰 조회 컨트롤러 호출
+					ReviewController.selectReviewsByMovie(movieId);
+					break;
+				case 3:
 					return;
 			}
 		}
