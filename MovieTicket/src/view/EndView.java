@@ -1,6 +1,8 @@
 package view;
 
+import dao.MemberDAO;
 import dao.MovieDAO;
+import dao.impl.MemberDAOImpl;
 import dao.impl.MovieDAOImpl;
 import dto.Inquiry;
 import dto.Member;
@@ -205,10 +207,13 @@ public class EndView {
     /*
      * 0314
      * 김채영
-     * TODO: 예매된 영화 전체 조회 (영화 제목은 MovieDAO의 selectMovieDetail()을 이용해 조회)
+     * TODO: 예매된 영화 전체 조회
+     *       영화 제목은 MovieDAO의 selectMovieDetail()을 이용해 조회
+     *       사용자 이름은 MemberDAO의 selectUsers()를 이용해 조회
      * */
     public static void selectReservationsByMemberId(List<Reservation> reservationList, int memberId) {
         MovieDAO movieDAO = new MovieDAOImpl();
+        MemberDAO memberDAO = new MemberDAOImpl();
 
         final int reservIdW = 12;
         final int memberIdW = 10;
@@ -220,7 +225,18 @@ public class EndView {
                 "-".repeat(movieIdW)   + "-+-" +
                 "-".repeat(titleW);
 
-        System.out.println("\n["+memberId+" 예약 목록]  총 " + reservationList.size() + "건");
+        List<Member> m = memberDAO.selectUsers();
+
+        String name = null;
+
+        for(Member mem : m){
+            if (mem.getMemberId() == memberId) {
+                name = mem.getName();
+                break;
+            }
+        }
+
+        System.out.println("\n["+name+" 예약 목록]  총 " + reservationList.size() + "건");
         System.out.println(separator);
         System.out.println(
                 PagingUtil.padRight("예약 ID", reservIdW) + " | " +
