@@ -1,15 +1,19 @@
 package api;
 
 import dto.Movie;
+import util.MovieUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Comparator;
 
 public class UpcomingMovieAPI {
 
@@ -19,7 +23,7 @@ public class UpcomingMovieAPI {
         try {
             Properties prop = new Properties();
 
-            InputStream is = UpcomingMovieAPI.class
+            InputStream is = api.UpcomingMovieAPI.class
                     .getClassLoader()
                     .getResourceAsStream("api.properties");
 
@@ -96,6 +100,13 @@ public class UpcomingMovieAPI {
                 String prdtStatNm = movieObj.optString("prdtStatNm", "").trim();
                 String genreAlt = movieObj.optString("genreAlt", "").trim();
 
+                String today = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
+
+                String genreEnum = MovieUtils.normalizeGenre(genreAlt);
+                if (genreEnum == null) {
+                    continue;
+                }
+
                 if (movieId.isBlank() || !movieId.matches("\\d+")) {
                     continue;
                 }
@@ -108,7 +119,13 @@ public class UpcomingMovieAPI {
                     continue;
                 }
 
-                Movie movie = new Movie(movieId, title, openDt, genreAlt, null);
+                // 개봉예정일이 과거로 되어있는 데이터 필터링
+                if (!openDt.isBlank() && openDt.compareTo(today) < 0){
+                    continue;
+                }
+
+                //Movie movie = new Movie(movieId, title, openDt, genreAlt, null);
+                Movie movie = new Movie(movieId, title, openDt, genreEnum, null);
                 result.add(movie);
             }
 
@@ -119,6 +136,9 @@ public class UpcomingMovieAPI {
             curPage++;
             Thread.sleep(100);
         }
+
+        // 개봉일 빠른순 정렬
+        result.sort(Comparator.comparing(Movie::getOpenDate));
 
         return result;
     }

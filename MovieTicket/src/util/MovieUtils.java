@@ -58,7 +58,6 @@ public class MovieUtils {
         genreMap.put("애니메이션", "애니메이션");
         genreMap.put("스릴러", "스릴러");
         genreMap.put("코미디", "코미디");
-        genreMap.put("다큐", "다큐");
         genreMap.put("판타지", "판타지");
     }
 
@@ -108,7 +107,6 @@ public class MovieUtils {
         remainGenreCount.put("호러", 10);
         remainGenreCount.put("코미디", 10);
         remainGenreCount.put("로맨스", 10);
-        //remainGenreCount.put("다큐", 10);
         remainGenreCount.put("판타지", 10);
 
         return remainGenreCount;
