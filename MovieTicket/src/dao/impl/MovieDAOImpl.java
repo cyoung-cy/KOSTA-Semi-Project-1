@@ -18,7 +18,7 @@ public class MovieDAOImpl implements MovieDAO {
 
         List<Movie> list = new ArrayList<>();
         // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
-        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE";
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE order by MOVIE_ID desc";
 
         try {
             con = DbManager.getConnection();
@@ -87,7 +87,7 @@ public class MovieDAOImpl implements MovieDAO {
 
             ps.setString(1, movie.getMovieTitle());
             ps.setString(2, movie.getActor());
-            ps.setDate(3, java.sql.Date.valueOf(movie.getReleaseDate())); // 날짜 처리
+            ps.setDate(3, java.sql.Date.valueOf(movie.getReleaseDate()));
             ps.setString(4, movie.getGenre());
             ps.setInt(5, movie.getScreeningTime());
             ps.setString(6, movie.getDirector());
@@ -96,7 +96,10 @@ public class MovieDAOImpl implements MovieDAO {
             re = ps.executeUpdate();
 
         } catch (SQLException e) {
+            System.out.println("SQL 에러 발생!");
             throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
         }
 
         return re;
@@ -129,6 +132,8 @@ public class MovieDAOImpl implements MovieDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
         }
 
         return re;

@@ -9,6 +9,7 @@ import dto.Review;
 import exception.WrongInput;
 import session.Session;
 import session.SessionSet;
+import util.BadWordUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -171,9 +172,11 @@ public class StartView {
                 case 2 :
                     //영화 관리
                     AdminView.moivieManager(member);
+                    break;
                 case 3 :
                     //문의 관리
                     AdminView.inquiryManage(member);
+                    break;
                 case 4 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
@@ -268,7 +271,14 @@ public class StartView {
         System.out.println("리뷰를 작성하세요 : ");
         String content = sc.nextLine();
 
-        Review re = new Review(memberId, movieId, rating, content);
+        if (BadWordUtil.containsBadWord(content)) {
+            System.out.println("욕설이 포함되어 있습니다.");
+            return;
+        }
+
+        String filtered = BadWordUtil.filter(content);
+
+        Review re = new Review(memberId, movieId, rating, filtered);
         ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
     }
     

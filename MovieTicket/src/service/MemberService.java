@@ -21,7 +21,9 @@ public class MemberService {
      * */
     public List<Member> selectUsers() throws NotFoundException, SQLException{
         List<Member> list = memberDao.selectUsers();
-        if(list.size()==0)throw new NotFoundException("현재 상품이 없습니다.");
+        if(list.size()==0){
+            throw new NotFoundException("현재 회원이 없습니다.");
+        }
         return list;
     }
 
@@ -82,8 +84,7 @@ public class MemberService {
     public List<Member> selectUserDetail(String userId) throws NotFoundException {
         List<Member> list = memberDao.selectUserDetail(userId);
         if(list.size()==0) {
-            System.out.println("\'" + userId +"\' 회원이 없습니다.");
-            throw new NotFoundException("현재 회원이 없습니다.");
+            throw new NotFoundException("\'" + userId +"\' 회원이 없습니다.");
         }
         return list;
     }
