@@ -1,6 +1,7 @@
 package view;
 
 import api.UpcomingMovieAPI;
+import controller.DashboardController;
 import controller.InquiryController;
 import controller.MemberController;
 import controller.MovieController;
@@ -26,7 +27,7 @@ public class AdminView {
             System.out.println("                      [3] 회원 상세 조회");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("회원 관리 메뉴 번호를 입력하세요 : ");
+            System.out.print("회원 관리 메뉴 번호를 입력하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -88,7 +89,7 @@ public class AdminView {
             System.out.println("                      [3] 문의 답변");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("문의 관리 메뉴를 선택하세요 : ");
+            System.out.print("문의 관리 메뉴를 선택하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -147,7 +148,7 @@ public class AdminView {
             System.out.println("                      [5] 영화 삭제");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("영화 관리 메뉴를 선택하세요 : ");
+            System.out.print("영화 관리 메뉴를 선택하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -188,7 +189,7 @@ public class AdminView {
             System.out.println("=============================================================");
             System.out.println("  [1] 개봉 예정작 등록 | [2] 수동 등록 | [0] '영화 관리' 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("등록 방법을 선택하세요 : ");
+            System.out.print("등록 방법을 선택하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -220,7 +221,7 @@ public class AdminView {
             System.out.println("=============================================================");
             System.out.println(" [1] 상영 종료 하기 | [2] 영화 정보 수정 | [0] '영화 관리' 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("등록 방법을 선택하세요 : ");
+            System.out.print("등록 방법을 선택하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -326,7 +327,7 @@ public class AdminView {
 
             System.out.println(separator);
             System.out.printf("페이지 [%d / %d]  전체 %d건%n", currentPage + 1, totalPages, movies.size());
-            System.out.println("[ < 이전 | > 다음 | 1 상세조회 | 0 이전 ] 입력: ");
+            System.out.print("[ < 이전 | > 다음 | 1 상세조회 | 0 이전 ] 입력: ");
 
             String input = sc.nextLine().trim();
 
@@ -399,7 +400,7 @@ public class AdminView {
     public static void insertMovieAuto(String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director) {
         MovieService movieService = new MovieService();
 
-        System.out.println("개봉 예정일 영화를 등록하시겠습니까?(Y|N)");
+        System.out.print("개봉 예정일 영화를 등록하시겠습니까?(Y|N)");
         String answer = sc.nextLine();
 
         List<Movie> list = movieService.selectAllMovies();
@@ -426,6 +427,49 @@ public class AdminView {
             MovieController.insertMovie(m);
         }
 
+    }
+
+    public static void statistics(Member member) {
+        while(true){
+            System.out.println("=============================================================");
+            System.out.println("                          [Dashboard]");
+            System.out.println("=============================================================");
+            System.out.println("                [1] 신규 가입자 및 회원 증감 추이");
+            System.out.println("                [2] 영화 장르 선호도");
+            System.out.println("                [3] 영화별 누적 예매 순위 (Top 10)");
+            System.out.println("                [4] 주간 요일별 매출 및 예매 분석");
+            System.out.println("                [0] 이전으로 돌아가기");
+            System.out.println("=============================================================");
+
+            System.out.print("관리 메뉴 번호를 입력하세요 : ");
+            int menu =Integer.parseInt(sc.nextLine());
+            switch(menu) {
+                case 1 :
+                    //신규 가입자 및 회원 증감 추이
+                    DashboardController.user();
+                    break;
+                case 2 :
+                    //영화 장르 선호도
+                    DashboardController.preferGenre();
+                    break;
+                case 3 :
+                    //영화별 누적 예매 순위 (Top 10)
+                    DashboardController.movieTopten();
+                    break;
+                case 4:
+                    //주간 요일별 매출 및 예매 분석
+                    DashboardController.reservationMovie();
+                    break;
+                case 0 :
+                    // 이전으로 돌아가기
+                    moivieManager(member);
+                    break;
+                default:
+                    new WrongInput();
+                    break;
+            }
+
+        }
     }
 }
 

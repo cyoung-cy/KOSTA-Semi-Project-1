@@ -72,7 +72,7 @@ public class StartView {
         System.out.println("                      [2] 회원가입");
         System.out.println("                      [0] 프로그램 종료");
         System.out.println("=============================================================");
-        System.out.println("이용하실 서비스 번호를 입력하세요: ");
+        System.out.print("이용하실 서비스 번호를 입력하세요: ");
 
     }
 
@@ -98,7 +98,7 @@ public class StartView {
             System.out.println("                    [0] 종료");
             System.out.println("=============================================================");
 
-            System.out.println("회원 메뉴 번호를 입력하세요 : ");
+            System.out.print("회원 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -162,11 +162,12 @@ public class StartView {
             System.out.println("                      [1] 회원 관리");
             System.out.println("                      [2] 영화 관리");
             System.out.println("                      [3] 문의 관리");
-            System.out.println("                      [4] 로그아웃");
+            System.out.println("                      [4] 통계보기");
+            System.out.println("                      [5] 로그아웃");
             System.out.println("                      [0] 종료");
             System.out.println("=============================================================");
 
-            System.out.println("관리 메뉴 번호를 입력하세요 : ");
+            System.out.print("관리 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -181,7 +182,11 @@ public class StartView {
                     //문의 관리
                     AdminView.inquiryManage(member);
                     break;
-                case 4 :
+                case 4:
+                    //통계보기
+                    AdminView.statistics(member);
+                    break;
+                case 5 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
                     return;
