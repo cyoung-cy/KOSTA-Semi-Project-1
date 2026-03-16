@@ -1,16 +1,21 @@
 package view;
 
+import com.vane.badwordfiltering.BadWordFiltering;
 import controller.MemberController;
 import controller.ReservationController;
 import controller.ReviewController;
+import dao.MemberDAO;
+import dao.impl.MemberDAOImpl;
 import dto.Member;
 import dto.Reservation;
 import dto.Review;
 import exception.WrongInput;
+import service.ReservationService;
 import session.Session;
 import session.SessionSet;
 import util.BadWordUtil;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -259,26 +264,75 @@ public class StartView {
     }
 
     public static void insertReview(int memberId) {
+        ReservationService reservationService = new ReservationService();
+        MemberDAO memberDAO = new MemberDAOImpl();
 
         ReservationController.selectReservationsByMemberId(memberId);
+        List<Member> m = memberDAO.selectUsers();
 
-        System.out.print("리뷰를 작성할 영화를 선택하세요 : ");
-        int movieId = Integer.parseInt(sc.nextLine());
+        String name = null;
 
-        System.out.print("평점을 입력하세요(1~5) : ");
-        int rating = Integer.parseInt(sc.nextLine());
-
-        System.out.println("리뷰를 작성하세요 : ");
-        String content = sc.nextLine();
-
-        if (BadWordUtil.containsBadWord(content)) {
-            System.out.println("욕설이 포함되어 있습니다.");
-            return;
+        for(Member mem : m){
+            if (mem.getMemberId() == memberId) {
+                name = mem.getName();
+                break;
+            }
         }
 
-        String filtered = BadWordUtil.filter(content);
+        boolean sta = true;
+        int movieId = 0;
+        while (sta){
+            System.out.print("리뷰를 작성할 영화 ID를 선택하세요 : ");
+            movieId = Integer.parseInt(sc.nextLine());
+            try {
+                List<Reservation> list = reservationService.selectReservationsByMemberId(memberId);
 
-        Review re = new Review(memberId, movieId, rating, filtered);
+                for(Reservation r : list){
+                    if(r.getMovieId() == movieId){
+                        sta = false;
+                        break;
+                    }else{
+                        System.out.println("\'" + name+ "\' 님이 예매 한 영화가 아닙니다.");
+                        break;
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        sta = true;
+        int rating = 0;
+        while(sta){
+            System.out.print("평점을 입력하세요(1~5) : ");
+            rating = Integer.parseInt(sc.nextLine());
+            if(rating >= 1 && rating <=5){
+                sta = false;
+                break;
+            }else{
+                System.out.println("평점은 1~5사이 정수를 입력해주세요.");
+            }
+        }
+
+        sta = true;
+        String content = null;
+        while(sta){
+            System.out.println("리뷰를 작성하세요 : ");
+            content = sc.nextLine();
+
+            if (BadWordUtil.containsBadWord(content)) {
+                System.out.println("욕설이 포함되어 있어 등록 불가합니다.");
+            }else{
+                sta = false;
+                break;
+            }
+
+        }
+
+        //욕설을 *로 필터링
+        //String filtered = BadWordUtil.filter(content);
+
+        Review re = new Review(memberId, movieId, rating, content);
         ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
     }
     
