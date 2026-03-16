@@ -284,6 +284,70 @@ public class EndView {
      */
     public static void reviewList(List<ReviewVO> list) {
 
+        final int PAGE_SIZE = 5; // 한 페이지에 표시할 리뷰 수
+        int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
+        if(totalPage == 0) totalPage = 1;
+        int currentPage = 0;
+
+        Scanner scanner = new Scanner(System.in);
+
+        final int reviewIdW = 12;
+        final int movieTitleW = 12;
+        final int ratingW = 12;
+        final int contentW = 50;
+
+        String separator = "-".repeat(reviewIdW) + "-+-"
+                + "-".repeat(movieTitleW) + "-+-"
+                + "-".repeat(ratingW) + "-+-"
+                + "-".repeat(contentW);
+
+        while(true) {
+            System.out.println("\n[리뷰 목록] 총 " + (currentPage + 1) + " / " + totalPage + "페이지");
+            System.out.println(separator);
+            System.out.println(
+                    PagingUtil.padRight("리뷰 번호", reviewIdW) + " | " +
+                    PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
+                    PagingUtil.padRight("평점", ratingW) + " | " +
+                    PagingUtil.padRight("내용", contentW)
+            );
+            System.out.println(separator);
+
+            // 현재 페이지 데이터 출력
+            int from = currentPage * PAGE_SIZE;
+            int to = Math.min(from + PAGE_SIZE, list.size());
+            for (int i = from; i < to; i++) {
+                ReviewVO review = list.get(i);
+
+                System.out.println(
+                        PagingUtil.padRight(String.valueOf(review.getReviewId()), reviewIdW) + " | " +
+                        PagingUtil.padRight(review.getMovieTitle(), movieTitleW) + " | " +
+                        PagingUtil.padRight(String.valueOf(review.getRating()), ratingW) + " | " +
+                        PagingUtil.padRight(review.getContent(), contentW)
+                );
+            }
+            System.out.println(separator);
+            System.out.println("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("목록을 종료합니다.");
+                break;
+            } else if (input.equals(">")) {
+                if (currentPage < totalPage - 1) {
+                    currentPage++;
+                } else {
+                    System.out.println("마지막 페이지입니다.");
+                }
+            } else if (input.equals("<")) {
+                if (currentPage > 0) {
+                    currentPage--;
+                } else {
+                    System.out.println("첫 번째 페이지입니다.");
+                }
+            } else {
+                System.out.println("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
+            }
+        }
 
         System.out.println("-------------< 리뷰 " + list.size() + "개 >-------------");
         for (ReviewVO review : list) {

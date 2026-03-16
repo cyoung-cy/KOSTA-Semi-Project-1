@@ -1,7 +1,7 @@
 package enums;
 
 public enum MovieCategory {
-    액션, 애니메이션, 스릴러, 호러, 코미디, 로맨스, 다큐, 드라마, 판타지;
+    액션, 애니매이션, 스릴러, 호러, 코미디, 로맨스, 다큐, 드라마, 판타지;
 
     // 카테고리 String을 받아서 검증하는 메소드
     public static String validate(String s) {
