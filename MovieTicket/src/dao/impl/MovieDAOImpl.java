@@ -19,7 +19,7 @@ public class MovieDAOImpl implements MovieDAO {
 
         List<Movie> list = new ArrayList<>();
         // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
-        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE";
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE order by MOVIE_ID desc";
 
         try {
             con = DbManager.getConnection();
@@ -88,7 +88,7 @@ public class MovieDAOImpl implements MovieDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Movie m = null;
-        String sql = "SELECT * FROM MOVIE WHERE MOVIE_ID = ?";
+        String sql = "select * from MOVIE where MOVIE_ID = ?";
         List<Movie> list = new ArrayList<>();
         try {
             con = DbManager.getConnection();
@@ -117,8 +117,8 @@ public class MovieDAOImpl implements MovieDAO {
     public int insertMovie(Movie movie) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "INSERT INTO MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
+                "values (?, ?, ?, ?, ?, ?, ?)";
         int re = 0;
 
         try {
@@ -127,7 +127,7 @@ public class MovieDAOImpl implements MovieDAO {
 
             ps.setString(1, movie.getMovieTitle());
             ps.setString(2, movie.getActor());
-            ps.setDate(3, java.sql.Date.valueOf(movie.getReleaseDate())); // 날짜 처리
+            ps.setDate(3, java.sql.Date.valueOf(movie.getReleaseDate()));
             ps.setString(4, movie.getGenre());
             ps.setInt(5, movie.getScreeningTime());
             ps.setString(6, movie.getDirector());
@@ -136,7 +136,10 @@ public class MovieDAOImpl implements MovieDAO {
             re = ps.executeUpdate();
 
         } catch (SQLException e) {
+            System.out.println("SQL 에러 발생!");
             throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
         }
 
         return re;
@@ -169,6 +172,8 @@ public class MovieDAOImpl implements MovieDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
         }
 
         return re;
@@ -178,7 +183,7 @@ public class MovieDAOImpl implements MovieDAO {
     public int deleteMovie(int movieId) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "DELETE FROM MOVIE WHERE MOVIE_ID = ?";
+        String sql = "delete from MOVIE where MOVIE_ID = ?";
         int result = 0;
         try {
             con = DbManager.getConnection();

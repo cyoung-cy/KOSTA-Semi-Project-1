@@ -3,7 +3,6 @@ package service;
 import dao.ReviewDAO;
 import dao.impl.ReviewDAOImpl;
 import dto.Member;
-import dto.Review;
 import exception.DMLException;
 import exception.NotFoundException;
 import vo.ReviewVO;

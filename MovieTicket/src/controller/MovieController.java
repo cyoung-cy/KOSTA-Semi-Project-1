@@ -49,7 +49,7 @@ public class MovieController {
             List<Movie> movie = movieService.selectMovieDetail(movieId);
             EndView.printMovieDetail(movie); // 상세 정보 출력용
         } catch (Exception e) {
-            FailView.errorMessage(movieId + "번 영화를 찾을 수 없습니다.");
+            FailView.errorMessage(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class MovieController {
             selectMovieDetail(movieId);
             EndView.successMessage("영화가 수정되었습니다.");
         }catch (Exception e){
-
+            FailView.errorMessage(e.getMessage());
         }
     }
 
@@ -93,7 +93,7 @@ public class MovieController {
             selectMovieDetail(movie.getMovieId());
             System.out.println("영화가 등록되었습니다.");
         }catch (Exception e){
-
+            FailView.errorMessage(e.getMessage());
         }
     }
 }

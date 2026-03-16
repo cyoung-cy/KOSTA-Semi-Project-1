@@ -1,7 +1,8 @@
 package controller;
 
+
 import dto.Member;
-import dto.Review;
+
 import service.ReviewService;
 import view.EndView;
 import view.FailView;
@@ -18,6 +19,9 @@ public class ReviewController {
      */
     public static void insertReview(int memberId, int movieId, int rating, String content) {
         try {
+            if(content == null || content.length() == 0) {
+                FailView.errorMessage("리뷰가 등록되지 않았습니다.");
+            }
             reviewService.insertReview(memberId, movieId, rating, content);
             EndView.successMessage("리뷰가 성공적으로 등록되었습니다.");
         } catch (Exception e) {

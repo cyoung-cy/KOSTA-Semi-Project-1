@@ -115,8 +115,9 @@ public class MemberController {
 			List<Member> list = memberService.selectUserDetail(userId);
 			EndView.printUserList(list);
 		}catch (Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 			//AdminView로 이동
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 	

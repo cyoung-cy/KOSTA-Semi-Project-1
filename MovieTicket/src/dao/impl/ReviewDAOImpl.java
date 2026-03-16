@@ -1,9 +1,7 @@
 package dao.impl;
 
-import dao.MovieDAO;
 import dao.ReviewDAO;
-import dto.Movie;
-import dto.Review;
+
 import util.DbManager;
 import vo.ReviewVO;
 

@@ -1,6 +1,6 @@
 package exception;
 
-public class WrongInput extends Exception {
+public class WrongInput extends RuntimeException {
     public WrongInput(){
         System.out.println("잘못 입력하셨습니다.");
     }
