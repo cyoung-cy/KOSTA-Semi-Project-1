@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import dto.Member;
 import service.MemberService;
 import session.Session;
@@ -8,8 +10,6 @@ import view.AdminView;
 import view.EndView;
 import view.FailView;
 import view.StartView;
-
-import java.util.List;
 
 public class MemberController {
 	static MemberService memberService = new MemberService();

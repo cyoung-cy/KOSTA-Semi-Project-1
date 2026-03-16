@@ -8,7 +8,6 @@ public class AppConfiguration {
 	
 	private static AppConfiguration instance;
 
-	// 외부에서 마음대로 공장을 못 차리게 막음
 	private AppConfiguration() {}
 
 	public static AppConfiguration getInstance() {
@@ -18,8 +17,10 @@ public class AppConfiguration {
 		return instance;
 	}
 
+	// CinemaCache인스턴스 반환 메소드
 	public CinemaCache cinemaCache() {
-		return CinemaCache.getInstance(new SeatDAOImpl(), new RoomDAOImpl());
+		return CinemaCache.init(
+				SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
 	}
 
 }
