@@ -3,6 +3,7 @@ package view;
 import controller.InquiryController;
 import controller.MemberController;
 import controller.MovieController;
+import dto.Genre;
 import dto.Inquiry;
 import dto.Member;
 import dto.Movie;
@@ -214,13 +215,16 @@ public class AdminView {
         System.out.print("개봉일(0000-00-00) : ");
         String releaseDate = sc.nextLine();
 
-        System.out.print("장르 : ");
-        String genre = sc.nextLine();
-//        String inputGenre = sc.nextLine();
-//        if(genre.equals("액션") | genre.equals("애니메이션") | genre.equals("스릴러") | genre.equals("호러") | genre.equals("코미디") | genre.equals("로맨스") |
-//                genre.equals("다큐") | genre.equals("드라마") | genre.equals("판타지")){
-//
-//        }
+        Genre genre = null;
+        while (genre == null) {
+            System.out.println("장르 (액션/애니메이션/스릴러/호러/코미디/로맨스/다큐/드라마/판타지) : ");
+            String inputGenre = sc.nextLine();
+            try {
+                genre = Genre.from(inputGenre);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());  // 잘못된 장르면 재입력 요청
+            }
+        }
 
         System.out.print("상영시간 : ");
         int screeningTime = Integer.parseInt(sc.nextLine());
@@ -238,7 +242,7 @@ public class AdminView {
 
         }
 
-        Movie m = new Movie(movieTitle, actor, releaseDate, genre, screeningTime, director, isScreening);
+        Movie m = new Movie(movieTitle, actor, releaseDate, genre.name(), screeningTime, director, isScreening);
 
         MovieController.insertMovie(m);
     };

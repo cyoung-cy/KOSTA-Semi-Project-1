@@ -1,11 +1,21 @@
 package view;
 
+import com.vane.badwordfiltering.BadWordFiltering;
 import controller.MemberController;
+import controller.ReservationController;
+import controller.ReviewController;
+import dao.MemberDAO;
+import dao.impl.MemberDAOImpl;
 import dto.Member;
+import dto.Reservation;
+import dto.Review;
 import exception.WrongInput;
+import service.ReservationService;
 import session.Session;
 import session.SessionSet;
+import util.BadWordUtil;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -93,6 +103,7 @@ public class StartView {
             System.out.println("                    [0] 종료");
             System.out.println("=============================================================");
 
+            System.out.println("회원 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -101,6 +112,8 @@ public class StartView {
                     //영화 추천
                 case 3 :
                     //영화 리뷰 작성
+                    insertReview(member.getMemberId());
+                    printUserMenu(member);
                 case 4 :
                     //마이페이지
                 case 5 :
@@ -164,9 +177,11 @@ public class StartView {
                 case 2 :
                     //영화 관리
                     AdminView.moivieManager(member);
+                    break;
                 case 3 :
                     //문의 관리
                     AdminView.inquiryManage(member);
+                    break;
                 case 4 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
@@ -246,6 +261,79 @@ public class StartView {
     			preferredGenre,
     			cardInfo
     	);
+    }
+
+    public static void insertReview(int memberId) {
+        ReservationService reservationService = new ReservationService();
+        MemberDAO memberDAO = new MemberDAOImpl();
+
+        ReservationController.selectReservationsByMemberId(memberId);
+        List<Member> m = memberDAO.selectUsers();
+
+        String name = null;
+
+        for(Member mem : m){
+            if (mem.getMemberId() == memberId) {
+                name = mem.getName();
+                break;
+            }
+        }
+
+        boolean sta = true;
+        int movieId = 0;
+        while (sta){
+            System.out.print("리뷰를 작성할 영화 ID를 선택하세요 : ");
+            movieId = Integer.parseInt(sc.nextLine());
+            try {
+                List<Reservation> list = reservationService.selectReservationsByMemberId(memberId);
+
+                for(Reservation r : list){
+                    if(r.getMovieId() == movieId){
+                        sta = false;
+                        break;
+                    }else{
+                        System.out.println("\'" + name+ "\' 님이 예매 한 영화가 아닙니다.");
+                        break;
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        sta = true;
+        int rating = 0;
+        while(sta){
+            System.out.print("평점을 입력하세요(1~5) : ");
+            rating = Integer.parseInt(sc.nextLine());
+            if(rating >= 1 && rating <=5){
+                sta = false;
+                break;
+            }else{
+                System.out.println("평점은 1~5사이 정수를 입력해주세요.");
+            }
+        }
+
+        sta = true;
+        String content = null;
+        while(sta){
+            System.out.println("리뷰를 작성하세요 : ");
+            content = sc.nextLine();
+
+            if (BadWordUtil.containsBadWord(content)) {
+                System.out.println("욕설이 포함되어 있어 등록 불가합니다.");
+            }else{
+                sta = false;
+                break;
+            }
+
+        }
+
+        //욕설을 *로 필터링
+        //String filtered = BadWordUtil.filter(content);
+
+        Review re = new Review(memberId, movieId, rating, content);
+        ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
     }
     
     public static void main(String[] args) {
