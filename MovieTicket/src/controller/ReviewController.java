@@ -1,18 +1,13 @@
 package controller;
 
-import dao.MovieDAO;
-import dao.impl.MovieDAOImpl;
+
 import dto.Member;
-import dto.Movie;
-import dto.Reservation;
-import exception.WrongInput;
-import service.ReservationService;
+
 import service.ReviewService;
-import util.PagingUtil;
 import view.EndView;
 import view.FailView;
+import vo.ReviewVO;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class ReviewController {
@@ -29,6 +24,34 @@ public class ReviewController {
             }
             reviewService.insertReview(memberId, movieId, rating, content);
             EndView.successMessage("리뷰가 성공적으로 등록되었습니다.");
+        } catch (Exception e) {
+            FailView.errorMessage(e.getMessage());
+        }
+    }
+
+    /*
+    * 0315
+    * 이동혁
+    * TODO: 특정 영화 리뷰 리스트 조회
+     */
+    public static void selectReviewsByMovie(int movieId) {
+        try {
+            List<ReviewVO> list = reviewService.selectReviewsByMovie(movieId);
+            EndView.reviewList(list);
+        } catch (Exception e) {
+            FailView.errorMessage(e.getMessage());
+        }
+    }
+
+    /*
+     * 20260312
+     * 이동혁
+     * TODO: 리뷰 내역 조회
+     */
+    public static void selectReviews(Member member) {
+        try {
+            List<ReviewVO> list = reviewService.selectReviews(member);
+            EndView.reviewList(list);
         } catch (Exception e) {
             FailView.errorMessage(e.getMessage());
         }

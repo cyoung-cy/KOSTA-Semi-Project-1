@@ -1,12 +1,13 @@
 package view;
 
-import com.vane.badwordfiltering.BadWordFiltering;
 import controller.MemberController;
+import controller.MovieController;
 import controller.ReservationController;
 import controller.ReviewController;
 import dao.MemberDAO;
 import dao.impl.MemberDAOImpl;
 import dto.Member;
+import enums.MovieCategory;
 import dto.Reservation;
 import dto.Review;
 import exception.WrongInput;
@@ -110,20 +111,28 @@ public class StartView {
                     //영화 예매
                 case 2 :
                     //영화 추천
+                    MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre());
+                    break;
                 case 3 :
                     //영화 리뷰 작성
                     insertReview(member.getMemberId());
                     printUserMenu(member);
                 case 4 :
                     //마이페이지
+                	UserView.myPage(member);
+                    break;
                 case 5 :
                     //문의하기
+                    UserView.inquiry(member);
+                    break;
                 case 6 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
                     return;
                 case 7 :
                     //회원탈퇴
+                	StartView.withDrawal(member);
+                	break;
                 case 0 :
                     //종료
                     System.exit(0);
@@ -220,6 +229,23 @@ public class StartView {
         SessionSet ss = SessionSet.getInstance();
         ss.remove(session);
     }
+    
+    /*
+     * 2026-03-13
+     * 이동혁
+     * 기능 : 회원탈퇴
+     */
+    public static void withDrawal(Member member) {
+        System.out.print("정말 탈퇴하시겠습니까? (Y/N): ");
+        String select = sc.nextLine();
+        if(select.toUpperCase().equals("Y")) {
+
+        	MemberController.deleteUserByMemberId(member);
+        } else {
+        	return; // 사용자 메뉴로 돌아감.
+        }
+    	
+    }
 
     /*
      * 기능 : 회원가입
@@ -243,10 +269,25 @@ public class StartView {
         System.out.print("생일 (ex:2000-01-01) : ");
         String birth = sc.nextLine();
 
-        System.out.print("선호 장르('ACTION', 'ANIMATION', 'THRILLER', 'HORROR', 'COMEDY', 'ROMANCE', 'DOCUMENTARY', 'DRAMA', 'SF' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
-        List<String> preferredGenre = Arrays.stream(sc.nextLine().split(","))
-        		.map(String::trim).filter(s -> !s.isEmpty())
-        		.collect(Collectors.toList());
+
+        /*
+         * 20260313
+         * 이동혁
+         * 선호 장르 한글 입력으로 수정
+         * 20260315 추가: ENUM MovieCategory의 valueOf() 메서드를 활용하여 입력된 장르가 유효한지 검증
+         */
+        List<String> preferredGenre = null;
+        while(true) {
+            System.out.print("선호 장르('액션', '애니매이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
+            try {
+                preferredGenre = Arrays.stream(sc.nextLine().split(","))
+                        .map(MovieCategory::validate)
+                        .collect(Collectors.toList());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
         System.out.print("결제 정보(ex:1111-1111-1111-1111) : ");
         String cardInfo = sc.nextLine();
@@ -335,7 +376,7 @@ public class StartView {
         Review re = new Review(memberId, movieId, rating, content);
         ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
     }
-    
+
     public static void main(String[] args) {
     	new StartView();
     }
