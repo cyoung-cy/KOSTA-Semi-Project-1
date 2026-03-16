@@ -292,16 +292,16 @@ public class EndView {
         System.out.println(separator);
 
         for (Reservation r : reservationList) {
-            // selectMovieDetail()은 List로 반환하므로 get(0)으로 꺼냄
-            List<Movie> movieDetail = movieDAO.selectMovieDetail(r.getMovieId());
-            String title = (!movieDetail.isEmpty()) ? movieDetail.get(0).getMovieTitle() : "정보 없음";
-
-            System.out.println(
-                    PagingUtil.padRight(String.valueOf(r.getReservationId()), reservIdW) + " | " +
-                            PagingUtil.padRight(String.valueOf(r.getMemberId()),      memberIdW) + " | " +
-                            PagingUtil.padRight(String.valueOf(r.getMovieId()),       movieIdW)  + " | " +
-                            PagingUtil.padRight(title,                                titleW)
-            );
+//            // selectMovieDetail()은 List로 반환하므로 get(0)으로 꺼냄
+//            List<Movie> movieDetail = movieDAO.selectMovieDetail(r.getMovieId());
+//            String title = (!movieDetail.isEmpty()) ? movieDetail.get(0).getMovieTitle() : "정보 없음";
+//
+//            System.out.println(
+//                    PagingUtil.padRight(String.valueOf(r.getReservationId()), reservIdW) + " | " +
+//                            PagingUtil.padRight(String.valueOf(r.getMemberId()),      memberIdW) + " | " +
+//                            PagingUtil.padRight(String.valueOf(r.getMovieId()),       movieIdW)  + " | " +
+//                            PagingUtil.padRight(title,                                titleW)
+//            );
         }
         System.out.println(separator);
     }
