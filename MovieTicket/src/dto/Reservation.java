@@ -1,9 +1,14 @@
 package dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Reservation {
-	
+	/*
+	 * 0313
+	 * 이동혁
+	 * 예약 조회 시 
+	 */
 	private int reservationId;
 	private int memberId;
 	private int movieId;
@@ -13,6 +18,8 @@ public class Reservation {
 	private Timestamp startTime;
 	private Timestamp endTime;
 	
+	// VO 따로 만들어서 좌석, 스케줄, 영화 정보까지 담기.
+
 	public Reservation() {
 		
 	}

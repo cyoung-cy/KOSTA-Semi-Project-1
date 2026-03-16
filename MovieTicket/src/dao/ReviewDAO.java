@@ -1,8 +1,11 @@
 package dao;
 
-import dto.Member;
+import vo.ReviewVO;
 
 import java.sql.SQLException;
+import java.util.List;
+
+
 
 public interface ReviewDAO {
     /*
@@ -10,7 +13,14 @@ public interface ReviewDAO {
      * 이동혁
      * TODO: 리뷰 내역 조회 DAO 인터페이스
      */
-    //List<Review> selectReviewsBydMemberId(int memberId) throws SQLException;
+    List<ReviewVO> selectReviewsBydMemberId(int memberId) throws SQLException;
+
+	/*
+	* 20260315
+	* 이동혁
+	* TODO: 특정 영화 리뷰 리스트 조회 DAO 인터페이스
+	 */
+	List<ReviewVO> selectReviewsByMovie(int movieId) throws SQLException;
 
 	/*
 	 * 20260312

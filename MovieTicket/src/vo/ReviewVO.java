@@ -1,8 +1,8 @@
-package dto;
+package vo;
 
 import java.sql.Timestamp;
 
-public class Review {
+public class ReviewVO {
 
     private int reviewId;
     private int memberId;
@@ -10,12 +10,13 @@ public class Review {
     private int rating;
     private String content;
     private Timestamp createdAt;
+    private String movieTitle;
 
-    public Review() {
+    public ReviewVO() {
 
     }
 
-    public Review(int memberId, int movieId, int rating, String content) {
+    public ReviewVO(int memberId, int movieId, int rating, String content) {
         this.memberId = memberId;
         this.movieId = movieId;
         this.rating = rating;
@@ -23,13 +24,14 @@ public class Review {
         this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
-    public Review(int reviewId, int memberId, int movieId, int rating, String content, Timestamp createdAt) {
+    public ReviewVO(int reviewId, int memberId, int movieId, int rating, String content, Timestamp createdAt, String movieTitle) {
         this.reviewId = reviewId;
         this.memberId = memberId;
         this.movieId = movieId;
         this.rating = rating;
         this.content = content;
         this.createdAt = createdAt;
+        this.movieTitle = movieTitle;
     }
 
 
@@ -50,5 +52,8 @@ public class Review {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    public String getMovieTitle() { return movieTitle; }
+    public void setMovieTitle(String movieTitle) { this.movieTitle = movieTitle; }
 
 }

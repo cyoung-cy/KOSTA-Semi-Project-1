@@ -22,6 +22,17 @@ public class MovieService {
     }
 
     /*
+     * 0315
+     * 이동혁
+     * TODO: 사용자 맞춤형 추천 영화 조회 서비스
+     * */
+    public List<Movie> selectAllMoviesByPreferredGenre(List<String> preferredGenre) throws NotFoundException {
+        List<Movie> list = movieDao.selectAllMoviesByPreferredGenre(preferredGenre);
+        if(list.isEmpty()) throw new NotFoundException("등록된 영화가 없습니다.");
+        return list;
+    }
+
+    /*
      * 0312
      * 김채영
      * TODO: 영화 상세 조회 서비스

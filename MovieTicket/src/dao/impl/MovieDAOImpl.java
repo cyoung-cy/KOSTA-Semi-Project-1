@@ -6,6 +6,7 @@ import exception.NotFoundException;
 import util.DbManager;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MovieDAOImpl implements MovieDAO {
@@ -23,6 +24,45 @@ public class MovieDAOImpl implements MovieDAO {
         try {
             con = DbManager.getConnection();
             ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                Movie m = new Movie();
+                m.setMovieId(rs.getInt("MOVIE_ID"));
+                m.setMovieTitle(rs.getString("MOVIE_TITLE"));
+                m.setGenre(rs.getString("GENRE"));
+                m.setScreeningTime((rs.getInt("SCREENING_TIME")));
+                m.setIsScreening(rs.getBoolean("IS_SCREENING"));
+                list.add(m);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbManager.close(con, ps, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Movie> selectAllMoviesByPreferredGenre(List<String> preferredGenre) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<Movie> list = new ArrayList<>();
+
+        // 장르 개수만큼 ? 생성하여 SQL문에 담기
+        String placeholder = String.join(",", Collections.nCopies(preferredGenre.size(),"?"));
+        // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE where GENRE in ("+placeholder+") order by MOVIE_ID desc";
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+
+            for(int i=0; i<preferredGenre.size(); i++){
+                ps.setString(i+1, preferredGenre.get(i));
+            }
             rs = ps.executeQuery();
 
             while(rs.next()){
@@ -157,5 +197,7 @@ public class MovieDAOImpl implements MovieDAO {
         }
         return result;
     }
+
+
 
 }
