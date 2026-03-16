@@ -1,7 +1,11 @@
 package dao;
 
+import dto.Member;
+
+import java.sql.SQLException;
+
 public interface ReviewDAO {
-	/*
+    /*
      * 20260312
      * 이동혁
      * TODO: 리뷰 내역 조회 DAO 인터페이스
@@ -13,6 +17,6 @@ public interface ReviewDAO {
 	 * 이동혁
 	 * TODO: 리뷰 등록하기 DAO 인터페이스
 	 */
-	//int insertReview(int memberId, int movieId, int rating, String content) throws SQLException;
+	int insertReview(int memberId, int movieId, int rating, String content) throws SQLException;
 
 }

@@ -2,6 +2,7 @@ package dao.impl;
 
 import dao.MemberDAO;
 import dto.Member;
+import exception.NotFoundException;
 import util.DbManager;
 
 import java.sql.Connection;
@@ -36,11 +37,12 @@ public class MemberDAOImpl implements MemberDAO {
         	ps.setString(5, member.getAddress());
         	ps.setString(6, member.getBirthDate());
         	ps.setString(7, String.join(",", member.getPreferredGenre()));
+        	System.out.println(member.getPreferredGenre());
         	ps.setString(8, member.getCardInfo());
         	
         	re = ps.executeUpdate();
         } catch (SQLException e) {
-//        	e.printStackTrace();
+        	e.printStackTrace();
             throw new RuntimeException();
         } finally {
             DbManager.close(con, ps, null);
@@ -80,7 +82,7 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select * from MEMBER where (ROLE = 'user' or ROLE is null) and USER_ID = ?";
+        String sql = "select * from MEMBER where ROLE = 'user' and USER_ID = ?";
         Member member = null;
         List<Member> list = new ArrayList<>();
 
@@ -122,7 +124,7 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user' or ROLE is null";
+        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user'";
         Member member = null;
         List<Member> list = new ArrayList<>();
 
@@ -190,10 +192,59 @@ public class MemberDAOImpl implements MemberDAO {
      * TODO: 회원 정보를 받아서 업데이트 하는 DAO 구현
      */
 	@Override
-	public int updateMemberById(String password, String phone, String address, String[] preferredGenre, String cardInfo)
+	public int updateMember(Member member)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "update MEMBER set PHONE = ?, PASSWORD = ?, CARD_INFO = ? where member_id = ?";
+		int result = 0;
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			
+			ps.setString(1,member.getPhone());
+			ps.setString(2,member.getPassword());
+			ps.setString(3,member.getCardInfo());
+			ps.setInt(4, member.getMemberId());
+			
+			result = ps.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException();
+		} finally {
+			DbManager.close(con, ps, null);
+		}
+		return result;
 	}
+
+	/*
+	 * 20260313
+	 * 이동혁
+	 * TODO: MemberId로 회원 탈퇴
+	 */
+	@Override
+	public int deleteByMemberId(int memberId) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "delete from MEMBER where MEMBER_ID = ?";
+        int re = 0;
+        try {
+           con = DbManager.getConnection();
+           ps = con.prepareStatement(sql);
+
+           ps.setInt(1, memberId);
+
+           re = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
+        }
+        return re;
+	}
+	
+
+	
 
 }

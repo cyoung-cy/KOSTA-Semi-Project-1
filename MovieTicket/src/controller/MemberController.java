@@ -30,7 +30,7 @@ public class MemberController {
 			if("admin".equals(verifiedUserRole)) StartView.printAdminMenu(member);
 			// 일반 유저는 UserMenuView 보이도록
 			else StartView.printUserMenu(member);
-		} catch(Exception e) {
+		} catch(Exception e) { 
 			e.printStackTrace();
 			// 이후에 StartView로 가도록 처리
 		}
@@ -115,8 +115,46 @@ public class MemberController {
 			List<Member> list = memberService.selectUserDetail(userId);
 			EndView.printUserList(list);
 		}catch (Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 			//AdminView로 이동
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+	
+	/*
+	 * 20260313
+	 * 이동혁
+	 * TODO: 사용자 탈퇴
+	 */
+	public static void deleteUserByMemberId(Member member) {
+		try {
+			memberService.deleteMemberByMemberId(member.getMemberId());
+        	Session session = new Session(member.getMemberId(), member.getUserId());
+            SessionSet ss = SessionSet.getInstance();
+            ss.remove(session);
+            EndView.deleteUserByMemberId();
+			//처음 시작 View로 이동
+			StartView.menu();
+		} catch (Exception e) {
+//			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+			//StartView의 printUserMenu로 이동
+			StartView.printUserMenu(member);
+		}
+	}
+	
+	/*
+	 * 20260313
+	 * 이동혁
+	 * TODO: 사용자 정보 수정
+	 */
+	public static void updateUser(Member member) {
+		try {
+			memberService.updateUser(member);
+			EndView.updateUser();
+		} catch (Exception e) {
+			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 }

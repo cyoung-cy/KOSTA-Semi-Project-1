@@ -21,7 +21,9 @@ public class MemberService {
      * */
     public List<Member> selectUsers() throws NotFoundException, SQLException{
         List<Member> list = memberDao.selectUsers();
-        if(list.size()==0)throw new NotFoundException("현재 상품이 없습니다.");
+        if(list.size()==0){
+            throw new NotFoundException("현재 회원이 없습니다.");
+        }
         return list;
     }
 
@@ -63,6 +65,16 @@ public class MemberService {
         return null;
 
     }
+    
+    /*
+     * 20260313
+     * 이동혁
+     * TODO: 사용자 회원 탈퇴 서비스
+     */
+    public void deleteMemberByMemberId(int memberId) throws SQLException, NotFoundException {
+    	int result = memberDao.deleteByMemberId(memberId);
+    	if(result == 0) throw new NotFoundException("찾을 수 없는 회원 정보입니다.");
+    }
 
     /*
      * 20260312
@@ -72,8 +84,7 @@ public class MemberService {
     public List<Member> selectUserDetail(String userId) throws NotFoundException {
         List<Member> list = memberDao.selectUserDetail(userId);
         if(list.size()==0) {
-            System.out.println("\'" + userId +"\' 회원이 없습니다.");
-            throw new NotFoundException("현재 회원이 없습니다.");
+            throw new NotFoundException("\'" + userId +"\' 회원이 없습니다.");
         }
         return list;
     }
@@ -90,6 +101,16 @@ public class MemberService {
     	int result = memberDao.register(member);
     	if(result == 0) throw new ExistedException("이미 존재하는 사용자 정보입니다.");
 
+    }
+    
+    /*
+     * 20260313
+     * 이동혁
+     * TODO: 사용자 정보 수정 서비스
+     */
+    public void updateUser(Member member) throws SQLException, NotFoundException{
+    	int result = memberDao.updateMember(member);
+    	if(result == 0) throw new NotFoundException("사용자 업데이트에 실패했습니다.");
     }
 
 	

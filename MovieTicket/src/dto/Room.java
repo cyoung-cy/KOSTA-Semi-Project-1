@@ -141,7 +141,7 @@ public class Room {
 		builder.append(movieId);
 		builder.append(", isShowing=");
 		builder.append(isShowing);
-		builder.append(", Name=");
+		builder.append(", name=");
 		builder.append(name);
 		builder.append(", seatSet=");
 		builder.append(seatSet);
