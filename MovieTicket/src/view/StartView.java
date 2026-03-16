@@ -325,18 +325,24 @@ public class StartView {
         while (sta){
             System.out.print("리뷰를 작성할 영화 ID를 선택하세요 : ");
             movieId = Integer.parseInt(sc.nextLine());
+
             try {
                 List<Reservation> list = reservationService.selectReservationsByMemberId(memberId);
 
-                for(Reservation r : list){
-                    if(r.getMovieId() == movieId){
-                        sta = false;
-                        break;
-                    }else{
-                        System.out.println("\'" + name+ "\' 님이 예매 한 영화가 아닙니다.");
+                boolean found = false;
+                for (Reservation r : list) {
+                    if (r.getMovieId() == movieId) {
+                        found = true;
                         break;
                     }
                 }
+
+                if (found) {
+                    sta = false;
+                } else {
+                    System.out.println("'" + name + "' 님이 예매 한 영화가 아닙니다.");
+                }
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

@@ -182,6 +182,7 @@ public class MovieListCollector {
                 MovieUtils.printRemainGenreCount(remainGenreCount);
             }
 
+            //현재 상영작 분류
             MovieScreeningUpdater.updateScreeningMovies();
 
         } catch (Exception e) {

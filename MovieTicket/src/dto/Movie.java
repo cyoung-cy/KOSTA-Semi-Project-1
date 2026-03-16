@@ -3,18 +3,19 @@ package dto;
 import java.sql.Date;
 
 public class Movie {
-    private int movieId;
-    private String movieTitle;
+    private int movieId; //String movieId
+    private String movieTitle; //String title
     private String actor;
-    private String releaseDate;
+    private String releaseDate; //String openDate
     private String genre;
-    private int screeningTime;
+    private int screeningTime; //int showTime
     private String director;
     private boolean isScreening;
+    private int audiAcc;
 
     public Movie() {}
 
-    public Movie(int movieId, String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening) {
+    public Movie(int movieId, String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening, int audiAcc) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.actor = actor;
@@ -23,6 +24,7 @@ public class Movie {
         this.screeningTime = screeningTime;
         this.director = director;
         this.isScreening = isScreening;
+        this.audiAcc = audiAcc;
     }
 
     public Movie(String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening) {
@@ -97,6 +99,14 @@ public class Movie {
 
     public void setIsScreening(boolean isScreening) {
         this.isScreening = isScreening;
+    }
+
+    public int getAudiAcc() {
+        return audiAcc;
+    }
+
+    public void setAudiAcc(int audiAcc) {
+        this.audiAcc = audiAcc;
     }
 
     @Override

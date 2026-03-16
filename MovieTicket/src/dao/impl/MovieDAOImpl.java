@@ -100,7 +100,8 @@ public class MovieDAOImpl implements MovieDAO {
                         rs.getInt("MOVIE_ID"), rs.getString("MOVIE_TITLE"),
                         rs.getString("ACTOR"), rs.getString("RELEASE_DATE"),
                         rs.getString("GENRE"), rs.getInt("SCREENING_TIME"),
-                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING")
+                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING"),
+                        rs.getInt("AUDI_ACC")
                 );
                 list.add(m);
             }
@@ -198,6 +199,36 @@ public class MovieDAOImpl implements MovieDAO {
         return result;
     }
 
+    @Override
+    public List<Movie> selectMovieByIsScreen() {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from MOVIE where IS_SCREENING = true";
+        Movie m = null;
+        List<Movie> list = new ArrayList<>();
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                m = new Movie(
+                        rs.getInt("MOVIE_ID"), rs.getString("MOVIE_TITLE"),
+                        rs.getString("ACTOR"), rs.getString("RELEASE_DATE"),
+                        rs.getString("GENRE"), rs.getInt("SCREENING_TIME"),
+                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING"),
+                        rs.getInt("AUDI_ACC")
+                );
+                list.add(m);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
 
 
 }

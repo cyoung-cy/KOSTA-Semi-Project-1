@@ -89,11 +89,40 @@ public class MovieController {
      * */
     public static void insertMovie(Movie m) {
         try{
+            List<Movie> list = movieService.selectAllMovies();
+            for(Movie m2 : list){
+                if(m2.getMovieTitle().equals(m.getMovieTitle())){
+                    FailView.errorMessage("이미 등록된 영화입니다.");
+                    break;
+                }
+            }
+
+
             Movie movie = movieService.insertMovie(m);
-            selectMovieDetail(movie.getMovieId());
-            System.out.println("영화가 등록되었습니다.");
+            if(movie.getMovieId() != 0){
+                selectMovieDetail(movie.getMovieId());
+            }
+
+            EndView.successMessage("영화가 등록되었습니다.");
         }catch (Exception e){
             FailView.errorMessage(e.getMessage());
         }
     }
+
+    /*
+     * 0316
+     * 김채영
+     * TODO: 상영중인 영화 조회
+     * */
+    public static void selectMovieByIsScreen() {
+        try{
+            List<Movie> list = movieService.selectMovieByIsScreen();
+            EndView.printAllMovies(list);
+        }catch (Exception e){
+            FailView.errorMessage(e.getMessage());
+        }
+    }
+
+
+
 }
