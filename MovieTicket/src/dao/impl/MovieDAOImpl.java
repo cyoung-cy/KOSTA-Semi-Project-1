@@ -54,7 +54,7 @@ public class MovieDAOImpl implements MovieDAO {
         // 장르 개수만큼 ? 생성하여 SQL문에 담기
         String placeholder = String.join(",", Collections.nCopies(preferredGenre.size(),"?"));
         // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
-        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE where GENRE in ("+placeholder+") order by MOVIE_ID desc";
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE where GENRE in ("+placeholder+") order by MOVIE_ID desc, IS_SCREENING desc";
 
         try {
             con = DbManager.getConnection();
