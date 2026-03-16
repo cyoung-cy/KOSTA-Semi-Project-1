@@ -28,7 +28,7 @@ public class MovieService {
      * */
     public List<Movie> selectAllMoviesByPreferredGenre(List<String> preferredGenre) throws NotFoundException {
         List<Movie> list = movieDao.selectAllMoviesByPreferredGenre(preferredGenre);
-        if(list.isEmpty()) throw new NotFoundException("등록된 영화가 없습니다.");
+        if(list.isEmpty()) throw new NotFoundException("추천할만한 영화가 없습니다.");
         return list;
     }
 

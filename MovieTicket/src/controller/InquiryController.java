@@ -40,7 +40,7 @@ public class InquiryController {
             List<Inquiry> list = inquiryService.selectInquiryByMemberId(member.getMemberId());
             EndView.printUserInquiryShort(list);
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             //startview 이동
         }
     }
