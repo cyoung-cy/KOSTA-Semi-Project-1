@@ -442,11 +442,12 @@ public class EndView {
             int to = Math.min(from + PAGE_SIZE, list.size());
             for (int i = from; i < to; i++) {
                 ReviewVO review = list.get(i);
+                int starCount = review.getRating(); // 별점 개수
 
                 System.out.println(
                         PagingUtil.padRight(String.valueOf(review.getReviewId()), reviewIdW) + " | " +
                         PagingUtil.padRight(review.getMovieTitle(), movieTitleW) + " | " +
-                        PagingUtil.padRight(String.valueOf(review.getRating()), ratingW) + " | " +
+                        PagingUtil.padRight("★".repeat(starCount) + "☆".repeat(5 - starCount), ratingW) + " | " +
                         PagingUtil.padRight(review.getContent(), contentW)
                 );
             }
@@ -472,15 +473,6 @@ public class EndView {
             } else {
                 System.out.println("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
             }
-        }
-
-        System.out.println("-------------< 리뷰 " + list.size() + "개 >-------------");
-        for (ReviewVO review : list) {
-            System.out.println("리뷰 번호 : " + review.getReviewId() +
-                    " | 영화 제목 : " + review.getMovieTitle() +
-                    " | 평점 : " + review.getRating() +
-                    " | 내용 : " + review.getContent());
-            System.out.println("----------------------------------------------------------------------------");
         }
     }
 

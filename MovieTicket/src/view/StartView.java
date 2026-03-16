@@ -37,9 +37,6 @@ public class StartView {
     }
     public static void menu() {
         while(true) {
-        	/*
-        	 * 세션Set에 담긴 세션 정보들 조회
-        	 */
         	SessionSet sessionSet = SessionSet.getInstance();
 
             StartView.printMenu();
@@ -84,9 +81,6 @@ public class StartView {
      * @param : userId(String)
      * */
     public static void printUserMenu(Member member) {
-    	/*
-    	 * 세션Set에 담긴 세션 정보들 조회
-    	 */
     	SessionSet sessionSet = SessionSet.getInstance();
 
         while(true) {
@@ -158,9 +152,6 @@ public class StartView {
      * @param : userId(String)
      * */
     public static void printAdminMenu(Member member) {
-    	/*
-    	 * 세션Set에 담긴 세션 정보들 조회
-    	 */
     	SessionSet sessionSet = SessionSet.getInstance();
 
         while(true){
