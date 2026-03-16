@@ -5,7 +5,6 @@ import java.util.Set;
 import common.jdbc.BaseDAO;
 import dao.RoomDAO;
 import dto.Room;
-import dto.request.RoomCreateRequest;
 
 public class RoomDAOImpl extends BaseDAO implements RoomDAO{
 	
@@ -21,13 +20,10 @@ public class RoomDAOImpl extends BaseDAO implements RoomDAO{
 	}
 
 	@Override
-	public int insert(RoomCreateRequest roomRequest) {
-		String sql = "insert into ROOM(NAME, IS_SHOWING"
-				+ ") values(?, ?)";
+	public int insert(String roomName) {
+		String sql = "insert into ROOM(NAME) values( ? )";
 		
-		Object[] params = { 
-				roomRequest.getName(), roomRequest.isShowing()
-				};
+		Object[] params = { roomName };
 		
 		return insertAndGetPk(sql,params);
 	}

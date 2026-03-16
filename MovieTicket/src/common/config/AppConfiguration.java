@@ -19,7 +19,8 @@ public class AppConfiguration {
 
 	// CinemaCache인스턴스 반환 메소드
 	public CinemaCache cinemaCache() {
-		return CinemaCache.getInstance(new SeatDAOImpl(), RoomDAOImpl.getInstance());
+		return CinemaCache.init(
+				SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
 	}
 
 }
