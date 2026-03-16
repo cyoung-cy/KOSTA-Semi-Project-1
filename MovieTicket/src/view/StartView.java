@@ -41,7 +41,7 @@ public class StartView {
         	 * 세션Set에 담긴 세션 정보들 조회
         	 */
         	SessionSet sessionSet = SessionSet.getInstance();
-        	System.out.println("sessionSet() = " + sessionSet.getSet());
+
             StartView.printMenu();
             
             int menu = Integer.parseInt(sc.nextLine());
@@ -88,7 +88,6 @@ public class StartView {
     	 * 세션Set에 담긴 세션 정보들 조회
     	 */
     	SessionSet sessionSet = SessionSet.getInstance();
-    	System.out.println("sessionSet() = " + sessionSet.getSet());
 
         while(true) {
             System.out.println("=============================================================");
@@ -163,7 +162,6 @@ public class StartView {
     	 * 세션Set에 담긴 세션 정보들 조회
     	 */
     	SessionSet sessionSet = SessionSet.getInstance();
-    	System.out.println("sessionSet() = " + sessionSet.getSet());
 
         while(true){
             System.out.println("=============================================================");
@@ -240,12 +238,12 @@ public class StartView {
         System.out.print("정말 탈퇴하시겠습니까? (Y/N): ");
         String select = sc.nextLine();
         if(select.toUpperCase().equals("Y")) {
-
         	MemberController.deleteUserByMemberId(member);
+        } else if(select.toUpperCase().equals("N")) {
+        	System.out.println("회원탈퇴가 취소되었습니다.");
         } else {
-        	return; // 사용자 메뉴로 돌아감.
+        	System.out.println("잘못된 입력입니다. Y 또는 N을 입력해주세요.");
         }
-    	
     }
 
     /*
