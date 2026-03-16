@@ -5,18 +5,14 @@ import java.util.Set;
 public class Room {
 	
 	private int roomId;
-	private int movieId;
-	private boolean isShowing;
 	private String name;
 	private Set<Seat> seatSet;
 	private Seat[][] layout;
 	
 	public Room() {}
 	
-	public Room(int roomId, int movieId, boolean isShowing, String name, Set<Seat> seatSet) {
+	public Room(int roomId, String name, Set<Seat> seatSet) {
 		this.roomId = roomId;
-		this.movieId = movieId;
-		this.isShowing = isShowing;
 		this.name = name;
 		this.seatSet = seatSet;
 		this.layout = buildLayout(seatSet);
@@ -96,22 +92,6 @@ public class Room {
 		this.roomId = roomId;
 	}
 
-	public int getMovieId() {
-		return movieId;
-	}
-
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
-	}
-
-	public boolean isShowing() {
-		return isShowing;
-	}
-
-	public void setShowing(Boolean isShowing) {
-		this.isShowing = isShowing;
-	}
-
 	public String getName() {
 		return this.name;
 	}
@@ -137,10 +117,6 @@ public class Room {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Room [roomId=");
 		builder.append(roomId);
-		builder.append(", movieId=");
-		builder.append(movieId);
-		builder.append(", isShowing=");
-		builder.append(isShowing);
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", seatSet=");

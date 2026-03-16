@@ -24,8 +24,6 @@ public class RoomMapper implements RowMapper<Room> {
     public Room mapRow(ResultSet rs) throws SQLException {
         Room room = new Room();
         room.setRoomId(rs.getInt("ROOM_ID"));
-        room.setMovieId(rs.getInt("MOVIE_ID"));
-        room.setShowing(rs.getBoolean("IS_SHOWING"));
         room.setName(rs.getString("NAME"));
         return room;
     }

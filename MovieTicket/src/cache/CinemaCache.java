@@ -13,33 +13,47 @@ import dto.Room;
 import dto.Seat;
 
 public class CinemaCache {
-	
+
 	private Map<String, Room> roomMap = new HashMap<>();
-	
+
 	private final SeatDAO seatDAO;
     private final RoomDAO roomDAO;
-	
+
     private CinemaCache(SeatDAO seatDAO, RoomDAO roomDAO) {
         this.seatDAO = seatDAO;
         this.roomDAO = roomDAO;
-        init();
+        reloadData();
     }
-    
+
     private static CinemaCache instance;
-    
+
     public static CinemaCache getInstance() {
     	if(instance == null) {
     		instance = 
-    				new CinemaCache(new SeatDAOImpl(), new RoomDAOImpl());
+    				new CinemaCache(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
     	}
         return instance;
     }
-    
-    public static CinemaCache getInstance(SeatDAO seatDAO, RoomDAO roomDAO) {
+
+    public static CinemaCache init(SeatDAO seatDAO, RoomDAO roomDAO) {
     	if(instance == null) {
     		instance = new CinemaCache(seatDAO, roomDAO);
     	}
         return instance;
+    }
+    
+	private void reloadData() {
+        // DB에서 룸 리스트 로드
+    	Set<Room> roomSet =  roomDAO.selectAllRooms();    	
+    	for(Room room : roomSet) {
+    		Set<Seat> seatSet = (seatDAO.selectSeatsByRoomId(room.getRoomId()));
+
+    		room.setSeatsAndBuildLayout(seatSet);
+
+    		roomMap.put(room.getName(), room);
+    	}
+    	
+        System.out.println("상영관 데이터 캐싱 완료!");
     }
 
     public Map<String, Room> getRoomMap() {
@@ -57,20 +71,6 @@ public class CinemaCache {
 	public RoomDAO getRoomDAO() {
 		return roomDAO;
 	}
-
-	private void init() {
-        // DB에서 룸 리스트 로드
-    	Set<Room> roomSet =  roomDAO.selectAllRooms();    	
-    	for(Room room : roomSet) {
-    		Set<Seat> seatSet = (seatDAO.selectSeatsByRoomId(room.getRoomId()));
-    		
-    		room.setSeatsAndBuildLayout(seatSet);
-    		
-    		roomMap.put(room.getName(), room);
-    	}
-    	
-        System.out.println("상영관 데이터 캐싱 완료!");
-    }
 
     public Room getRoom(String roomName) {
         return roomMap.get(roomName);
