@@ -1,5 +1,6 @@
-package api;
+package view;
 
+import api.APIKeyConfig;
 import dto.MovieAPI;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -115,7 +116,7 @@ public class UpcomingMovieDetailAPI {
         MovieAPI detailMovie = getUpcomingMovieDetail(selectedMovie);
         
         System.out.println("=======================================================");
-        System.out.println("        개봉예정작 상세정보");
+        System.out.println("                  [개봉예정작 상세정보]");
         System.out.println("=======================================================");
 
         printUpcomingMovieDetail(detailMovie);
@@ -126,8 +127,15 @@ public class UpcomingMovieDetailAPI {
         System.out.println("배우 : " + movie.getActorText());
         System.out.println("개봉일 : " + formatDate(movie.getOpenDate()));
         System.out.println("장르 : " + nullToBlank(movie.getGenre()));
-        System.out.println("상영시간 : " + (movie.getShowTime() == null ? "" : movie.getShowTime()));
+        System.out.println("상영시간 : " + (movie.getShowTime() == null ? 0 : movie.getShowTime()));
         System.out.println("감독 : " + nullToBlank(movie.getDirector()));
+
+        String OpenDate = formatDate(movie.getOpenDate());
+        String genre = nullToBlank(movie.getGenre());
+        int showTime = (movie.getShowTime() == null ? 0 : movie.getShowTime());
+        String director = nullToBlank(movie.getDirector());
+
+        AdminView.insertMovieAuto(movie.getTitle(), movie.getActorText(), OpenDate, genre, showTime, director);
     }
 
     private static String formatDate(String openDate) {

@@ -46,6 +46,10 @@ public interface MovieDAO {
      * */
     int deleteMovie(int movieId);
 
-
-
+    /*
+     * 0313
+     * 김채영
+     * TODO: 상영중인 영화 조회
+     * */
+    List<Movie> selectMovieByIsScreen();
 }
