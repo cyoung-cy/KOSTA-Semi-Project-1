@@ -86,7 +86,7 @@ public class UserView {
 						System.out.println("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
 						continue;
 					}
-					System.out.println("변경할 비밀번호를 입력해주세요:");
+					System.out.println("변경할 비밀번호를 입력해주세요 (8자 이상) :");
 					String password = sc.nextLine();
 					if(!ValidateUtil.isValidPassword(password)) {
 						System.out.println("비밀번호는 8자 이상이어야 합니다. 다시 입력해주세요.");
@@ -99,7 +99,7 @@ public class UserView {
 				break;
 			case 2:
 				while(true) {
-					System.out.println("변경할 카드번호를 입력해주세요:");
+					System.out.println("변경할 카드번호를 입력해주세요 예) 1234-5678-9012-3456 :");
 					String cardInfo = sc.nextLine();
 					if(!ValidateUtil.isValidCardInfo(cardInfo)) {
 						System.out.println("잘못된 카드번호 양식입니다. 입력 예) 1234-5678-9012-3456");
@@ -113,7 +113,7 @@ public class UserView {
 			case 3:
 				String phone = null;
 				while(true) {
-					System.out.println("변경할 전화번호를 입력해주세요:");
+					System.out.println("변경할 전화번호를 입력해주세요 예) 010-1234-5678 :");
 					phone = sc.nextLine();
 					if(!ValidateUtil.isValidPhone(phone)) {
 						System.out.println("잘못된 전화번호 양식입니다. 입력 예) 010-1234-5678");
