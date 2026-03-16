@@ -1,5 +1,9 @@
 package view;
 
+import dao.MemberDAO;
+import dao.MovieDAO;
+import dao.impl.MemberDAOImpl;
+import dao.impl.MovieDAOImpl;
 import dto.*;
 
 import dto.Inquiry;
