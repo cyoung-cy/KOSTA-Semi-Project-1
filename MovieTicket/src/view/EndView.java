@@ -491,7 +491,7 @@ public class EndView {
 
             if (input.equalsIgnoreCase("q")) {
                 System.out.println("목록을 종료합니다.");
-                break;
+                return;
             } else if (input.equals(">")) {
                 if (currentPage < totalPage - 1) {
                     currentPage++;

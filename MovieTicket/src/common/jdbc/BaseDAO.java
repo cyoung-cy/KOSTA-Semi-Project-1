@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.jdbc.JdbcConnection;
 
 import exception.DataAccessException;
 import util.DbManager;
