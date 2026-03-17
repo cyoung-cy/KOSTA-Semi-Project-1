@@ -31,8 +31,10 @@ public class MemberController {
 			// 일반 유저는 UserMenuView 보이도록
 			else StartView.printUserMenu(member);
 		} catch(Exception e) { 
-			e.printStackTrace();
+//			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
 			// 이후에 StartView로 가도록 처리
+
 		}
 	}
 

@@ -19,7 +19,7 @@ public class ReservationService {
      */
     public List<Reservation> selectReservationsByMemberId(int memberId) throws NotFoundException, SQLException {
         List<Reservation> list = reservationDao.selectReservationsByMemberId(memberId);
-        if(list.isEmpty()) throw new NotFoundException(memberId + " 이(가) 얘매한 영화가 없습니다.");
+        if(list.isEmpty()) throw new NotFoundException("\'" + memberId + "\' 이(가) 얘매한 영화가 없습니다.");
         return list;
     }
 }

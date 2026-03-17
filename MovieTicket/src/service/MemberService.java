@@ -100,7 +100,6 @@ public class MemberService {
 
     	int result = memberDao.register(member);
     	if(result == 0) throw new ExistedException("이미 존재하는 사용자 정보입니다.");
-
     }
     
     /*

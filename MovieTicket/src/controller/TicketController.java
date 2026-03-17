@@ -20,7 +20,7 @@ public class TicketController {
             List<Ticket> list = ticketService.getTicketsByMemberId(memberId);
             EndView.printTickets(list);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             FailView.errorMessage(e.getMessage());
         }
     }

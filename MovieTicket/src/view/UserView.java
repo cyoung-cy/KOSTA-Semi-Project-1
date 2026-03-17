@@ -9,6 +9,7 @@ import controller.ReviewController;
 import controller.TicketController;
 import dto.Member;
 import dto.Movie;
+import util.ValidateUtil;
 
 /*
  * 20260313
@@ -65,25 +66,63 @@ public class UserView {
 	        System.out.println("                      [3] 전화번호 변경");
 	        System.out.println("                      [4] 전체 변경 사항 반영");
 	        System.out.println("=============================================================");
-
-	        System.out.println("메뉴를 선택하세요 : ");
-			int menu = Integer.parseInt(sc.nextLine());
+			int menu = 0;
+			while(true) {
+				System.out.println("메뉴를 선택하세요 : ");
+				try {
+					menu = Integer.parseInt(sc.nextLine());
+					break;
+				}catch(NumberFormatException e) {
+					System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
+				}
+			}
 			
 			switch(menu) {
 			case 1:
-				System.out.println("변경할 비밀번호를 입력해주세요.");
-				String password = sc.nextLine();
-				member.setPassword(password);
+				while(true) {
+					System.out.println("현재 비밀번호를 입력해주세요:");
+					String currentPassword = sc.nextLine();
+					if(!currentPassword.equals(member.getPassword())) {
+						System.out.println("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+						continue;
+					}
+					System.out.println("변경할 비밀번호를 입력해주세요 (8자 이상) :");
+					String password = sc.nextLine();
+					if(!ValidateUtil.isValidPassword(password)) {
+						System.out.println("비밀번호는 8자 이상이어야 합니다. 다시 입력해주세요.");
+						continue;
+					}
+					member.setPassword(password);
+					System.out.println("비밀번호가 변경되었습니다. 실제로 변경하려면 [4] 전체 변경 사항 반영을 선택해주세요.");
+					break;
+				}
 				break;
 			case 2:
-				System.out.println("변경할 카드번호를 입력해주세요.");
-				String cardInfo = sc.nextLine();
-				member.setCardInfo(cardInfo);
+				while(true) {
+					System.out.println("변경할 카드번호를 입력해주세요 예) 1234-5678-9012-3456 :");
+					String cardInfo = sc.nextLine();
+					if(!ValidateUtil.isValidCardInfo(cardInfo)) {
+						System.out.println("잘못된 카드번호 양식입니다. 입력 예) 1234-5678-9012-3456");
+						continue;
+					}
+					member.setCardInfo(cardInfo);
+					System.out.println("카드번호가 변경되었습니다. 실제로 변경하려면 [4] 전체 변경 사항 반영을 선택해주세요.");
+					break;
+				}
 				break;
 			case 3:
-				System.out.println("변경할 전화번호를 입력해주세요.");
-				String phone = sc.nextLine();
-				member.setPhone(phone);
+				String phone = null;
+				while(true) {
+					System.out.println("변경할 전화번호를 입력해주세요 예) 010-1234-5678 :");
+					phone = sc.nextLine();
+					if(!ValidateUtil.isValidPhone(phone)) {
+						System.out.println("잘못된 전화번호 양식입니다. 입력 예) 010-1234-5678");
+						continue;
+					}
+					member.setPhone(phone);
+					System.out.println("전화번호가 변경되었습니다. 실제로 변경하려면 [4] 전체 변경 사항 반영을 선택해주세요.");
+					break;
+				}
 				break;
 			case 4: 
 				MemberController.updateUser(member);
@@ -150,6 +189,7 @@ public class UserView {
 			System.out.println("                      [2] 영화 리뷰보기");
 			System.out.println("                      [3] 뒤로가기");
 			System.out.println("=============================================================");
+			System.out.print("메뉴를 선택하세요 : ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch(menu) {
 				case 1:

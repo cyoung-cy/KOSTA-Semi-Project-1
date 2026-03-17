@@ -1,15 +1,18 @@
 package view;
 
+import api.UpcomingMovieAPI;
+import controller.DashboardController;
 import controller.InquiryController;
 import controller.MemberController;
 import controller.MovieController;
-import dto.Genre;
-import dto.Inquiry;
-import dto.Member;
-import dto.Movie;
+import dto.*;
 import exception.WrongInput;
-
+import java.util.List;
 import java.util.Scanner;
+import dto.MovieAPI;
+import service.MovieService;
+import util.PagingUtil;
+
 
 public class AdminView {
     private static Scanner sc = new Scanner(System.in);
@@ -24,7 +27,7 @@ public class AdminView {
             System.out.println("                      [3] 회원 상세 조회");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("회원 관리 메뉴 번호를 입력하세요 : ");
+            System.out.print("회원 관리 메뉴 번호를 입력하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -86,7 +89,7 @@ public class AdminView {
             System.out.println("                      [3] 문의 답변");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("문의 관리 메뉴를 선택하세요 : ");
+            System.out.print("문의 관리 메뉴를 선택하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -145,7 +148,7 @@ public class AdminView {
             System.out.println("                      [5] 영화 삭제");
             System.out.println("                      [0] 이전으로 돌아가기");
             System.out.println("=============================================================");
-            System.out.println("영화 관리 메뉴를 선택하세요 : ");
+            System.out.print("영화 관리 메뉴를 선택하세요 : ");
 
             int menu = Integer.parseInt(sc.nextLine());
             switch (menu){
@@ -159,11 +162,12 @@ public class AdminView {
                     break;
                 case 3 :
                     //새로운 영화 등록
-                    insertMovie();
+                    AutoOrpassivity(member);
+                    //insertMovie();
                     break;
                 case 4 :
                     //영화 정보 수정
-                    updateMovie();
+                    updateMovie(member);
                     break;
                 case 5 :
                     //영화 삭제
@@ -180,13 +184,78 @@ public class AdminView {
         }
     }
 
+    private static void AutoOrpassivity(Member member) {
+        while (true){
+            System.out.println("=============================================================");
+            System.out.println("  [1] 개봉 예정작 등록 | [2] 수동 등록 | [0] '영화 관리' 돌아가기");
+            System.out.println("=============================================================");
+            System.out.print("등록 방법을 선택하세요 : ");
+
+            int menu = Integer.parseInt(sc.nextLine());
+            switch (menu){
+                case 1:
+                    MovieinsertView();
+                    break;
+                case 2:
+                    insertMovie();
+                    break;
+                case 0:
+                    moivieManager(member);
+                    break;
+                default:
+                    new WrongInput();
+                    break;
+            }
+
+        }
+    }
+
     private static void deleteMovieById() {
         System.out.print("삭제할 영화 ID를 입력하세요 : ");
         int movieId = Integer.parseInt(sc.nextLine());
         MovieController.deleteMovieById(movieId);
     }
 
-    private static void updateMovie() {
+    private static void updateMovie(Member member) {
+        while (true){
+            System.out.println("=============================================================");
+            System.out.println(" [1] 상영 종료 하기 | [2] 영화 정보 수정 | [0] '영화 관리' 돌아가기");
+            System.out.println("=============================================================");
+            System.out.print("등록 방법을 선택하세요 : ");
+
+            int menu = Integer.parseInt(sc.nextLine());
+            switch (menu){
+                case 1:
+                    //상영 종료
+                    MovieController.selectMovieByIsScreen();
+                    updateMovieIsScreen();
+                    break;
+                case 2:
+                    updqteMovieNormal();
+                    break;
+                case 0:
+                    moivieManager(member);
+                    break;
+                default:
+                    new WrongInput();
+                    break;
+            }
+
+        }
+    }
+
+    private static void updateMovieIsScreen() {
+        System.out.print("상영 종료할 영화 ID를 입력하세요 : ");
+        int movieId = Integer.parseInt(sc.nextLine());
+
+        String colName = "상영여부";
+
+        String content = "상영종료";
+
+        MovieController.updateMovie(movieId, colName, content);
+    }
+
+    private static void updqteMovieNormal() {
         System.out.print("수정할 영화 ID를 입력하세요 : ");
         int movieId = Integer.parseInt(sc.nextLine());
 
@@ -205,7 +274,88 @@ public class AdminView {
         MovieController.selectMovieDetail(movieId);
     }
 
-    private static void insertMovie(){
+    public static void MovieinsertView() {
+        System.out.println("=======================================================");
+        System.out.println("                      [개봉예정작]");
+        System.out.println("=======================================================");
+
+        List<MovieAPI> movies = null;
+        try {
+            movies = UpcomingMovieAPI.getUpcomingMovies(2026, 2026);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        //페이징
+        Scanner sc = new Scanner(System.in);
+        int pageSize = 10;
+        int totalPages = (int) Math.ceil((double) movies.size() / pageSize);
+        int currentPage = 0;
+
+        int idW = 12, titleW = 30, genreW = 12, dateW = 12;
+        String separator = PagingUtil.makeSeparator(idW, titleW, genreW, dateW, 0)
+                .replaceAll("-\\+-$", "");  // statusW 없으므로 끝 제거
+
+        while (true) {
+            int start = currentPage * pageSize;
+            int end = Math.min(start + pageSize, movies.size());
+
+            // 헤더
+            System.out.println(separator);
+            System.out.println(
+                    PagingUtil.padRight("영화 ID",   idW)    + " | " +
+                            PagingUtil.padRight("제목",       titleW) + " | " +
+                            PagingUtil.padRight("장르",       genreW) + " | " +
+                            PagingUtil.padRight("개봉예정일", dateW)
+            );
+            System.out.println(separator);
+
+            // 현재 페이지 출력
+            for (int i = start; i < end; i++) {
+                MovieAPI m = movies.get(i);
+                String openDate = m.getOpenDate();
+                if (openDate != null && openDate.matches("\\d{8}")) {
+                    openDate = openDate.substring(0,4) + "-" + openDate.substring(4,6) + "-" + openDate.substring(6,8);
+                }
+                System.out.println(
+                        PagingUtil.padRight(m.getMovieId(),             idW)    + " | " +
+                                PagingUtil.padRight(m.getTitle(),               titleW) + " | " +
+                                PagingUtil.padRight(m.getGenre(),               genreW) + " | " +
+                                PagingUtil.padRight(openDate != null ? openDate : "", dateW)
+                );
+            }
+
+            System.out.println(separator);
+            System.out.printf("페이지 [%d / %d]  전체 %d건%n", currentPage + 1, totalPages, movies.size());
+            System.out.print("[ < 이전 | > 다음 | 1 상세조회 | 0 이전 ] 입력: ");
+
+            String input = sc.nextLine().trim();
+
+            switch (input) {
+                case ">":
+                    if (currentPage < totalPages - 1) currentPage++;
+                    else System.out.println("마지막 페이지입니다.");
+                    break;
+                case "<":
+                    if (currentPage > 0) currentPage--;
+                    else System.out.println("첫 번째 페이지입니다.");
+                    break;
+                case "1":
+                    try {
+                        UpcomingMovieDetailAPI.showUpcomingMovieDetail(movies);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("잘못된 입력입니다.");
+            }
+        }
+    }
+
+    public static void insertMovie(){
         System.out.print("제목 : ");
         String movieTitle = sc.nextLine();
 
@@ -245,5 +395,82 @@ public class AdminView {
         Movie m = new Movie(movieTitle, actor, releaseDate, genre.name(), screeningTime, director, isScreening);
 
         MovieController.insertMovie(m);
-    };
+    }
+
+    public static void insertMovieAuto(String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director) {
+        MovieService movieService = new MovieService();
+
+        System.out.print("개봉 예정일 영화를 등록하시겠습니까?(Y|N)");
+        String answer = sc.nextLine();
+
+        List<Movie> list = movieService.selectAllMovies();
+        for(Movie m2 : list){
+            if(m2.getMovieTitle().equals(movieTitle)){
+                FailView.errorMessage("이미 등록된 영화입니다.");
+                MovieinsertView();
+                break;
+            }
+        }
+
+        if(answer.toUpperCase().equals("Y")){
+            System.out.print("상영여부를 입력해주세요. : ");
+            String status = sc.nextLine();
+            Boolean isScreening = false;
+            if(status.equals("상영중")) {
+                isScreening = true;
+            } else if (status.equals("상영여부")) {
+                isScreening = false;
+
+            }
+
+            Movie m = new Movie(movieTitle, actor, releaseDate, genre, screeningTime, director, isScreening);
+            MovieController.insertMovie(m);
+        }
+
+    }
+
+    public static void statistics(Member member) {
+        while(true){
+            System.out.println("=============================================================");
+            System.out.println("                          [Dashboard]");
+            System.out.println("=============================================================");
+            System.out.println("                [1] 신규 가입자 및 회원 증감 추이");
+            System.out.println("                [2] 영화 장르 선호도");
+            System.out.println("                [3] 영화별 누적 예매 순위 (Top 10)");
+            System.out.println("                [4] 주간 요일별 매출 및 예매 분석");
+            System.out.println("                [0] 이전으로 돌아가기");
+            System.out.println("=============================================================");
+
+            System.out.print("관리 메뉴 번호를 입력하세요 : ");
+            int menu =Integer.parseInt(sc.nextLine());
+            switch(menu) {
+                case 1 :
+                    //신규 가입자 및 회원 증감 추이
+                    DashboardController.user();
+                    break;
+                case 2 :
+                    //영화 장르 선호도
+                    DashboardController.preferGenre();
+                    break;
+                case 3 :
+                    //영화별 누적 예매 순위 (Top 10)
+                    DashboardController.movieTopten();
+                    break;
+                case 4:
+                    //주간 요일별 매출 및 예매 분석
+                    DashboardController.reservationMovie();
+                    break;
+                case 0 :
+                    // 이전으로 돌아가기
+                    moivieManager(member);
+                    break;
+                default:
+                    new WrongInput();
+                    break;
+            }
+
+        }
+    }
 }
+
+

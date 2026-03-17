@@ -28,7 +28,7 @@ public class MovieService {
      * */
     public List<Movie> selectAllMoviesByPreferredGenre(List<String> preferredGenre) throws NotFoundException {
         List<Movie> list = movieDao.selectAllMoviesByPreferredGenre(preferredGenre);
-        if(list.isEmpty()) throw new NotFoundException("등록된 영화가 없습니다.");
+        if(list.isEmpty()) throw new NotFoundException("추천할만한 영화가 없습니다.");
         return list;
     }
 
@@ -70,6 +70,7 @@ public class MovieService {
             default -> null;
         };
         int result = movieDao.updateMovie(movieId, colNameEqual, content);
+        if(result == 0) throw new DMLException();
     }
 
     /*
@@ -83,5 +84,14 @@ public class MovieService {
         return m;
     }
 
-
+    /*
+     * 0313
+     * 김채영
+     * TODO: 상영중인 영화 조회 서비스
+     * */
+    public List<Movie> selectMovieByIsScreen() {
+        List<Movie> movie = movieDao.selectMovieByIsScreen();
+        if(movie.isEmpty()) throw new NotFoundException("상영중인 영화가 없습니다.");
+        return movie;
+    }
 }

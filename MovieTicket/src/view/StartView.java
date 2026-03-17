@@ -6,8 +6,8 @@ import controller.ReservationController;
 import controller.ReviewController;
 import dao.MemberDAO;
 import dao.impl.MemberDAOImpl;
+import dto.Genre;
 import dto.Member;
-import enums.MovieCategory;
 import dto.Reservation;
 import dto.Review;
 import exception.WrongInput;
@@ -15,6 +15,7 @@ import service.ReservationService;
 import session.Session;
 import session.SessionSet;
 import util.BadWordUtil;
+import util.ValidateUtil;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -36,11 +37,8 @@ public class StartView {
     }
     public static void menu() {
         while(true) {
-        	/*
-        	 * 세션Set에 담긴 세션 정보들 조회
-        	 */
         	SessionSet sessionSet = SessionSet.getInstance();
-        	System.out.println("sessionSet() = " + sessionSet.getSet());
+
             StartView.printMenu();
             
             int menu = Integer.parseInt(sc.nextLine());
@@ -74,7 +72,7 @@ public class StartView {
         System.out.println("                      [2] 회원가입");
         System.out.println("                      [0] 프로그램 종료");
         System.out.println("=============================================================");
-        System.out.println("이용하실 서비스 번호를 입력하세요: ");
+        System.out.print("이용하실 서비스 번호를 입력하세요: ");
 
     }
 
@@ -83,11 +81,7 @@ public class StartView {
      * @param : userId(String)
      * */
     public static void printUserMenu(Member member) {
-    	/*
-    	 * 세션Set에 담긴 세션 정보들 조회
-    	 */
     	SessionSet sessionSet = SessionSet.getInstance();
-    	System.out.println("sessionSet() = " + sessionSet.getSet());
 
         while(true) {
             System.out.println("=============================================================");
@@ -104,7 +98,7 @@ public class StartView {
             System.out.println("                    [0] 종료");
             System.out.println("=============================================================");
 
-            System.out.println("회원 메뉴 번호를 입력하세요 : ");
+            System.out.print("회원 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -117,6 +111,7 @@ public class StartView {
                     //영화 리뷰 작성
                     insertReview(member.getMemberId());
                     printUserMenu(member);
+                    break;
                 case 4 :
                     //마이페이지
                 	UserView.myPage(member);
@@ -158,11 +153,7 @@ public class StartView {
      * @param : userId(String)
      * */
     public static void printAdminMenu(Member member) {
-    	/*
-    	 * 세션Set에 담긴 세션 정보들 조회
-    	 */
     	SessionSet sessionSet = SessionSet.getInstance();
-    	System.out.println("sessionSet() = " + sessionSet.getSet());
 
         while(true){
             System.out.println("=============================================================");
@@ -172,11 +163,12 @@ public class StartView {
             System.out.println("                      [1] 회원 관리");
             System.out.println("                      [2] 영화 관리");
             System.out.println("                      [3] 문의 관리");
-            System.out.println("                      [4] 로그아웃");
+            System.out.println("                      [4] 통계보기");
+            System.out.println("                      [5] 로그아웃");
             System.out.println("                      [0] 종료");
             System.out.println("=============================================================");
 
-            System.out.println("관리 메뉴 번호를 입력하세요 : ");
+            System.out.print("관리 메뉴 번호를 입력하세요 : ");
             int menu =Integer.parseInt(sc.nextLine());
             switch(menu) {
                 case 1 :
@@ -191,7 +183,11 @@ public class StartView {
                     //문의 관리
                     AdminView.inquiryManage(member);
                     break;
-                case 4 :
+                case 4:
+                    //통계보기
+                    AdminView.statistics(member);
+                    break;
+                case 5 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
                     return;
@@ -239,12 +235,12 @@ public class StartView {
         System.out.print("정말 탈퇴하시겠습니까? (Y/N): ");
         String select = sc.nextLine();
         if(select.toUpperCase().equals("Y")) {
-
         	MemberController.deleteUserByMemberId(member);
+        } else if(select.toUpperCase().equals("N")) {
+        	System.out.println("회원탈퇴가 취소되었습니다.");
         } else {
-        	return; // 사용자 메뉴로 돌아감.
+        	System.out.println("잘못된 입력입니다. Y 또는 N을 입력해주세요.");
         }
-    	
     }
 
     /*
@@ -253,35 +249,60 @@ public class StartView {
     public static void signUp() {
         System.out.print("아이디 : ");
         String userId = sc.nextLine();
+        String password = null;
+        String phone = null;
+        String birth = null;
+        String cardInfo = null;
 
-        System.out.print("비밀번호 : ");
-        String password = sc.nextLine();
+        while(true) {
+            System.out.print("비밀번호 (8자 이상) : ");
+            password = sc.nextLine();
+            if(!ValidateUtil.isValidPassword(password)) {
+                System.out.println("비밀번호는 8자 이상 입력하세요.");
+                continue;
+            }
+            break;
+        }
 
         System.out.print("이름 : ");
         String name = sc.nextLine();
 
-        System.out.print("전화번호 (ex: 010-xxxx-xxxx) : ");
-        String phone = sc.nextLine();
+        while(true) {
+            System.out.print("전화번호 (ex: 010-xxxx-xxxx) : ");
+            phone = sc.nextLine();
+            if(!ValidateUtil.isValidPhone(phone)) {
+                System.out.println("전화번호 양식이 올바르지 않습니다. 예시) 010-1234-5678");
+                continue;
+            }
+            break;
+        }
 
         System.out.print("주소 (ex:서울시 강남구) : ");
         String address = sc.nextLine();
 
-        System.out.print("생일 (ex:2000-01-01) : ");
-        String birth = sc.nextLine();
+        while(true) {
+            System.out.print("생일 (ex:2000-01-01) : ");
+            birth = sc.nextLine();
+            if(!ValidateUtil.isValidBirth(birth)) {
+                System.out.println("생일 양식이 올바르지 않습니다. 예시) 2000-01-01");
+                continue;
+            }
+            break;
+        }
 
 
         /*
          * 20260313
          * 이동혁
          * 선호 장르 한글 입력으로 수정
-         * 20260315 추가: ENUM MovieCategory의 valueOf() 메서드를 활용하여 입력된 장르가 유효한지 검증
+         * 20260315 추가: ENUM Genre의 valueOf() 메서드를 활용하여 입력된 장르가 유효한지 검증
          */
         List<String> preferredGenre = null;
         while(true) {
-            System.out.print("선호 장르('액션', '애니매이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
+            System.out.print("선호 장르('액션', '애니메이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
             try {
                 preferredGenre = Arrays.stream(sc.nextLine().split(","))
-                        .map(MovieCategory::validate)
+                        .map(Genre::validate)
                         .collect(Collectors.toList());
                 break;
             } catch (IllegalArgumentException e) {
@@ -289,8 +310,16 @@ public class StartView {
             }
         }
 
-        System.out.print("결제 정보(ex:1111-1111-1111-1111) : ");
-        String cardInfo = sc.nextLine();
+        while(true) {
+            System.out.print("결제 정보(ex:1111-1111-1111-1111) : ");
+            cardInfo = sc.nextLine();
+            if(!ValidateUtil.isValidCardInfo(cardInfo)) {
+                System.out.println("카드 정보 양식이 올바르지 않습니다. 예시) 1234-5678-9012-3456");
+                continue;
+            }
+            break;
+        }
+
 
         MemberController.register(
     			userId,
@@ -325,18 +354,24 @@ public class StartView {
         while (sta){
             System.out.print("리뷰를 작성할 영화 ID를 선택하세요 : ");
             movieId = Integer.parseInt(sc.nextLine());
+
             try {
                 List<Reservation> list = reservationService.selectReservationsByMemberId(memberId);
 
-                for(Reservation r : list){
-                    if(r.getMovieId() == movieId){
-                        sta = false;
-                        break;
-                    }else{
-                        System.out.println("\'" + name+ "\' 님이 예매 한 영화가 아닙니다.");
+                boolean found = false;
+                for (Reservation r : list) {
+                    if (r.getMovieId() == movieId) {
+                        found = true;
                         break;
                     }
                 }
+
+                if (found) {
+                    sta = false;
+                } else {
+                    System.out.println("'" + name + "' 님이 예매 한 영화가 아닙니다.");
+                }
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

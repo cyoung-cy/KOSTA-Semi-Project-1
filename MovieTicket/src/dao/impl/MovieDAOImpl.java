@@ -54,7 +54,7 @@ public class MovieDAOImpl implements MovieDAO {
         // 장르 개수만큼 ? 생성하여 SQL문에 담기
         String placeholder = String.join(",", Collections.nCopies(preferredGenre.size(),"?"));
         // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
-        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE where GENRE in ("+placeholder+") order by MOVIE_ID desc";
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE where GENRE in ("+placeholder+") order by IS_SCREENING desc,MOVIE_ID desc";
 
         try {
             con = DbManager.getConnection();
@@ -100,7 +100,8 @@ public class MovieDAOImpl implements MovieDAO {
                         rs.getInt("MOVIE_ID"), rs.getString("MOVIE_TITLE"),
                         rs.getString("ACTOR"), rs.getString("RELEASE_DATE"),
                         rs.getString("GENRE"), rs.getInt("SCREENING_TIME"),
-                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING")
+                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING"),
+                        rs.getInt("AUDI_ACC")
                 );
                 list.add(m);
             }
@@ -198,6 +199,36 @@ public class MovieDAOImpl implements MovieDAO {
         return result;
     }
 
+    @Override
+    public List<Movie> selectMovieByIsScreen() {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from MOVIE where IS_SCREENING = true";
+        Movie m = null;
+        List<Movie> list = new ArrayList<>();
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                m = new Movie(
+                        rs.getInt("MOVIE_ID"), rs.getString("MOVIE_TITLE"),
+                        rs.getString("ACTOR"), rs.getString("RELEASE_DATE"),
+                        rs.getString("GENRE"), rs.getInt("SCREENING_TIME"),
+                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING"),
+                        rs.getInt("AUDI_ACC")
+                );
+                list.add(m);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
 
 
 }
