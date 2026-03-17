@@ -39,9 +39,12 @@ public class StartView {
         while(true) {
         	SessionSet sessionSet = SessionSet.getInstance();
 
-            StartView.printMenu();
-            
-            int menu = Integer.parseInt(sc.nextLine());
+            // 화면 여백
+            ConsoleUI.blank();
+
+            printMenu();
+
+            int menu = ConsoleUI.promptInt(sc, "이용하실 서비스 번호를 입력하세요");
             switch(menu) {
                 case 1 :
                     // 로그인
@@ -52,28 +55,29 @@ public class StartView {
                     StartView.signUp();
                     break;
                 case 0 :
+                    ConsoleUI.info("프로그램을 종료합니다.");
                     System.exit(0);
                 default:
-                    new WrongInput();
+                    //new WrongInput();
+                    ConsoleUI.warn("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
                     break;
             }
         }
 
     }
 
-    /*
-     * 기능 : 시스템 실행시 제일 처음 보이는 StartView
+    /**
+     * 20260317
+     * TODO: 시스템 실행 시 제일 처음 보이는 StartView
      * */
-    public static void printMenu() {
-        System.out.println("=============================================================");
-        System.out.println("                Hello! Welcome to MOVIE TICKET                ");
-        System.out.println("=============================================================");
-        System.out.println("                      [1] 로그인");
-        System.out.println("                      [2] 회원가입");
-        System.out.println("                      [0] 프로그램 종료");
-        System.out.println("=============================================================");
-        System.out.print("이용하실 서비스 번호를 입력하세요: ");
+    public static  void printMenu(){
+        ConsoleUI.printMainBanner();
 
+        ConsoleUI.printMenu(new String[]{
+                "[1] 로그인",
+                "[2] 회원가입",
+                "[0] 프로그램 종료"
+        }, null);
     }
 
     /*
@@ -84,25 +88,34 @@ public class StartView {
     	SessionSet sessionSet = SessionSet.getInstance();
 
         while(true) {
-            System.out.println("=============================================================");
-            String text = "Hello! " + member.getUserId() + " Welcome to MOVIE TICKET";
-            System.out.println(center(text, 60));
-            System.out.println("=============================================================");
-            System.out.println("                    [1] 영화 예매");
-            System.out.println("                    [2] 영화 추천");
-            System.out.println("                    [3] 영화 리뷰 작성");
-            System.out.println("                    [4] 마이페이지");
-            System.out.println("                    [5] 문의하기");
-            System.out.println("                    [6] 로그아웃");
-            System.out.println("                    [7] 회원탈퇴");
-            System.out.println("                    [0] 종료");
-            System.out.println("=============================================================");
+            //ConsoleUI.blank(2);
 
-            System.out.print("회원 메뉴 번호를 입력하세요 : ");
-            int menu =Integer.parseInt(sc.nextLine());
+            // 사용자 메뉴 전용 헤더 적용
+            ConsoleUI.printHeader(
+                    "USER LOBBY",
+                    "WELCOME, " + member.getUserId(),
+                    ConsoleUI.RED,
+                    ConsoleUI.YELLOW
+            );
+
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 영화 예매",
+                    "[2] 영화 추천",
+                    "[3] 영화 리뷰 작성",
+                    "[4] 마이페이지",
+                    "[5] 문의하기",
+                    "[6] 로그아웃",
+                    "[7] 회원탈퇴",
+                    "[0] 종료"
+            }, null);
+
+            int menu = ConsoleUI.promptInt(sc, "회원 메뉴 번호를 입력하세요");
             switch(menu) {
                 case 1 :
                     //영화 예매
+                    // 개발완료 후 병합예정
+                    ConsoleUI.info("[개발 미완료] 예매 기능 UI는 추후 구현 예정");
+                    break;
                 case 2 :
                     //영화 추천
                     MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre());
@@ -110,7 +123,7 @@ public class StartView {
                 case 3 :
                     //영화 리뷰 작성
                     insertReview(member.getMemberId());
-                    printUserMenu(member);
+                    //printUserMenu(member);
                     break;
                 case 4 :
                     //마이페이지
@@ -123,6 +136,7 @@ public class StartView {
                 case 6 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
+                    ConsoleUI.success("로그아웃 되었습니다.");
                     return;
                 case 7 :
                     //회원탈퇴
@@ -130,22 +144,14 @@ public class StartView {
                 	break;
                 case 0 :
                     //종료
+                    ConsoleUI.info("프로그램을 종료합니다.");
                     System.exit(0);
+                    break;
+                default:
+                    ConsoleUI.warn("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
                     break;
             }
         }
-
-    }
-
-    /*
-    * 기능 : userId에 길이에 따라 중간 정렬
-    * @param : userId(String), 너비(int)
-    * @return : String
-    * */
-    public static String center(String text, int width) {
-        int padding = (width - text.length()) / 2;
-        String format = "%" + (padding + text.length()) + "s";
-        return String.format(format, text);
     }
 
     /*
@@ -156,20 +162,25 @@ public class StartView {
     	SessionSet sessionSet = SessionSet.getInstance();
 
         while(true){
-            System.out.println("=============================================================");
-            String text = "Hello! " + member.getName() + " Welocme to MOVIE TICKET Admin Page";
-            System.out.println(center(text, 60));
-            System.out.println("=============================================================");
-            System.out.println("                      [1] 회원 관리");
-            System.out.println("                      [2] 영화 관리");
-            System.out.println("                      [3] 문의 관리");
-            System.out.println("                      [4] 통계보기");
-            System.out.println("                      [5] 로그아웃");
-            System.out.println("                      [0] 종료");
-            System.out.println("=============================================================");
+            //ConsoleUI.blank(2);
 
-            System.out.print("관리 메뉴 번호를 입력하세요 : ");
-            int menu =Integer.parseInt(sc.nextLine());
+            ConsoleUI.printHeader(
+                    "ADMIN CONTROL ROOM",
+                    "WELCOME, " + member.getName() + " MANAGER",
+                    ConsoleUI.GREEN,
+                    ConsoleUI.GREEN
+            );
+
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 회원 관리",
+                    "[2] 영화 관리",
+                    "[3] 문의 관리",
+                    "[4] 통계보기",
+                    "[5] 로그아웃",
+                    "[0] 종료"
+            }, ConsoleUI.GREEN);
+
+            int menu = ConsoleUI.promptInt(sc, "관리 메뉴 번호를 입력하세요");
             switch(menu) {
                 case 1 :
                     //회원 관리
@@ -190,13 +201,15 @@ public class StartView {
                 case 5 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
+                    ConsoleUI.success("로그아웃 되었습니다.");
                     return;
                 case 0 :
                     //종료
+                    ConsoleUI.info("프로그램을 종료합니다.");
                     System.exit(0);
                     break;
                 default:
-                    new WrongInput();
+                    ConsoleUI.warn("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
                     break;
             }
 
@@ -208,11 +221,12 @@ public class StartView {
      * 기능 : 로그인
      * */
     public static void login() {
-        System.out.print("아이디 : ");
-        String userId = sc.nextLine();
+        ConsoleUI.blank(1);
 
-        System.out.print("비밀번호 : ");
-        String password = sc.nextLine();
+        ConsoleUI.printHeader("LOGIN", "MOVIE TICKET ACCESS", ConsoleUI.RED, ConsoleUI.YELLOW);
+
+        String userId = ConsoleUI.prompt(sc, "아이디");
+        String password = ConsoleUI.prompt(sc, "비밀번호");
 
         MemberController.login(userId, password);
     }
@@ -225,6 +239,11 @@ public class StartView {
         SessionSet ss = SessionSet.getInstance();
         ss.remove(session);
     }
+//    public static void logout(int memberId, String userId) {
+//        Session session = new Session(memberId, userId);
+//        SessionSet ss = SessionSet.getInstance();
+//        ss.remove(session);
+//    }
     
     /*
      * 2026-03-13
@@ -232,14 +251,17 @@ public class StartView {
      * 기능 : 회원탈퇴
      */
     public static void withDrawal(Member member) {
-        System.out.print("정말 탈퇴하시겠습니까? (Y/N): ");
-        String select = sc.nextLine();
-        if(select.toUpperCase().equals("Y")) {
-        	MemberController.deleteUserByMemberId(member);
-        } else if(select.toUpperCase().equals("N")) {
-        	System.out.println("회원탈퇴가 취소되었습니다.");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("MEMBERSHIP CANCEL", "ACCOUNT WITHDRAWAL", ConsoleUI.RED, ConsoleUI.YELLOW);
+
+        String select = ConsoleUI.prompt(sc, "정말 탈퇴하시겠습니까? (Y/N)").trim().toUpperCase();
+
+        if(select.equals("Y")) {
+            MemberController.deleteUserByMemberId(member);
+        } else if(select.equals("N")) {
+            ConsoleUI.info("회원탈퇴가 취소되었습니다.");
         } else {
-        	System.out.println("잘못된 입력입니다. Y 또는 N을 입력해주세요.");
+            ConsoleUI.warn("잘못된 입력입니다. Y 또는 N을 입력해주세요.");
         }
     }
 
@@ -247,44 +269,41 @@ public class StartView {
      * 기능 : 회원가입
      * */
     public static void signUp() {
-        System.out.print("아이디 : ");
-        String userId = sc.nextLine();
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("SIGN UP", "NEW MEMBER REGISTRATION", ConsoleUI.RED, ConsoleUI.YELLOW);
+
+        String userId = ConsoleUI.prompt(sc, "아이디");
         String password = null;
         String phone = null;
         String birth = null;
         String cardInfo = null;
 
         while(true) {
-            System.out.print("비밀번호 (8자 이상) : ");
-            password = sc.nextLine();
+            password = ConsoleUI.prompt(sc, "비밀번호 (8자 이상)");
             if(!ValidateUtil.isValidPassword(password)) {
-                System.out.println("비밀번호는 8자 이상 입력하세요.");
+                ConsoleUI.warn("비밀번호는 8자 이상 입력하세요.");
                 continue;
             }
             break;
         }
 
-        System.out.print("이름 : ");
-        String name = sc.nextLine();
+        String name = ConsoleUI.prompt(sc, "이름");
 
         while(true) {
-            System.out.print("전화번호 (ex: 010-xxxx-xxxx) : ");
-            phone = sc.nextLine();
+            phone = ConsoleUI.prompt(sc, "전화번호 (ex: 010-xxxx-xxxx)");
             if(!ValidateUtil.isValidPhone(phone)) {
-                System.out.println("전화번호 양식이 올바르지 않습니다. 예시) 010-1234-5678");
+                ConsoleUI.warn("전화번호 양식이 올바르지 않습니다. 예시) 010-1234-5678");
                 continue;
             }
             break;
         }
 
-        System.out.print("주소 (ex:서울시 강남구) : ");
-        String address = sc.nextLine();
+        String address = ConsoleUI.prompt(sc, "주소 (ex: 서울시 강남구)");
 
         while(true) {
-            System.out.print("생일 (ex:2000-01-01) : ");
-            birth = sc.nextLine();
+            birth = ConsoleUI.prompt(sc, "생일 (ex: 2000-01-01)");
             if(!ValidateUtil.isValidBirth(birth)) {
-                System.out.println("생일 양식이 올바르지 않습니다. 예시) 2000-01-01");
+                ConsoleUI.warn("생일 양식이 올바르지 않습니다. 예시) 2000-01-01");
                 continue;
             }
             break;
@@ -302,40 +321,44 @@ public class StartView {
             System.out.print("선호 장르('액션', '애니메이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
             try {
                 preferredGenre = Arrays.stream(sc.nextLine().split(","))
+                        .map(String::trim)
                         .map(Genre::validate)
                         .collect(Collectors.toList());
                 break;
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                ConsoleUI.warn(e.getMessage());
             }
         }
 
         while(true) {
-            System.out.print("결제 정보(ex:1111-1111-1111-1111) : ");
-            cardInfo = sc.nextLine();
+            cardInfo = ConsoleUI.prompt(sc, "결제 정보 (ex: 1111-1111-1111-1111)");
             if(!ValidateUtil.isValidCardInfo(cardInfo)) {
-                System.out.println("카드 정보 양식이 올바르지 않습니다. 예시) 1234-5678-9012-3456");
+                ConsoleUI.warn("카드 정보 양식이 올바르지 않습니다. 예시) 1234-5678-9012-3456");
                 continue;
             }
             break;
         }
 
-
         MemberController.register(
-    			userId,
-    			password,
-    			name,
-    			phone,
-    			address,
-    			birth,
-    			preferredGenre,
-    			cardInfo
-    	);
+                userId,
+                password,
+                name,
+                phone,
+                address,
+                birth,
+                preferredGenre,
+                cardInfo
+        );
+
+        ConsoleUI.success("회원가입 요청이 완료되었습니다.");
     }
 
     public static void insertReview(int memberId) {
         ReservationService reservationService = new ReservationService();
         MemberDAO memberDAO = new MemberDAOImpl();
+
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("WRITE REVIEW", "TICKET HOLDER ONLY", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         ReservationController.selectReservationsByMemberId(memberId);
         List<Member> m = memberDAO.selectUsers();
@@ -352,8 +375,7 @@ public class StartView {
         boolean sta = true;
         int movieId = 0;
         while (sta){
-            System.out.print("리뷰를 작성할 영화 ID를 선택하세요 : ");
-            movieId = Integer.parseInt(sc.nextLine());
+            movieId = ConsoleUI.promptInt(sc, "리뷰를 작성할 영화 ID를 선택하세요");
 
             try {
                 List<Reservation> list = reservationService.selectReservationsByMemberId(memberId);
@@ -369,7 +391,7 @@ public class StartView {
                 if (found) {
                     sta = false;
                 } else {
-                    System.out.println("'" + name + "' 님이 예매 한 영화가 아닙니다.");
+                    ConsoleUI.warn("'" + name + "' 님이 예매한 영화가 아닙니다.");
                 }
 
             } catch (SQLException e) {
@@ -380,40 +402,36 @@ public class StartView {
         sta = true;
         int rating = 0;
         while(sta){
-            System.out.print("평점을 입력하세요(1~5) : ");
-            rating = Integer.parseInt(sc.nextLine());
-            if(rating >= 1 && rating <=5){
+            rating = ConsoleUI.promptInt(sc, "평점을 입력하세요 (1~5)");
+            if(rating >= 1 && rating <= 5){
                 sta = false;
-                break;
-            }else{
-                System.out.println("평점은 1~5사이 정수를 입력해주세요.");
+            } else {
+                ConsoleUI.warn("평점은 1~5 사이 정수를 입력해주세요.");
             }
         }
 
         sta = true;
         String content = null;
         while(sta){
-            System.out.println("리뷰를 작성하세요 : ");
-            content = sc.nextLine();
+            content = ConsoleUI.prompt(sc, "리뷰를 작성하세요");
 
             if (BadWordUtil.containsBadWord(content)) {
-                System.out.println("욕설이 포함되어 있어 등록 불가합니다.");
-            }else{
+                ConsoleUI.warn("욕설이 포함되어 있어 등록 불가합니다.");
+            } else {
                 sta = false;
-                break;
             }
-
         }
 
         //욕설을 *로 필터링
         //String filtered = BadWordUtil.filter(content);
-
         Review re = new Review(memberId, movieId, rating, content);
         ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
+
+        ConsoleUI.success("리뷰가 등록되었습니다.");
     }
 
     public static void main(String[] args) {
-    	new StartView();
+        new StartView();
     }
 }
 
