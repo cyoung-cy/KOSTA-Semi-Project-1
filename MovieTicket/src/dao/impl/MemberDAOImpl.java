@@ -208,7 +208,7 @@ public class MemberDAOImpl implements MemberDAO {
 			
 			result = ps.executeUpdate();
 		} catch(SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new RuntimeException();
 		} finally {
 			DbManager.close(con, ps, null);
