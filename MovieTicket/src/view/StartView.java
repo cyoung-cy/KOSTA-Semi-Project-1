@@ -111,6 +111,7 @@ public class StartView {
                     //영화 리뷰 작성
                     insertReview(member.getMemberId());
                     printUserMenu(member);
+                    break;
                 case 4 :
                     //마이페이지
                 	UserView.myPage(member);
