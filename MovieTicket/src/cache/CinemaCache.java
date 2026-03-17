@@ -11,6 +11,7 @@ import dao.impl.RoomDAOImpl;
 import dao.impl.SeatDAOImpl;
 import dto.Room;
 import dto.Seat;
+import exception.AppConfigException;
 
 public class CinemaCache {
 
@@ -26,19 +27,20 @@ public class CinemaCache {
     }
 
     private static CinemaCache instance;
-
-    public static CinemaCache getInstance() {
-    	if(instance == null) {
-    		instance = 
-    				new CinemaCache(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
-    	}
+    
+    // init을 통해서만 생성 (Config용)
+    public static CinemaCache init(SeatDAO seatDAO, RoomDAO roomDAO) {
+        if (instance == null) 
+            instance = new CinemaCache(seatDAO, roomDAO);
+        
         return instance;
     }
 
-    public static CinemaCache init(SeatDAO seatDAO, RoomDAO roomDAO) {
-    	if(instance == null) {
-    		instance = new CinemaCache(seatDAO, roomDAO);
-    	}
+    // 이미 생성된 인스턴스를 가져오는 용도
+    public static CinemaCache getInstance() {
+        if (instance == null) 
+            throw new AppConfigException("CinemaCache가 아직 초기화되지 않았습니다! AppConfiguration을 먼저 확인하세요.");
+        
         return instance;
     }
     
@@ -62,14 +64,6 @@ public class CinemaCache {
 
 	public void setRoomMap(Map<String, Room> roomMap) {
 		this.roomMap = roomMap;
-	}
-
-	public SeatDAO getSeatDAO() {
-		return seatDAO;
-	}
-
-	public RoomDAO getRoomDAO() {
-		return roomDAO;
 	}
 
     public Room getRoom(String roomName) {

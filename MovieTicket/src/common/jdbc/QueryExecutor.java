@@ -13,14 +13,24 @@ import com.mysql.cj.jdbc.JdbcConnection;
 import exception.DataAccessException;
 import util.DbManager;
 
-public abstract class BaseDAO {
+public class QueryExecutor {
+	
+	// 이른 초기화
+	// DB 조회가 없을 수 없음. 미리 인스턴스 정적 바인딩.
+	private static final QueryExecutor instance = new QueryExecutor();
+	
+	private QueryExecutor() {}
+	
+	public static QueryExecutor getInstance() { 
+		return instance;
+	}
 
-	protected Connection getConnection() throws SQLException {
+	private Connection getConnection() throws SQLException {
 		return DbManager.getConnection();
 	}
 
 	// 쿼리와 파라미터만 던지면 알아서 실행하고 영향받은 행 수를 돌려줌
-	protected int update(String sql, Object... params) {
+	public int update(String sql, Object... params) {
 		int result = 0;
 		
 		try (Connection conn = getConnection(); 
@@ -39,7 +49,7 @@ public abstract class BaseDAO {
 
 	// 트랜잭션용 (외부에서 Connection을 전달받음)
 	// Connection을 닫지 않음
-	protected int update(Connection conn, String sql, Object... params) {
+	public int update(Connection conn, String sql, Object... params) {
 		int result = 0;
 
 		try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -56,7 +66,7 @@ public abstract class BaseDAO {
 	}
 	
 	// 생성된 PK를 돌려주는 버전(insert 전용)
-	protected int insertAndGetPk(String sql, Object... params) {
+	public int insertAndGetPk(String sql, Object... params) {
 	    int generatedId = 0;
 	    
 	    // RETURN_GENERATED_KEYS 옵션을 추가
@@ -79,7 +89,7 @@ public abstract class BaseDAO {
 	    return generatedId;
 	}
 	
-	protected <T> List<T> query(String sql, RowMapper<T> mapper, Object... params) {
+	public <T> List<T> query(String sql, RowMapper<T> mapper, Object... params) {
 	    List<T> list = new ArrayList<>();
 	    
 	    try (Connection conn = getConnection();
@@ -97,6 +107,37 @@ public abstract class BaseDAO {
 	    }
 	    return list;
 	} 
+	
+	public <T> T queryForObject(String sql, RowMapper<T> mapper, Object... params) {
+	    List<T> results = query(sql, mapper, params);
+
+	    if (results == null || results.isEmpty()) {
+	        throw new DataAccessException("조회 결과가 없습니다.");
+	    }
+
+	    if (results.size() > 1) {
+	        throw new DataAccessException("조회 결과가 너무 많습니다.");
+	    }
+
+	    return results.get(0);
+	}
+	
+	// 진입메소드 역할(원시형을 반환받기 위한)
+	public <T> T queryForObject(String sql, Class<T> requiredType, Object... params) {
+	    RowMapper<T> scalarMapper = rs -> {
+	        // 결과셋의 첫 번째 컬럼(index 1) 데이터.
+	        Object value = rs.getObject(1);
+	        
+	        if (value == null) {
+	            return null;
+	        }
+
+	        // 인자 타입(requiredType)으로 형변환.
+	        return requiredType.cast(value);
+	    };
+
+	    return queryForObject(sql, scalarMapper, params);
+	}
 	
 	/**
 	 * 파라미터를 홀더에 매핑해주는 메소드

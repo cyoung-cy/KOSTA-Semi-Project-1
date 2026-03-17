@@ -2,25 +2,24 @@ package dao.impl;
 
 import java.util.Set;
 
-import common.jdbc.BaseDAO;
+import common.jdbc.QueryExecutor;
 import dao.SeatDAO;
 import dto.Seat;
 
-public class SeatDAOImpl extends BaseDAO implements SeatDAO{
+public class SeatDAOImpl implements SeatDAO{
 	
-	private static SeatDAOImpl instance;
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static final SeatDAOImpl instance = new SeatDAOImpl();
 
 	private SeatDAOImpl() {}
 	
 	public static SeatDAOImpl getInstance() {
-		if(instance == null) {
-			instance = new SeatDAOImpl();
-		}
 		return instance;
 	}
 	
 	@Override
-	public void insertSeats(Seat seat) {
+	public void insert(Seat seat) {
 		String sql = "insert into SEAT(ROOM_ID, NAME, ROW_NUM, COL_NUM"
 				+ ") values(?, ?, ?, ?)";
 		
@@ -28,7 +27,7 @@ public class SeatDAOImpl extends BaseDAO implements SeatDAO{
 				seat.getRoomId(), seat.getName(), seat.getRowNum(), seat.getColNum()
 				};
 		
-		update(sql,params);
+		queryExecutor.update(sql,params);
 	}
 
 	@Override

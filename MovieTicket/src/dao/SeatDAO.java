@@ -11,7 +11,7 @@ public interface SeatDAO {
      * 한상혁
      * TODO: 좌석 생성
      * */
-    void insertSeats(Seat seats);
+    void insert(Seat seats);
 
     /*
      * 20260312
