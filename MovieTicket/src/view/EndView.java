@@ -351,18 +351,14 @@ public class EndView {
         Scanner scanner = new Scanner(System.in);
 
         final int reservIdW = 12;
-        final int userNameW = 12;
         final int movieTitleW = 20;
-        final int totalPriceW = 10;
-        final int countW = 5;
         final int roomNameW = 10;
         final int startTimeW = 10;
         final int endTimeW = 10;
         final int seatNameW = 20;
 
         String separator = "-".repeat(reservIdW) + "-+-" +
-                "-".repeat(userNameW) + "-+-" + "-".repeat(movieTitleW) + "-+-" +
-                "-".repeat(totalPriceW) + "-+-" + "-".repeat(countW) + "-+-" +
+                 "-".repeat(movieTitleW) + "-+-" +
                 "-".repeat(roomNameW) + "-+-" + "-".repeat(startTimeW) + "-+-" +
                 "-".repeat(endTimeW) + "-+-" + "-".repeat(seatNameW);
 
@@ -372,10 +368,7 @@ public class EndView {
             System.out.println(separator);
             System.out.println(
                     PagingUtil.padRight("예약 번호", reservIdW) + " | " +
-                            PagingUtil.padRight("예약자 이름", userNameW) + " | " +
                             PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
-                            PagingUtil.padRight("총 가격", totalPriceW) + " | " +
-                            PagingUtil.padRight("예약 좌석 수", countW) + " | " +
                             PagingUtil.padRight("상영관", roomNameW) + " | " +
                             PagingUtil.padRight("상영 시작 시간", startTimeW) + " | " +
                             PagingUtil.padRight("상영 종료 시간", endTimeW) + " | " +
@@ -395,10 +388,7 @@ public class EndView {
                         .collect(Collectors.joining(", "));
                 System.out.println(
                         PagingUtil.padRight(String.valueOf(ticket.getReservationId()), reservIdW) + " | " +
-                                PagingUtil.padRight(ticket.getUserName(), userNameW) +" | " +
                                 PagingUtil.padRight(ticket.getMovieTitle(), movieTitleW) +" | " +
-                                PagingUtil.padRight(String.valueOf(ticket.getTotalPrice()), totalPriceW) +" | " +
-                                PagingUtil.padRight(String.valueOf(ticket.getCount()), countW) +" | " +
                                 PagingUtil.padRight(ticket.getRoomName(), roomNameW) +" | " +
                                 PagingUtil.padRight(ticket.getStartTime().toString(), startTimeW) +" | " +
                                 PagingUtil.padRight(ticket.getEndTime().toString(), endTimeW) +" | " +
