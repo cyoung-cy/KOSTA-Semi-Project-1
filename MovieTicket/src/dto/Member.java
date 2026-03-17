@@ -17,6 +17,7 @@ public class Member {
 	private String phone;
 	private String address;
 	private String birthDate;
+    private String createAt;
 	/**
 	 * 20260312
 	 * 이동혁
@@ -145,6 +146,15 @@ public class Member {
 				"선호 장르 : " + preferredGenre.toString() + "\n" +
 				"카드 정보 : " + cardInfo + "\n" +
 				"권한 : " + role + "\n" +
+                "가입일 : " + createAt + "\n" +
 				"====================";
 	}
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
 }
