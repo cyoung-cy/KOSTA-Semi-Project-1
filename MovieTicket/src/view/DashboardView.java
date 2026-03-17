@@ -178,7 +178,7 @@ public class DashboardView {
         } catch (Exception e) {
             System.out.println("날짜가 없습니다.");
         }
-        return "종영";
+        return "상영종료";
     }
 
     public static void reservationMovie(List<Reservation> list) {
