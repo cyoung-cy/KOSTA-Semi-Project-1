@@ -31,6 +31,4 @@ public class RoomService {
 		return instance;
 	}
 	
-	
-	
 }
