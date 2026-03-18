@@ -1,10 +1,5 @@
 package dao.impl;
 
-import dao.MemberDAO;
-import dto.Member;
-import exception.NotFoundException;
-import util.DbManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,12 +9,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import common.jdbc.QueryExecutor;
 import dao.MemberDAO;
+import dto.Member;
+import mapper.MemberMapper;
+import util.DbManager;
 
 public class MemberDAOImpl implements MemberDAO {
 
-
-
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static MemberMapper memberMapper = MemberMapper.getInstance();
+	
     @Override
     public int register(Member member) throws SQLException {
         Connection con = null;
@@ -244,7 +245,16 @@ public class MemberDAOImpl implements MemberDAO {
         return re;
 	}
 	
-
-	
+	@Override
+	public Member selectOneById(Connection conn, int memberId) {
+		String sql = "select * from MEMBER where Member_ID = ?";
+		
+		Object[] params = { memberId };
+		
+		List<Member> list = queryExecutor.query(sql, memberMapper, params);
+		
+		return list.isEmpty() ? null : list.get(0);
+	}
+		
 
 }

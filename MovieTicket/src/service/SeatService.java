@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import cache.CinemaCache;
 import dao.RoomDAO;
 import dao.SeatDAO;
@@ -53,5 +55,14 @@ public class SeatService {
 		seat.setRoomId(target.getRoomId());
 		seatDAO.insert(seat);
 	}
+	
+	 /*
+     * 20260318
+     * 한상혁
+     * TODO: 예약좌석 이름 리스트
+     * */
+	public List<String> getReservedSeatNames(int scheduleId) {
+        return seatDAO.selectReservedSeatNames(scheduleId);
+    }
 	
 }

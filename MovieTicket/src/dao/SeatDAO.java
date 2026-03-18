@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.Connection;
+import java.util.List;
 import java.util.Set;
 
 import dto.Seat;
@@ -20,20 +22,32 @@ public interface SeatDAO {
      * */
     Set<Seat> selectSeatsByRoomId(int roomId);
 
-    // 3. 특정 좌석의 예약 가능 상태 변경 (중요!)
-    // 예매 성공 시 true -> false, 취소 시 false -> true
-    /*
-     * 20260312
-     * 한상혁
-     * TODO: 특정 좌석의 예약 가능 상태 변경 (중요!)
-      				예매 성공 시 true -> false, 취소 시 false -> true
-     * */
-    void updateSeatAvailability(int seatId, boolean isAvailable);
-
     /*
      * 20260312
      * 한상혁
      * TODO: 특정 좌석 상세 정보 조회
      * */
     Seat selectSeatById(int seatId);
+    
+	 /*
+     * 20260318
+     * 한상혁
+     * TODO: 좌석 상태 변경
+     * */
+    int updateIsReserved(Connection conn, int seatId, boolean isReserved);
+    
+    /*
+     * 20260318
+     * 한상혁
+     * TODO: 스케줄 번호를 통해 해당 상영관의 좌석 ID를 조회
+     */
+    List<Integer> findIdsByNames(Connection conn, int scheduleId, List<String> seatNames);
+    
+    /*
+     * 20260318
+     * 한상혁
+     * TODO: 스케줄 번호를 통해 해당 상영관의 예약좌석 이름 반환
+     * */
+    List<String> selectReservedSeatNames(int scheduleId);
+    
 }

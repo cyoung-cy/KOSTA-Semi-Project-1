@@ -1,8 +1,10 @@
 package dao;
 
+import java.sql.Connection;
+
 import dto.ReservationInfo;
 
 public interface ReservationInfoDAO {
 	
-	void insert(ReservationInfo reservationInfo);
+	int insert(Connection conn, ReservationInfo reservationInfo);
 }

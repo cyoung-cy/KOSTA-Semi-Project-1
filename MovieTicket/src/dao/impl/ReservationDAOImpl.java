@@ -3,6 +3,7 @@ package dao.impl;
 import dao.ReservationDAO;
 import dto.Movie;
 import dto.Reservation;
+import mapper.ReservationMapper;
 import util.DbManager;
 
 import java.sql.Connection;
@@ -17,6 +18,8 @@ import common.jdbc.QueryExecutor;
 public class ReservationDAOImpl implements ReservationDAO {
 
 	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static final ReservationMapper reservationMapper = ReservationMapper.getInstance();
 
 	private static final ReservationDAOImpl instance = new ReservationDAOImpl();
 
@@ -60,16 +63,16 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
     
     @Override
-    public void insert(Reservation reservation) {
-    	 String sql = "insert into RESERVATION(MEMBER_ID, SCHEDULE_ID, MOVIE_ID, CARD_INFO) "
-    	 		+ "VALUES (?, ?, ?, ?)";
+    public int insert(Connection conn, Reservation reservation) {
+    	 String sql = "insert into RESERVATION(MEMBER_ID, SCHEDULE_ID, MOVIE_ID, CARD_INFO, PAID_AT) "
+    	 		+ "VALUES (?, ?, ?, ?, NOW())";
          
          Object[] params = { 
          		reservation.getMemberId(), reservation.getScheduleId(), 
          		reservation.getMovieId(), reservation.getCardInfo()
  				};
          
-         queryExecutor.update(sql, params);
+        return queryExecutor.insertAndGetPk(conn, sql, params);
     }
     
 }
