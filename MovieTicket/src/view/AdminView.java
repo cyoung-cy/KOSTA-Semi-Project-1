@@ -89,8 +89,7 @@ public class AdminView {
                     "[3] 문의 답변",
                     "[0] 이전으로 돌아가기"
             }, ConsoleUI.GREEN);
-            ConsoleUI.printLine(ConsoleUI.GREEN);
-            
+
             int menu = ConsoleUI.promptInt(sc, "문의 관리 메뉴를 선택하세요 : ");
             switch (menu){
                 case 1 :
@@ -148,7 +147,6 @@ public class AdminView {
                     "[5] 영화 삭제",
                     "[0] 이전으로 돌아가기"
             }, ConsoleUI.GREEN);
-            ConsoleUI.printLine(ConsoleUI.GREEN);
 
             int menu = ConsoleUI.promptInt(sc, "영화 관리 메뉴를 선택하세요 : ");
             switch (menu){

@@ -20,14 +20,34 @@ import java.util.stream.Collectors;
 
 public class EndView {
 
+    // EndView 공통 출력 보조 메서드
+    private static String fit(String text, int width) {
+        if (text == null) text = "";
+        if (text.length() > width) {
+            return text.substring(0, width);
+        }
+        return text + " ".repeat(width - text.length());
+    }
+
+    private static void printDashLine() {
+        System.out.println("-".repeat(ConsoleUI.WIDTH));
+    }
+
     /*
      * 0311
      * 김채영
      * TODO: 전체 사용자 상세목록 조회 View 형식 개발
      * */
+//    public static void printUserList(List<Member> list) {
+//        for (Member member : list) {
+//            System.out.println(member);
+//        }
+//    }
     public static void printUserList(List<Member> list) {
+        ConsoleUI.printHeader("회원 상세 목록", "총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
         for (Member member : list) {
             System.out.println(member);
+            printDashLine();
         }
     }
 
@@ -37,9 +57,9 @@ public class EndView {
      * TODO: 삭제 된 사용자 조회 View
      * */
     public static void deleteUser(String name) {
-        System.out.println(name + " 사용자가 삭제되었습니다.");
+        ConsoleUI.info(name + " 사용자가 삭제되었습니다.");
         //System.out.println("현재 사용자 수"+  +"명");
-        System.out.println();
+        ConsoleUI.blank(1);
     }
 
     /*
@@ -47,14 +67,28 @@ public class EndView {
      * 김채영
      * TODO: 전체 사용자 목록 조회 View
      * */
+//    public static void printUserShort(List<Member> list) {
+//        System.out.println("-----------< 사용자 "+ list.size() +"명 >-----------");
+//        for(Member member : list) {
+//            System.out.print("회원 번호 : " + member.getMemberId()+
+//                    " | 회원 아이디 : " + member.getUserId() +
+//                    " | 이름 : " + member.getName() + "\n" );
+//            System.out.println("--------------------------------------------------------------");
+//
+//        }
+//    }
     public static void printUserShort(List<Member> list) {
-        System.out.println("-----------< 사용자 "+ list.size() +"명 >-----------");
-        for(Member member : list) {
-            System.out.print("회원 번호 : " + member.getMemberId()+
-                    " | 회원 아이디 : " + member.getUserId() +
-                    " | 이름 : " + member.getName() + "\n" );
-            System.out.println("--------------------------------------------------------------");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("회원 목록", "총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
+        for (Member member : list) {
+            String row =
+                    "회원 번호 : " + fit(String.valueOf(member.getMemberId()), 4) +
+                            " | 회원 아이디 : " + fit(member.getUserId(), 12) +
+                            " | 이름 : " + fit(member.getName(), 10);
+
+            System.out.println(row);
+            printDashLine();
         }
     }
 
@@ -63,24 +97,42 @@ public class EndView {
      * 김채영
      * TODO: 전체 문의 조회 View
      * */
+//    public static void printInquiryShort(List<Inquiry> list) {
+//        Member member = new Member();
+//        System.out.println("-------------< 문의 "+ list.size() +"개 >-------------");
+//        for(Inquiry inquiry : list) {
+//            String processed = null;
+//            if(inquiry.getProcessed() == true){
+//                processed = "resolved";
+//            }else{
+//                processed = "pending";
+//            }
+//            System.out.println("문의 번호 : " + inquiry.getInquiryId()+
+//                    " | 회원 아이디 : " + inquiry.getMemberId() +
+//                    " | 제목 : " + inquiry.getTitle()+
+//                    " | 회원 아이디 : " + inquiry.getMemberId() +
+//                    " | 구분 : " + inquiry.getCategory() +
+//                    " | 처리여부 : " + processed +"\n" );
+//            System.out.println("----------------------------------------------------------------------------");
+//
+//        }
+//    }
     public static void printInquiryShort(List<Inquiry> list) {
-        Member member = new Member();
-        System.out.println("-------------< 문의 "+ list.size() +"개 >-------------");
-        for(Inquiry inquiry : list) {
-            String processed = null;
-            if(inquiry.getProcessed() == true){
-                processed = "resolved";
-            }else{
-                processed = "pending";
-            }
-            System.out.println("문의 번호 : " + inquiry.getInquiryId()+
-                    " | 회원 아이디 : " + inquiry.getMemberId() +
-                    " | 제목 : " + inquiry.getTitle()+
-                    " | 회원 아이디 : " + inquiry.getMemberId() +
-                    " | 구분 : " + inquiry.getCategory() +
-                    " | 처리여부 : " + processed +"\n" );
-            System.out.println("----------------------------------------------------------------------------");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("문의 목록", "총 " + list.size() + "개", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
+        for (Inquiry inquiry : list) {
+            String processed = inquiry.getProcessed() ? "resolved" : "pending";
+
+            String row =
+                    "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
+                            " | 회원 ID : " + fit(String.valueOf(inquiry.getMemberId()), 6) +
+                            " | 구분 : " + fit(String.valueOf(inquiry.getCategory()), 10) +
+                            " | 처리여부 : " + fit(processed, 8);
+
+            System.out.println(row);
+            System.out.println("제목 : " + inquiry.getTitle());
+            printDashLine();
         }
     }
 
@@ -89,22 +141,39 @@ public class EndView {
      * 이동혁
      * TODO: 사용자 문의 조회 View
      * */
+//    public static void printUserInquiryShort(List<Inquiry> list) {
+//        Member member = new Member();
+//        System.out.println("-------------< 문의 " + list.size() + "개 >-------------");
+//        for (Inquiry inquiry : list) {
+//            String processed = null;
+//            if (inquiry.getProcessed() == true) {
+//                processed = "resolved";
+//            } else {
+//                processed = "pending";
+//            }
+//            System.out.println("문의 번호 : " + inquiry.getInquiryId() +
+//                    " | 제목 : " + inquiry.getTitle() +
+//                    " | 구분 : " + inquiry.getCategory() +
+//                    " | 처리여부 : " + processed + "\n");
+//            System.out.println("----------------------------------------------------------------------------");
+//
+//        }
+//    }
     public static void printUserInquiryShort(List<Inquiry> list) {
-        Member member = new Member();
-        System.out.println("-------------< 문의 " + list.size() + "개 >-------------");
-        for (Inquiry inquiry : list) {
-            String processed = null;
-            if (inquiry.getProcessed() == true) {
-                processed = "resolved";
-            } else {
-                processed = "pending";
-            }
-            System.out.println("문의 번호 : " + inquiry.getInquiryId() +
-                    " | 제목 : " + inquiry.getTitle() +
-                    " | 구분 : " + inquiry.getCategory() +
-                    " | 처리여부 : " + processed + "\n");
-            System.out.println("----------------------------------------------------------------------------");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("내 문의 목록", "총 " + list.size() + "개", ConsoleUI.RED, ConsoleUI.YELLOW);
 
+        for (Inquiry inquiry : list) {
+            String processed = inquiry.getProcessed() ? "resolved" : "pending";
+
+            String row =
+                    "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
+                            " | 구분 : " + fit(String.valueOf(inquiry.getCategory()), 10) +
+                            " | 처리여부 : " + fit(processed, 8);
+
+            System.out.println(row);
+            System.out.println("제목 : " + inquiry.getTitle());
+            printDashLine();
         }
     }
 
@@ -118,9 +187,16 @@ public class EndView {
      * 김채영
      * TODO: 문의 상세 조회 View
      * */
+//    public static void printInquiryDetail(List<Inquiry> list) {
+//        for(Inquiry inquiry : list) {
+//            System.out.println(inquiry);
+//        }
+//    }
     public static void printInquiryDetail(List<Inquiry> list) {
-        for(Inquiry inquiry : list) {
+        ConsoleUI.printHeader("문의 상세 조회", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        for (Inquiry inquiry : list) {
             System.out.println(inquiry);
+            printDashLine();
         }
     }
 
@@ -232,9 +308,16 @@ public class EndView {
      * 김채영
      * TODO: 영화 상세 조회 View
      * */
+//    public static void printMovieDetail(List<Movie> list) {
+//        for(Movie movie : list) {
+//            System.out.println(movie);
+//        }
+//    }
     public static void printMovieDetail(List<Movie> list) {
-        for(Movie movie : list) {
+        ConsoleUI.printHeader("영화 상세 조회", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        for (Movie movie : list) {
             System.out.println(movie);
+            printDashLine();
         }
     }
 
