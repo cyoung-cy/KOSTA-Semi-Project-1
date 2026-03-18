@@ -16,6 +16,8 @@ import exception.AppConfigException;
 public class CinemaCache {
 
 	private Map<String, Room> roomMap = new HashMap<>();
+	
+	private Map<Integer, Room> roomMapById = new HashMap<>();
 
 	private final SeatDAO seatDAO;
     private final RoomDAO roomDAO;
@@ -53,6 +55,7 @@ public class CinemaCache {
     		room.setSeatsAndBuildLayout(seatSet);
 
     		roomMap.put(room.getName(), room);
+    		roomMapById.put(room.getRoomId(), room);
     	}
     	
         System.out.println("상영관 데이터 캐싱 완료!");
@@ -68,6 +71,10 @@ public class CinemaCache {
 
     public Room getRoom(String roomName) {
         return roomMap.get(roomName);
+    }
+    
+    public Room getRoomById(int roomId) {
+        return roomMapById.get(roomId);
     }
     
 }

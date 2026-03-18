@@ -3,6 +3,7 @@ package dao;
 
 import dto.Member;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -58,4 +59,11 @@ public interface MemberDAO {
      * TODO: 전체 사용자 상세검색
      * */
     List<Member> selectUserDetail(String userId);
+    
+    /*
+     * 20260318
+     * 한상혁
+     * TODO: 특정 사용자 검색(사용자ID로 조회)
+     * */
+    Member selectOneById(Connection conn, int memberId);
 }

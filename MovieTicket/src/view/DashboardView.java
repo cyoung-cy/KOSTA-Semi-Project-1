@@ -193,8 +193,8 @@ public class DashboardView {
         for (Reservation r : list) {
             int dow = r.getScheduleId(); // DAYOFWEEK (1=일 ~ 7=토)
             int idx = dow - 1;           // 배열 인덱스 (0=일 ~ 6=토)
-            counts[idx] = r.getCount();
-            sales[idx]  = r.getTotalPrice();
+//            counts[idx] = r.getCount();
+//            sales[idx]  = r.getTotalPrice();
         }
 
         // 최대 매출 요일 계산

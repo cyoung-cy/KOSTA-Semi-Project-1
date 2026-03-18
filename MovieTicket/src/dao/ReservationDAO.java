@@ -1,11 +1,10 @@
 package dao;
 
-import dto.Movie;
-import dto.Reservation;
-import dto.Seat;
-
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+
+import dto.Reservation;
 
 public interface ReservationDAO {
     /*
@@ -15,5 +14,11 @@ public interface ReservationDAO {
      */
     List<Reservation> selectReservationsByMemberId(int memberId) throws SQLException;
     
-    void insert(Reservation reservation);
+    /*
+     * 20260318
+     * 한상혁
+     * TODO: 예매 등록
+     */
+    int insert(Connection conn, Reservation reservation);
+    
 }

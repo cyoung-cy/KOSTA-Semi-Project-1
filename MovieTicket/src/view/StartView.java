@@ -103,6 +103,8 @@ public class StartView {
             switch(menu) {
                 case 1 :
                     //영화 예매
+                	ReservationController.getInstance().manageReservation(member);
+                	break;
                 case 2 :
                     //영화 추천
                     MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre());
@@ -162,9 +164,10 @@ public class StartView {
             System.out.println("=============================================================");
             System.out.println("                      [1] 회원 관리");
             System.out.println("                      [2] 영화 관리");
-            System.out.println("                      [3] 문의 관리");
-            System.out.println("                      [4] 통계보기");
-            System.out.println("                      [5] 로그아웃");
+            System.out.println("                      [3] 스케줄 관리"); // 한상혁 / 영화 스케줄 단계 추가
+            System.out.println("                      [4] 문의 관리");
+            System.out.println("                      [5] 통계보기");
+            System.out.println("                      [6] 로그아웃");
             System.out.println("                      [0] 종료");
             System.out.println("=============================================================");
 
@@ -179,15 +182,19 @@ public class StartView {
                     //영화 관리
                     AdminView.moivieManager(member);
                     break;
-                case 3 :
+//                case 3 :
+//                    //영화 관리
+//                    AdminView.scheduleManager(member);
+//                    break;
+                case 4 :
                     //문의 관리
                     AdminView.inquiryManage(member);
                     break;
-                case 4:
+                case 5:
                     //통계보기
                     AdminView.statistics(member);
                     break;
-                case 5 :
+                case 6 :
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
                     return;
@@ -334,10 +341,10 @@ public class StartView {
     }
 
     public static void insertReview(int memberId) {
-        ReservationService reservationService = new ReservationService();
+        ReservationService reservationService = ReservationService.getInstance();
         MemberDAO memberDAO = new MemberDAOImpl();
 
-        ReservationController.selectReservationsByMemberId(memberId);
+//        ReservationController.selectReservationsByMemberId(memberId);
         List<Member> m = memberDAO.selectUsers();
 
         String name = null;

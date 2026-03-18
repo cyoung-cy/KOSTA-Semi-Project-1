@@ -5,10 +5,13 @@ import java.util.Set;
 import common.jdbc.QueryExecutor;
 import dao.RoomDAO;
 import dto.Room;
+import mapper.RoomMapper;
 
 public class RoomDAOImpl implements RoomDAO{
 	
 	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static final RoomMapper roomMapper = RoomMapper.getInstance();
 	
 	private static final RoomDAOImpl instance = new RoomDAOImpl();
 	
@@ -31,8 +34,9 @@ public class RoomDAOImpl implements RoomDAO{
 
 	@Override
 	public Set<Room> selectAllRooms() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from ROOM";
+		
+		return queryExecutor.queryForSet(sql, roomMapper);
 	}
 
 	@Override

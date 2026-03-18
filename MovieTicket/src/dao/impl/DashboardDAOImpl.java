@@ -192,8 +192,8 @@ public class DashboardDAOImpl implements DashboardDAO {
             while (rs.next()) {
                 Reservation reservation = new Reservation();
                 reservation.setScheduleId(rs.getInt("day_of_week"));   // 요일 임시 저장
-                reservation.setCount(rs.getInt("reservation_count"));  // 예매 수 임시 저장
-                reservation.setTotalPrice(rs.getInt("daily_sales"));   // 매출 임시 저장
+//                reservation.setCount(rs.getInt("reservation_count"));  // 예매 수 임시 저장
+//                reservation.setTotalPrice(rs.getInt("daily_sales"));   // 매출 임시 저장
                 list.add(reservation);
             }
 

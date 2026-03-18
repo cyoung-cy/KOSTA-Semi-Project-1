@@ -2,6 +2,8 @@ package dto;
 
 import java.sql.Timestamp;
 
+import cache.CinemaCache;
+
 public class Schedules {
 	
 	private int scheduleId;
@@ -17,6 +19,11 @@ public class Schedules {
 		this.roomId = roomId;
 		this.movieId = movieId;
 	}
+	
+	public String getRoomName() {
+        Room room = CinemaCache.getInstance().getRoomById(this.roomId);
+        return (room != null) ? room.getName() : "정보 없음";
+    }
 
 	public int getScheduleId() {
 		return scheduleId;
