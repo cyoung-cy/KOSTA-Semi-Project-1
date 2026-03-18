@@ -54,7 +54,7 @@ public class ConsoleUI {
 
     // 영어 텍스트 보정 중앙정렬
     public static void printlnCenterTight(String text) {
-        System.out.println(center(text, WIDTH - 6));
+        System.out.println(center(text, WIDTH - 1));
     }
 
     public static String center(String text, int width) {
@@ -63,11 +63,7 @@ public class ConsoleUI {
         return " ".repeat(padding) + text;
     }
 
-    // 헤더 제목 전용 중앙 정렬
-    public static void printlnHeaderCenter(String text) {
-        // 일반 center보다 살짝 왼쪽으로 보정
-        System.out.println(center(text, WIDTH - 2));
-    }
+
 
     private static int getDisplayWidth(String text) {
         int width = 0;
@@ -97,29 +93,32 @@ public class ConsoleUI {
         printlnCenter(RED + BOLD + "╚═╝     ╚═╝ ╚═════╝   ╚═══╝  ╚═╝╚══════╝" + RESET);
         printlnCenter(YELLOW + BOLD + "T I C K E T   C O U N T E R" + RESET);
         printLine(RED);
-        printlnCenter("영화처럼 시작되는 당신의 콘솔 시네마" + RESET);
+        printlnCenterOffset("영화처럼 시작되는 당신의 콘솔 시네마", 3);
         printLine(RED);
-    }
-
-    public static void printHeader(String title, String subtitle, String color) {
-        printLine(color);
-        printlnHeaderCenter(color + BOLD + "《 " + title + " 》" + RESET);
-        // subtitle은 기본색으로 출력
-        if (subtitle != null && !subtitle.isBlank()) {
-            printlnCenterTight(subtitle);
-        }
-        printLine(color);
     }
 
     public static void printHeader(String title, String subtitle, String lineColor, String titleColor) {
         printLine(lineColor);
-        printlnCenter(titleColor + BOLD + "《 " + title + " 》" + RESET);
+        printlnHeaderTitle(titleColor + BOLD + "《 " + title + " 》" + RESET);
 
         if (subtitle != null && !subtitle.isBlank()) {
-            printlnCenterTight(subtitle);   // 디폴트 글씨색 유지
+            //printlnCenterTight(subtitle);   // 디폴트 글씨색 유지
+            printlnCenter(subtitle);   // 디폴트 글씨색 유지
         }
 
         printLine(lineColor);
+    }
+
+//    // 헤더 제목 전용 중앙 정렬
+//    public static void printlnHeaderCenter(String text) {
+//        System.out.println(center(text, WIDTH - 1));
+//    }
+
+    // 헤더 제목 전용 중앙 정렬
+    private static void printlnHeaderTitle(String text) {
+        int textWidth = getDisplayWidth(removeAnsi(text));
+        int padding = Math.max(0, (WIDTH - textWidth) / 2 - 1); // 1칸 왼쪽 보정
+        System.out.println(" ".repeat(padding) + text);
     }
 
     public static void printSectionTitle(String title, String color) {
@@ -133,7 +132,7 @@ public class ConsoleUI {
      * */
     // 메뉴 정렬 방식 (번호 기준 정렬)
     public static void printMenu(String[] menus, String color) {
-        int leftPadding = (WIDTH / 2) - 10;   // 메뉴 시작 위치 고정
+        int leftPadding = (WIDTH / 2) - 7;   // 메뉴 시작 위치 고정
 
         for (String menu : menus) {
             if (color == null) {
@@ -152,22 +151,23 @@ public class ConsoleUI {
         }
     }
 
-    // 메시지 출력
-    public static void info(String message) {
-        System.out.println(CYAN + "[안내] " + message + RESET);
+    // 중앙 정렬 후 오른쪽으로 offset만큼 이동
+    public static void printlnCenterOffset(String text, int offset) {
+        System.out.println(" ".repeat(offset) + center(text, WIDTH));
     }
 
-    public static void warn(String message) {
-        System.out.println(RED + "[경고] " + message + RESET);
-    }
+    // 메시지 출력
+    public static void info(String message) { System.out.println(CYAN + "[안내] " + message + RESET); }
 
     public static void success(String message) {
-        System.out.println(GREEN + "[완료] " + message + RESET);
+        System.out.println(CYAN + "[완료] " + message + RESET);
     }
 
     public static void error(String message) {
         System.out.println(RED + BOLD + "[오류] " + message + RESET);
     }
+
+    public static void alert(String message) { System.out.println(RED + "[알림] " + message + RESET); }
 
     // 입력창 출력
     public static String prompt(Scanner sc, String label) {
@@ -180,29 +180,9 @@ public class ConsoleUI {
             try {
                 return Integer.parseInt(prompt(sc, label).trim());
             } catch (NumberFormatException e) {
-                warn("숫자만 입력해주세요.");
+                alert("숫자만 입력해주세요.");
             }
         }
-    }
-
-    // 표 출력용
-    /**
-     * 20260317
-     * TODO: 영화 목록을 "|" 기준으로 간격 맞출 때 사용.
-     * */
-    public static void printRow(int w1, int w2, int w3, int w4,
-                                String c1, String c2, String c3, String c4) {
-        String format = "%-" + w1 + "s | %-" + w2 + "s | %-" + w3 + "s | %-" + w4 + "s%n";
-        System.out.printf(format, safe(c1), safe(c2), safe(c3), safe(c4));
-    }
-
-    /**
-     * TODO: 열이 5개일 때 사용
-     * */
-    public static void printRow(int w1, int w2, int w3, int w4, int w5,
-                                String c1, String c2, String c3, String c4, String c5) {
-        String format = "%-" + w1 + "s | %-" + w2 + "s | %-" + w3 + "s | %-" + w4 + "s | %-" + w5 + "s%n";
-        System.out.printf(format, safe(c1), safe(c2), safe(c3), safe(c4), safe(c5));
     }
 
     /**

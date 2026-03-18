@@ -59,7 +59,7 @@ public class StartView {
                     System.exit(0);
                 default:
                     //new WrongInput();
-                    ConsoleUI.warn("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
+                    ConsoleUI.alert("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
                     break;
             }
         }
@@ -118,6 +118,7 @@ public class StartView {
                     break;
                 case 2 :
                     //영화 추천
+                    ConsoleUI.info("영화 목록을 불러옵니다.");
                     MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre());
                     break;
                 case 3 :
@@ -148,7 +149,7 @@ public class StartView {
                     System.exit(0);
                     break;
                 default:
-                    ConsoleUI.warn("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
+                    ConsoleUI.alert("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
                     break;
             }
         }
@@ -184,22 +185,27 @@ public class StartView {
             switch(menu) {
                 case 1 :
                     //회원 관리
+                    ConsoleUI.info("전체 회원 정보를 불러옵니다...");
                     MemberController.selectUsers(member);
                     break;
-                case 2 :
+                case 2 :ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
                     //영화 관리
-                    AdminView.moivieManager(member);
+                    ConsoleUI.info("영화 관리 메뉴로 이동합니다...");
+                    AdminView.movieManager(member);
                     break;
                 case 3 :
                     //문의 관리
+                    ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
                     AdminView.inquiryManage(member);
                     break;
                 case 4:
                     //통계보기
+                    ConsoleUI.info("통계 화면을 불러옵니다...");
                     AdminView.statistics(member);
                     break;
                 case 5 :
                     //로그아웃
+                    ConsoleUI.info("로그아웃을 진행합니다...");
                     StartView.logout(member.getMemberId(), member.getUserId());
                     ConsoleUI.success("로그아웃 되었습니다.");
                     return;
@@ -209,7 +215,7 @@ public class StartView {
                     System.exit(0);
                     break;
                 default:
-                    ConsoleUI.warn("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
+                    ConsoleUI.alert("잘못된 입력입니다. 메뉴 번호를 다시 입력해주세요.");
                     break;
             }
 
@@ -239,11 +245,6 @@ public class StartView {
         SessionSet ss = SessionSet.getInstance();
         ss.remove(session);
     }
-//    public static void logout(int memberId, String userId) {
-//        Session session = new Session(memberId, userId);
-//        SessionSet ss = SessionSet.getInstance();
-//        ss.remove(session);
-//    }
     
     /*
      * 2026-03-13
@@ -261,7 +262,7 @@ public class StartView {
         } else if(select.equals("N")) {
             ConsoleUI.info("회원탈퇴가 취소되었습니다.");
         } else {
-            ConsoleUI.warn("잘못된 입력입니다. Y 또는 N을 입력해주세요.");
+            ConsoleUI.alert("잘못된 입력입니다. Y 또는 N을 입력해주세요.");
         }
     }
 
@@ -281,7 +282,7 @@ public class StartView {
         while(true) {
             password = ConsoleUI.prompt(sc, "비밀번호 (8자 이상)");
             if(!ValidateUtil.isValidPassword(password)) {
-                ConsoleUI.warn("비밀번호는 8자 이상 입력하세요.");
+                ConsoleUI.alert("비밀번호는 8자 이상 입력하세요.");
                 continue;
             }
             break;
@@ -292,7 +293,7 @@ public class StartView {
         while(true) {
             phone = ConsoleUI.prompt(sc, "전화번호 (ex: 010-xxxx-xxxx)");
             if(!ValidateUtil.isValidPhone(phone)) {
-                ConsoleUI.warn("전화번호 양식이 올바르지 않습니다. 예시) 010-1234-5678");
+                ConsoleUI.alert("전화번호 양식이 올바르지 않습니다. 예시) 010-1234-5678");
                 continue;
             }
             break;
@@ -303,7 +304,7 @@ public class StartView {
         while(true) {
             birth = ConsoleUI.prompt(sc, "생일 (ex: 2000-01-01)");
             if(!ValidateUtil.isValidBirth(birth)) {
-                ConsoleUI.warn("생일 양식이 올바르지 않습니다. 예시) 2000-01-01");
+                ConsoleUI.alert("생일 양식이 올바르지 않습니다. 예시) 2000-01-01");
                 continue;
             }
             break;
@@ -326,14 +327,14 @@ public class StartView {
                         .collect(Collectors.toList());
                 break;
             } catch (IllegalArgumentException e) {
-                ConsoleUI.warn(e.getMessage());
+                ConsoleUI.alert(e.getMessage());
             }
         }
 
         while(true) {
             cardInfo = ConsoleUI.prompt(sc, "결제 정보 (ex: 1111-1111-1111-1111)");
             if(!ValidateUtil.isValidCardInfo(cardInfo)) {
-                ConsoleUI.warn("카드 정보 양식이 올바르지 않습니다. 예시) 1234-5678-9012-3456");
+                ConsoleUI.alert("카드 정보 양식이 올바르지 않습니다. 예시) 1234-5678-9012-3456");
                 continue;
             }
             break;
@@ -391,7 +392,7 @@ public class StartView {
                 if (found) {
                     sta = false;
                 } else {
-                    ConsoleUI.warn("'" + name + "' 님이 예매한 영화가 아닙니다.");
+                    ConsoleUI.alert("'" + name + "' 님이 예매한 영화가 아닙니다.");
                 }
 
             } catch (SQLException e) {
@@ -406,7 +407,7 @@ public class StartView {
             if(rating >= 1 && rating <= 5){
                 sta = false;
             } else {
-                ConsoleUI.warn("평점은 1~5 사이 정수를 입력해주세요.");
+                ConsoleUI.alert("평점은 1~5 사이 정수를 입력해주세요.");
             }
         }
 
@@ -416,7 +417,7 @@ public class StartView {
             content = ConsoleUI.prompt(sc, "리뷰를 작성하세요");
 
             if (BadWordUtil.containsBadWord(content)) {
-                ConsoleUI.warn("욕설이 포함되어 있어 등록 불가합니다.");
+                ConsoleUI.alert("욕설이 포함되어 있어 등록 불가합니다.");
             } else {
                 sta = false;
             }

@@ -8,14 +8,32 @@ public class PagingUtil {
      * TODO: 문자열을 지정한 출력 너비(칸 수)에 맞게 오른쪽을 공백으로 채워 반환
      *       출력 너비 초과 시 truncateToWidth()로 잘라낸 뒤 패딩 없이 반환
      */
-    public static String padRight(String text, int targetWidth) {
-        if (text == null) text = "";
-        int displayWidth = getDisplayWidth(text);
-        int padding = targetWidth - displayWidth;
-        if (padding < 0) {
-            text = truncateToWidth(text, targetWidth);
-            padding = 0;
+//    public static String padRight(String text, int targetWidth) {
+//        if (text == null) text = "";
+//        int displayWidth = getDisplayWidth(text);
+//        int padding = targetWidth - displayWidth;
+//        if (padding < 0) {
+//            text = truncateToWidth(text, targetWidth);
+//            padding = 0;
+//        }
+//        return text + " ".repeat(padding);
+//    }
+
+    /**
+     * 출력 폭 기준으로 오른쪽 패딩
+     * */
+    // 출력 폭 초과 시 잘라내고, 아니면 오른쪽 공백 채움
+    public static String padRight(String text, int width) {
+        if (text == null) {
+            text = "";
         }
+
+        // 문자 길이 기준으로 잘라냄
+        if (text.length() > width) {
+            return truncateToWidth(text, width);
+        }
+
+        int padding = width - text.length();
         return text + " ".repeat(padding);
     }
 
@@ -25,13 +43,16 @@ public class PagingUtil {
      * TODO: 문자열의 실제 출력 너비(칸 수)를 계산하여 반환
      *       한글·전각 문자는 2칸, 영문·숫자·특수문자는 1칸으로 집계
      */
-    private static int getDisplayWidth(String text) {
-        int width = 0;
-        for (char c : text.toCharArray()) {
-            width += isFullWidth(c) ? 2 : 1;
-        }
-        return width;
-    }
+//    public static int getDisplayWidth(String text) {
+//        if (text == null) return 0;
+//
+//        int width = 0;
+//        for (char ch : text.toCharArray()) {
+//            width += isFullWidth(ch) ? 2 : 1;
+//        }
+//        return width;
+//    }
+
 
     /*
      * 0314
@@ -56,16 +77,9 @@ public class PagingUtil {
      *       전각 문자 삽입 시 너비가 홀수 칸 남으면 공백 1개를 추가해 칸 수를 맞춤
      */
     private static String truncateToWidth(String text, int targetWidth) {
-        StringBuilder sb = new StringBuilder();
-        int used = 0;
-        for (char c : text.toCharArray()) {
-            int cw = isFullWidth(c) ? 2 : 1;
-            if (used + cw > targetWidth) break;
-            sb.append(c);
-            used += cw;
-        }
-        if (used < targetWidth) sb.append(" ");
-        return sb.toString();
+        if (text == null) return "";
+        if (text.length() <= targetWidth) return text;
+        return text.substring(0, targetWidth);
     }
 
     /*
@@ -78,7 +92,7 @@ public class PagingUtil {
         return "-".repeat(idW) + "-+-" +
                 "-".repeat(titleW) + "-+-" +
                 "-".repeat(genreW) + "-+-" +
-                "-".repeat(timeW)  + "-+-" +
+                "-".repeat(timeW) + "-+-" +
                 "-".repeat(statusW);
     }
 }
