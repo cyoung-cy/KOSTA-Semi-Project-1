@@ -5,6 +5,7 @@ import dao.impl.DashboardDAOImpl;
 import dto.Member;
 import dto.Movie;
 import dto.Reservation;
+import dto.WeeklyStat;
 
 import java.util.List;
 
@@ -47,8 +48,7 @@ public class DashboardService {
      * 김채영
      * TODO: 주간 요일별 매출 및 예매 분석 서비스
      * */
-    public List<Reservation> reservationMovie() {
+    public List<WeeklyStat> reservationMovie() {
         return dashboardDAO.reservationMovie();
     }
-
 }

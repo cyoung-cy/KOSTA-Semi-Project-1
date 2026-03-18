@@ -20,7 +20,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
 	private static final ReservationDAOImpl instance = new ReservationDAOImpl();
 
-	private ReservationDAOImpl() {}
+	public ReservationDAOImpl() {}
 
 	public static ReservationDAOImpl getInstance() {
 		return instance;

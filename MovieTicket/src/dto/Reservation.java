@@ -15,7 +15,6 @@ public class Reservation {
 	private int movieId;
 	private String cardInfo;
 	private Timestamp paidAt;
-	
 	// VO 따로 만들어서 좌석, 스케줄, 영화 정보까지 담기.
 
 	public Reservation() {}
