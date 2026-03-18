@@ -4,6 +4,7 @@ import dao.DashboardDAO;
 import dto.Member;
 import dto.Movie;
 import dto.Reservation;
+import dto.WeeklyStat;
 import util.DbManager;
 
 import java.sql.*;
@@ -167,12 +168,12 @@ public class DashboardDAOImpl implements DashboardDAO {
     }
 
     @Override
-    public List<Reservation> reservationMovie() {
+    public List<WeeklyStat> reservationMovie() {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        List<Reservation> list = new ArrayList<>();
+        List<WeeklyStat> list = new ArrayList<>();
 
         // 이번 주 월요일 ~ 일요일 기준, 요일별 예매 수 & 매출 합계
         String sql = "SELECT DAYOFWEEK(r.PAID_AT) AS day_of_week, " +
@@ -190,11 +191,12 @@ public class DashboardDAOImpl implements DashboardDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                Reservation reservation = new Reservation();
-                reservation.setScheduleId(rs.getInt("day_of_week"));   // 요일 임시 저장
-//                reservation.setCount(rs.getInt("reservation_count"));  // 예매 수 임시 저장
-//                reservation.setTotalPrice(rs.getInt("daily_sales"));   // 매출 임시 저장
-                list.add(reservation);
+                WeeklyStat stat = new WeeklyStat(
+                        rs.getInt("day_of_week"),
+                        rs.getInt("reservation_count"),
+                        rs.getInt("daily_sales")
+                );
+                list.add(stat);
             }
 
         } catch (SQLException e) {

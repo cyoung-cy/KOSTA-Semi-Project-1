@@ -107,7 +107,8 @@ public class MemberDAOImpl implements MemberDAO {
                 		rs.getString("BIRTH_DATE"),
                 		genreList,
                 		rs.getString("CARD_INFO"),
-                		rs.getString("ROLE")
+                		rs.getString("ROLE"),
+                        rs.getString("CREATE_AT")
                 );
                 list.add(member);
             }

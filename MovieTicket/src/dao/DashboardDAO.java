@@ -3,6 +3,7 @@ package dao;
 import dto.Member;
 import dto.Movie;
 import dto.Reservation;
+import dto.WeeklyStat;
 
 import java.util.List;
 
@@ -35,5 +36,5 @@ public interface DashboardDAO {
      * 김채영
      * TODO: 주간 요일별 매출 및 예매 분석
      * */
-    List<Reservation> reservationMovie();
+    List<WeeklyStat> reservationMovie();
 }

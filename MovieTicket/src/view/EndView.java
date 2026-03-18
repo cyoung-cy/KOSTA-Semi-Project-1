@@ -256,60 +256,61 @@ public class EndView {
      *       영화 제목은 MovieDAO의 selectMovieDetail()을 이용해 조회
      *       사용자 이름은 MemberDAO의 selectUsers()를 이용해 조회
      * */
-//    public static void selectReservationsByMemberId(List<Reservation> reservationList, int memberId) {
-//        MovieDAO movieDAO = new MovieDAOImpl();
-//        MemberDAO memberDAO = new MemberDAOImpl();
-//        final int PAGE_SIZE = 15;
-//        int totalPages = (int) Math.ceil((double) reservationList.size() / PAGE_SIZE);
-//        int currentPage = 0;
-//        Scanner scanner = new Scanner(System.in);
-//
-//        final int reservIdW = 12;
-//        final int memberIdW = 10;
-//        final int movieIdW  = 10;
-//        final int titleW    = 36;
-//
-//        String separator = "-".repeat(reservIdW) + "-+-" +
-//                "-".repeat(memberIdW) + "-+-" +
-//                "-".repeat(movieIdW)  + "-+-" +
-//                "-".repeat(titleW);
-//
-//        // 회원 이름 조회
-//        List<Member> members = memberDAO.selectUsers();
-//        String name = members.stream()
-//                .filter(m -> m.getMemberId() == memberId)
-//                .map(Member::getName)
-//                .findFirst()
-//                .orElse("알 수 없음");
-//
-//        // 페이징 루프
-//        while (true) {
-//            int from = currentPage * PAGE_SIZE;
-//            int to   = Math.min(from + PAGE_SIZE, reservationList.size());
-//
-//        System.out.println("\n["+name+" 예약 목록]  총 " + reservationList.size() + "건");
-//        System.out.println(separator);
-//        System.out.println(
-//                PagingUtil.padRight("예약 ID", reservIdW) + " | " +
-//                        PagingUtil.padRight("회원 ID", memberIdW) + " | " +
-//                        PagingUtil.padRight("영화 ID", movieIdW)  + " | " +
-//                        PagingUtil.padRight("영화 제목", titleW)
-//        );
-//        System.out.println(separator);
-//
-//        for (Reservation r : reservationList) {
-////            // selectMovieDetail()은 List로 반환하므로 get(0)으로 꺼냄
-////            List<Movie> movieDetail = movieDAO.selectMovieDetail(r.getMovieId());
-////            String title = (!movieDetail.isEmpty()) ? movieDetail.get(0).getMovieTitle() : "정보 없음";
-////
-////            System.out.println(
-////                    PagingUtil.padRight(String.valueOf(r.getReservationId()), reservIdW) + " | " +
-////                            PagingUtil.padRight(String.valueOf(r.getMemberId()),      memberIdW) + " | " +
-////                            PagingUtil.padRight(String.valueOf(r.getMovieId()),       movieIdW)  + " | " +
-////                            PagingUtil.padRight(title,                                titleW)
-////            );
-//        }
-//    }
+    public static void selectReservationsByMemberId(List<Reservation> reservationList, int memberId) {
+        MovieDAO movieDAO = new MovieDAOImpl();
+        MemberDAO memberDAO = new MemberDAOImpl();
+        final int PAGE_SIZE = 15;
+        int totalPages = (int) Math.ceil((double) reservationList.size() / PAGE_SIZE);
+        int currentPage = 0;
+        Scanner scanner = new Scanner(System.in);
+
+        final int reservIdW = 12;
+        final int memberIdW = 10;
+        final int movieIdW = 10;
+        final int titleW = 36;
+
+        String separator = "-".repeat(reservIdW) + "-+-" +
+                "-".repeat(memberIdW) + "-+-" +
+                "-".repeat(movieIdW) + "-+-" +
+                "-".repeat(titleW);
+
+        // 회원 이름 조회
+        List<Member> members = memberDAO.selectUsers();
+        String name = members.stream()
+                .filter(m -> m.getMemberId() == memberId)
+                .map(Member::getName)
+                .findFirst()
+                .orElse("알 수 없음");
+
+        // 페이징 루프
+        while (true) {
+            int from = currentPage * PAGE_SIZE;
+            int to = Math.min(from + PAGE_SIZE, reservationList.size());
+
+            System.out.println("\n[" + name + " 예약 목록]  총 " + reservationList.size() + "건");
+            System.out.println(separator);
+            System.out.println(
+                    PagingUtil.padRight("예약 ID", reservIdW) + " | " +
+                            PagingUtil.padRight("회원 ID", memberIdW) + " | " +
+                            PagingUtil.padRight("영화 ID", movieIdW) + " | " +
+                            PagingUtil.padRight("영화 제목", titleW)
+            );
+            System.out.println(separator);
+
+            for (Reservation r : reservationList) {
+                // selectMovieDetail()은 List로 반환하므로 get(0)으로 꺼냄
+                List<Movie> movieDetail = movieDAO.selectMovieDetail(r.getMovieId());
+                String title = (!movieDetail.isEmpty()) ? movieDetail.get(0).getMovieTitle() : "정보 없음";
+
+                System.out.println(
+                        PagingUtil.padRight(String.valueOf(r.getReservationId()), reservIdW) + " | " +
+                                PagingUtil.padRight(String.valueOf(r.getMemberId()), memberIdW) + " | " +
+                                PagingUtil.padRight(String.valueOf(r.getMovieId()), movieIdW) + " | " +
+                                PagingUtil.padRight(title, titleW)
+                );
+            }
+        }
+    }
 
     /*
      * 0313
@@ -403,9 +404,6 @@ public class EndView {
                 System.out.println("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
             }
         }
-
-
-
     }
 
     /*
@@ -481,5 +479,4 @@ public class EndView {
             }
         }
     }
-
 }
