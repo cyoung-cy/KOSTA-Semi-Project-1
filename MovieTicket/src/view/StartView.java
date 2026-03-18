@@ -73,7 +73,6 @@ public class StartView {
         System.out.println("                      [0] 프로그램 종료");
         System.out.println("=============================================================");
         System.out.print("이용하실 서비스 번호를 입력하세요: ");
-
     }
 
     /*
