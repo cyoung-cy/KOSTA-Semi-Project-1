@@ -8,9 +8,7 @@ public class ReservationInfo {
 	private String category;
 	private int price;
 	
-	public ReservationInfo() {
-		
-	}
+	public ReservationInfo() {}
 	
 	public ReservationInfo(int reservationInfoId, int reservationId, int seatId, String category, int price) {
 		this.reservationInfoId = reservationInfoId;

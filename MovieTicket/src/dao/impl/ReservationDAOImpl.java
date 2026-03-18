@@ -12,8 +12,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.jdbc.QueryExecutor;
+
 public class ReservationDAOImpl implements ReservationDAO {
 
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+
+	private static final ReservationDAOImpl instance = new ReservationDAOImpl();
+
+	public ReservationDAOImpl() {}
+
+	public static ReservationDAOImpl getInstance() {
+		return instance;
+	}
+	
     @Override
     public List<Reservation> selectReservationsByMemberId(int memberId) throws SQLException {
         Connection con = null;
@@ -36,7 +48,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 Reservation r = new Reservation();
                 r.setMemberId(rs.getInt("MEMBER_ID"));
                 r.setReservationId(rs.getInt("RESERVATION_ID"));
-                r.setMovieId(rs.getInt("MOVIE_ID"));
                 list.add(r);
             }
 
@@ -47,4 +58,18 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
         return list;
     }
+    
+    @Override
+    public void insert(Reservation reservation) {
+    	 String sql = "insert into RESERVATION(MEMBER_ID, SCHEDULE_ID, MOVIE_ID, CARD_INFO) "
+    	 		+ "VALUES (?, ?, ?, ?)";
+         
+         Object[] params = { 
+         		reservation.getMemberId(), reservation.getScheduleId(), 
+         		reservation.getMovieId(), reservation.getCardInfo()
+ 				};
+         
+         queryExecutor.update(sql, params);
+    }
+    
 }

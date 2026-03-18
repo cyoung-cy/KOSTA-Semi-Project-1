@@ -3,6 +3,7 @@ package controller;
 import dto.Member;
 import dto.Movie;
 import dto.Reservation;
+import dto.WeeklyStat;
 import service.DashboardService;
 import view.DashboardView;
 import view.FailView;
@@ -61,7 +62,7 @@ public class DashboardController {
      * */
     public static void reservationMovie() {
         try {
-            List<Reservation> list = dashboardService.reservationMovie();
+            List<WeeklyStat> list = dashboardService.reservationMovie();
             DashboardView.reservationMovie(list);
         }catch (Exception e){
             FailView.errorMessage(e.getMessage());

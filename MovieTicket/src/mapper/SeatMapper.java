@@ -8,14 +8,11 @@ import dto.Seat;
 
 public class SeatMapper implements RowMapper<Seat> {
 	
-	private static SeatMapper instance;
+	private static final SeatMapper instance = new SeatMapper();
 	
 	private SeatMapper() {};
 	
 	public static SeatMapper getInstance() {
-		if(instance == null) {
-			instance = new SeatMapper();
-		}
 		return instance;
 	}
 	

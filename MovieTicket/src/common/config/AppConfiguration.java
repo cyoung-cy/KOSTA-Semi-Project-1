@@ -6,14 +6,12 @@ import dao.impl.SeatDAOImpl;
 
 public class AppConfiguration {
 	
-	private static AppConfiguration instance;
+	private static final AppConfiguration instance = new AppConfiguration();
 
+	// 생성자에 주입 코드 넣기
 	private AppConfiguration() {}
 
 	public static AppConfiguration getInstance() {
-		if (instance == null) {
-			instance = new AppConfiguration();
-		}
 		return instance;
 	}
 
