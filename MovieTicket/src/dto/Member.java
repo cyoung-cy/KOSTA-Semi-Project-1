@@ -37,7 +37,21 @@ public class Member {
 		this.name = name;
 	}
 
-	public int getMemberId() {
+    public Member(int memberId, String userId, String password, String name, String phone, String address, String birthDate, List<String> genreList, String cardInfo, String role, String createAt) {
+        this.memberId = memberId;
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.preferredGenre = genreList;
+        this.cardInfo = cardInfo;
+        this.role = role;
+        this.createAt = createAt;
+    }
+
+    public int getMemberId() {
 		return memberId;
 	}
 
