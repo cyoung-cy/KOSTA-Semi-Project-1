@@ -1,6 +1,8 @@
 package dao;
 
 import dto.Movie;
+
+import java.sql.Connection;
 import java.util.List;
 
 public interface MovieDAO {
@@ -59,4 +61,11 @@ public interface MovieDAO {
      * TODO: 영화ID로 단일 영화 조회
      * */
     Movie selectOne(int movieId);
+
+    /*
+     * 0313
+     * 김채영
+     * TODO: 누적 관객 수 추가
+     * */
+    int updateAudiAcc(Connection conn, int movieId, int count);
 }

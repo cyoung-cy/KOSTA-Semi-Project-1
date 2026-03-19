@@ -108,4 +108,10 @@ public class SeatDAOImpl implements SeatDAO{
 				scheduleId);
 	}
 
+	@Override
+	public List<String> findReservedSeatNamesByRoomId(int roomId) {
+		String sql = "SELECT NAME FROM SEAT WHERE ROOM_ID = ? AND IS_RESERVED = TRUE";
+		return queryExecutor.queryForList(sql, rs -> rs.getString("NAME"), roomId);
+	}
+
 }
