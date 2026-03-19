@@ -35,4 +35,11 @@ public interface SchedulesDAO {
      * TODO: 아이디로 단일 스케줄 조회
      * */
 	Schedules selectOneById(Connection conn, int scheduleId);
+
+	/*
+	 * 20260319
+	 * 김채영
+	 * TODO: 아이디로 단일 스케줄 조회
+	 * */
+	List<Schedules> selectByRoomIdAndDate(int roomId, String date);
 }

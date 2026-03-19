@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.MovieDAO;
@@ -77,5 +78,37 @@ public class SchedulesService {
         
         return list;
     }
-	
+
+	// 영화 러닝타임 기준으로 하루 시간대 슬롯 생성 (9:00 ~ 24:00)
+	public List<String[]> generateTimeSlots(int screeningTime) {
+		List<String[]> slots = new ArrayList<>();
+		int startHour = 9;
+		int startMin = 0;
+
+		// 청소 시간 30분 포함
+		int totalMin = screeningTime + 30;
+
+		while (true) {
+			int endHour = startHour + (startMin + screeningTime) / 60;
+			int endMin = (startMin + screeningTime) % 60;
+
+			// 24시 초과 시 종료
+			if (endHour >= 24) break;
+
+			String start = String.format("%02d:%02d", startHour, startMin);
+			String end   = String.format("%02d:%02d", endHour, endMin);
+			slots.add(new String[]{ start, end });
+
+			// 다음 슬롯 시작 = 현재 종료 + 청소 30분
+			startMin += totalMin;
+			startHour += startMin / 60;
+			startMin  = startMin % 60;
+		}
+		return slots;
+	}
+
+	// 특정 날짜, 상영관에서 사용 중인 시간대 조회
+	public List<Schedules> getSchedulesByRoomAndDate(int roomId, String date) {
+		return schedulesDAO.selectByRoomIdAndDate(roomId, date);
+	}
 }

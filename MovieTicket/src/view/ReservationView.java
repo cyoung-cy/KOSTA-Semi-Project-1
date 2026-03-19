@@ -18,11 +18,12 @@ public class ReservationView {
     // ──────────────────────────────────────────────
     // Step 1 : 영화 선택
     // ──────────────────────────────────────────────
-    public int askMovieId(List<Movie> movieList) {
+    // 기존 반환타입 int → Movie로 변경
+    public Movie askMovieId(List<Movie> movieList) {
         System.out.println("\n=================== [ 영화 목록 조회 ] ===================");
         for (int i = 0; i < movieList.size(); i++) {
             Movie m = movieList.get(i);
-            System.out.printf("[%d] ID:%-5d | %-20s | %s%n",
+            System.out.printf("[%d] ID:%-10d | %-20s | %s%n",
                     i + 1,
                     m.getMovieId(),
                     m.getMovieTitle(),
@@ -39,7 +40,10 @@ public class ReservationView {
                 int choice = Integer.parseInt(sc.nextLine().trim());
                 if (choice == 0) throw new RuntimeException("뒤로가기");
                 if (choice >= 1 && choice <= movieList.size()) {
-                    return movieList.get(choice - 1).getMovieId();
+                    Movie selected = movieList.get(choice - 1);
+                    // 선택한 영화 디테일 바로 출력
+                    printMovieDetail(selected);
+                    return selected;
                 }
                 System.out.println("❌ 목록에 있는 번호를 선택해주세요. (1 ~ " + movieList.size() + ")");
             } catch (NumberFormatException e) {
