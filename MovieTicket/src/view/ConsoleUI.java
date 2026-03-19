@@ -102,8 +102,19 @@ public class ConsoleUI {
         printlnHeaderTitle(titleColor + BOLD + "《 " + title + " 》" + RESET);
 
         if (subtitle != null && !subtitle.isBlank()) {
-            //printlnCenterTight(subtitle);   // 디폴트 글씨색 유지
-            printlnCenter(subtitle);   // 디폴트 글씨색 유지
+            printlnSubtitle(subtitle);   // 디폴트 글씨색 유지
+        }
+
+        printLine(lineColor);
+    }
+
+    // 오버로딩 (subtitle 보정값 받는 메소드)
+    public static void printHeader(String title, String subtitle, String lineColor, String titleColor, int subtitleAdjust) {
+        printLine(lineColor);
+        printlnHeaderTitle(titleColor + BOLD + "《 " + title + " 》" + RESET);
+
+        if (subtitle != null && !subtitle.isBlank()) {
+            printlnSubtitle(subtitle, subtitleAdjust);
         }
 
         printLine(lineColor);
@@ -127,6 +138,17 @@ public class ConsoleUI {
         printLine(color);
     }
 
+    // subtitle 중앙정렬 (기본값)
+    public static void printlnSubtitle(String subtitle) {
+        printlnCenter(subtitle);
+    }
+
+    // subtitle 중앙정렬 (직접 조정)
+    public static void printlnSubtitle(String subtitle, int adjust) {
+        int leftPadding = Math.max(0, ((WIDTH - getDisplayWidth(removeAnsi(subtitle))) / 2) + adjust);
+        System.out.println(" ".repeat(leftPadding) + subtitle);
+    }
+
     /**
      * TODO: 메뉴 숫자 기준으로 정렬
      * */
@@ -144,6 +166,25 @@ public class ConsoleUI {
         }
 
         // 구분선 색상 통일
+        if (color == null) {
+            printLine(RED);
+        } else {
+            printLine(color);
+        }
+    }
+
+    // leftPadding 값을 직접 지정
+    public static void printMenu(String[] menus, String color, int adjust) {
+        int leftPadding = (WIDTH / 2) - adjust;
+
+        for (String menu : menus) {
+            if (color == null) {
+                System.out.println(" ".repeat(leftPadding) + menu);
+            } else {
+                System.out.println(" ".repeat(leftPadding) + color + menu + RESET);
+            }
+        }
+
         if (color == null) {
             printLine(RED);
         } else {
@@ -171,7 +212,7 @@ public class ConsoleUI {
 
     // 입력창 출력
     public static String prompt(Scanner sc, String label) {
-        System.out.printf(label + ": ");
+        System.out.print(label + ": ");
         return sc.nextLine();
     }
 
@@ -198,6 +239,29 @@ public class ConsoleUI {
 
     private static String safe(String s) {
         return s == null ? "" : s;
+    }
+
+    private static String padRight(String text, int width) {
+        if (text == null) {
+            text = "";
+        }
+
+        int textWidth = getDisplayWidth(removeAnsi(text));
+        int padding = Math.max(0, width - textWidth);
+        return text + " ".repeat(padding);
+    }
+
+    public static void printKeyValue(String key, String value) {
+        String safeValue = (value == null || value.isBlank()) ? "-" : value;
+        System.out.println(padRight(key, 10) + " : " + safeValue);
+    }
+
+    public static void printKeyValue(String key, int value) {
+        System.out.println(padRight(key, 10) + " : " + value);
+    }
+
+    public static void printKeyValue(String key, boolean value, String trueLabel, String falseLabel) {
+        System.out.println(padRight(key, 10) + " : " + (value ? trueLabel : falseLabel));
     }
 
 }

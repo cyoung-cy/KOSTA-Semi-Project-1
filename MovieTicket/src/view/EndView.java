@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class EndView {
 
-    // EndView 공통 출력 보조 메서드
+    // EndView 공통 출력 보조 메서드 (영문 기준)
     private static String fit(String text, int width) {
         if (text == null) text = "";
         if (text.length() > width) {
@@ -38,16 +38,14 @@ public class EndView {
      * 김채영
      * TODO: 전체 사용자 상세목록 조회 View 형식 개발
      * */
-//    public static void printUserList(List<Member> list) {
-//        for (Member member : list) {
-//            System.out.println(member);
-//        }
-//    }
     public static void printUserList(List<Member> list) {
-        ConsoleUI.printHeader("회원 상세 목록", "총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
+        if (list == null || list.isEmpty()) {
+            ConsoleUI.alert("조회된 회원 정보가 없습니다.");
+            return;
+        }
+
         for (Member member : list) {
-            System.out.println(member);
-            printDashLine();
+            printMemberDetail(member);
         }
     }
 
@@ -67,19 +65,9 @@ public class EndView {
      * 김채영
      * TODO: 전체 사용자 목록 조회 View
      * */
-//    public static void printUserShort(List<Member> list) {
-//        System.out.println("-----------< 사용자 "+ list.size() +"명 >-----------");
-//        for(Member member : list) {
-//            System.out.print("회원 번호 : " + member.getMemberId()+
-//                    " | 회원 아이디 : " + member.getUserId() +
-//                    " | 이름 : " + member.getName() + "\n" );
-//            System.out.println("--------------------------------------------------------------");
-//
-//        }
-//    }
     public static void printUserShort(List<Member> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("회원 목록", "총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("회원 목록", "전체 회원 현황 | 총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         for (Member member : list) {
             String row =
@@ -97,41 +85,22 @@ public class EndView {
      * 김채영
      * TODO: 전체 문의 조회 View
      * */
-//    public static void printInquiryShort(List<Inquiry> list) {
-//        Member member = new Member();
-//        System.out.println("-------------< 문의 "+ list.size() +"개 >-------------");
-//        for(Inquiry inquiry : list) {
-//            String processed = null;
-//            if(inquiry.getProcessed() == true){
-//                processed = "resolved";
-//            }else{
-//                processed = "pending";
-//            }
-//            System.out.println("문의 번호 : " + inquiry.getInquiryId()+
-//                    " | 회원 아이디 : " + inquiry.getMemberId() +
-//                    " | 제목 : " + inquiry.getTitle()+
-//                    " | 회원 아이디 : " + inquiry.getMemberId() +
-//                    " | 구분 : " + inquiry.getCategory() +
-//                    " | 처리여부 : " + processed +"\n" );
-//            System.out.println("----------------------------------------------------------------------------");
-//
-//        }
-//    }
     public static void printInquiryShort(List<Inquiry> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("문의 목록", "총 " + list.size() + "개", ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("문의 목록", "문의 접수 현황 | 총 " + list.size() + "건", ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
 
         for (Inquiry inquiry : list) {
-            String processed = inquiry.getProcessed() ? "resolved" : "pending";
+            String processedText = inquiry.getProcessed() ? "resolved" : "pending";
+            String processedColor = inquiry.getProcessed() ? ConsoleUI.GREEN : ConsoleUI.RED;
 
             String row =
                     "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
                             " | 회원 ID : " + fit(String.valueOf(inquiry.getMemberId()), 6) +
                             " | 구분 : " + fit(String.valueOf(inquiry.getCategory()), 10) +
-                            " | 처리여부 : " + fit(processed, 8);
+                            " | 처리여부 : " + processedColor + fit(processedText, 8) + ConsoleUI.RESET;
 
             System.out.println(row);
-            System.out.println("제목 : " + inquiry.getTitle());
+            System.out.println("제목 : " + ConsoleUI.GREEN + inquiry.getTitle() + ConsoleUI.RESET);
             printDashLine();
         }
     }
@@ -141,38 +110,21 @@ public class EndView {
      * 이동혁
      * TODO: 사용자 문의 조회 View
      * */
-//    public static void printUserInquiryShort(List<Inquiry> list) {
-//        Member member = new Member();
-//        System.out.println("-------------< 문의 " + list.size() + "개 >-------------");
-//        for (Inquiry inquiry : list) {
-//            String processed = null;
-//            if (inquiry.getProcessed() == true) {
-//                processed = "resolved";
-//            } else {
-//                processed = "pending";
-//            }
-//            System.out.println("문의 번호 : " + inquiry.getInquiryId() +
-//                    " | 제목 : " + inquiry.getTitle() +
-//                    " | 구분 : " + inquiry.getCategory() +
-//                    " | 처리여부 : " + processed + "\n");
-//            System.out.println("----------------------------------------------------------------------------");
-//
-//        }
-//    }
     public static void printUserInquiryShort(List<Inquiry> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("내 문의 목록", "총 " + list.size() + "개", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("내 문의 목록", "내 문의 내역 | 총 " + list.size() + "건", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         for (Inquiry inquiry : list) {
-            String processed = inquiry.getProcessed() ? "resolved" : "pending";
+            String processedText = inquiry.getProcessed() ? "resolved" : "pending";
+            String processedColor = inquiry.getProcessed() ? ConsoleUI.GREEN : ConsoleUI.RED;
 
             String row =
                     "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
                             " | 구분 : " + fit(String.valueOf(inquiry.getCategory()), 10) +
-                            " | 처리여부 : " + fit(processed, 8);
+                            " | 처리여부 : " + processedColor + fit(processedText, 8) + ConsoleUI.RESET;
 
             System.out.println(row);
-            System.out.println("제목 : " + inquiry.getTitle());
+            System.out.println("제목 : " + ConsoleUI.GREEN + inquiry.getTitle() + ConsoleUI.RESET);
             printDashLine();
         }
     }
@@ -182,21 +134,15 @@ public class EndView {
      * 김채영
      * TODO: 문의 상세 조회 View
      * */
-    /*
-     * 0312
-     * 김채영
-     * TODO: 문의 상세 조회 View
-     * */
-//    public static void printInquiryDetail(List<Inquiry> list) {
-//        for(Inquiry inquiry : list) {
-//            System.out.println(inquiry);
-//        }
-//    }
     public static void printInquiryDetail(List<Inquiry> list) {
-        ConsoleUI.printHeader("문의 상세 조회", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        //ConsoleUI.printHeader("문의 상세 조회", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        if (list == null || list.isEmpty()) {
+            ConsoleUI.alert("조회된 문의 정보가 없습니다.");
+            return;
+        }
+
         for (Inquiry inquiry : list) {
-            System.out.println(inquiry);
-            printDashLine();
+            printInquiryDetail(inquiry);
         }
     }
 
@@ -308,16 +254,14 @@ public class EndView {
      * 김채영
      * TODO: 영화 상세 조회 View
      * */
-//    public static void printMovieDetail(List<Movie> list) {
-//        for(Movie movie : list) {
-//            System.out.println(movie);
-//        }
-//    }
     public static void printMovieDetail(List<Movie> list) {
-        ConsoleUI.printHeader("영화 상세 조회", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        if (list == null || list.isEmpty()) {
+            ConsoleUI.alert("조회된 영화 정보가 없습니다.");
+            return;
+        }
+
         for (Movie movie : list) {
-            System.out.println(movie);
-            printDashLine();
+            printMovieDetail(movie);
         }
     }
 
@@ -591,6 +535,67 @@ public class EndView {
                 ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
             }
         }
+    }
+
+    public static void printMovieDetail(Movie movie) {
+        String subtitle = "[" + movie.getMovieTitle() + "] 상세 정보";
+        ConsoleUI.printHeader("영화 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
+
+        printDetailItem("영화 번호", movie.getMovieId());
+        printDetailItem("배우", movie.getActor());
+        printDetailItem("개봉일", movie.getReleaseDate());
+        printDetailItem("장르", movie.getGenre());
+        printDetailItem("상영시간", movie.getScreeningTime() + "분");
+        printDetailItem("감독", movie.getDirector());
+        printDetailItem("상영여부", movie.getIsScreening(), "상영중", "상영종료");
+
+    }
+
+    public static void printInquiryDetail(Inquiry inquiry) {
+        String subtitle = "[문의 #" + inquiry.getInquiryId() + "] 상세 정보";
+        ConsoleUI.printHeader("문의 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
+
+        printDetailItem("회원 번호", inquiry.getMemberId());
+        printDetailItem("제목", inquiry.getTitle());
+        printDetailItem("내용", inquiry.getContent());
+        printDetailItem("카테고리", inquiry.getCategory());
+        printDetailItem("작성일", String.valueOf(inquiry.getCreatedAt()));
+        printDetailItem("처리 상태", inquiry.getProcessed(), "처리완료", "대기중");
+        printDetailItem("답변",
+                inquiry.getResponse() == null ? "아직 답변이 없습니다." : inquiry.getResponse());
+    }
+
+    private static void printMemberDetail(Member member) {
+        String subtitle = "[" + member.getUserId() + "] 님의 회원 정보";
+        ConsoleUI.printHeader("회원 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
+
+        printDetailItem("회원 번호", member.getMemberId());
+        printDetailItem("회원 아이디", member.getUserId());
+        printDetailItem("비밀번호", member.getPassword());
+        printDetailItem("이름", member.getName());
+        printDetailItem("전화번호", member.getPhone());
+        printDetailItem("주소", member.getAddress());
+        printDetailItem("생년월일", member.getBirthDate());
+        printDetailItem("선호 장르",
+                member.getPreferredGenre() == null ? "-" : String.join(", ", member.getPreferredGenre()));
+        printDetailItem("카드 정보", member.getCardInfo());
+        printDetailItem("권한", member.getRole());
+        printDetailItem("가입일", member.getCreateAt());
+    }
+
+    private static void printDetailItem(String label, String value) {
+        System.out.println("■ " + label);
+        System.out.println("  " + ConsoleUI.GREEN + (value == null || value.isBlank() ? "-" : value) + ConsoleUI.RESET);
+    }
+
+    private static void printDetailItem(String label, int value) {
+        System.out.println("■ " + label);
+        System.out.println("  " + ConsoleUI.GREEN + value + ConsoleUI.RESET);
+    }
+
+    private static void printDetailItem(String label, boolean value, String trueText, String falseText) {
+        System.out.println("■ " + label);
+        System.out.println("  " + ConsoleUI.GREEN + (value ? trueText : falseText) + ConsoleUI.RESET);
     }
 
 }

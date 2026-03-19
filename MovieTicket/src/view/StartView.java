@@ -167,9 +167,10 @@ public class StartView {
 
             ConsoleUI.printHeader(
                     "ADMIN CONTROL ROOM",
-                    "WELCOME, " + member.getName() + " MANAGER",
+                    "WELCOME, " + member.getName() + " MANAGER!",
                     ConsoleUI.GREEN,
-                    ConsoleUI.GREEN
+                    ConsoleUI.GREEN,
+                    1
             );
 
             ConsoleUI.printMenu(new String[]{
@@ -188,7 +189,7 @@ public class StartView {
                     ConsoleUI.info("전체 회원 정보를 불러옵니다...");
                     MemberController.selectUsers(member);
                     break;
-                case 2 :ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
+                case 2 :
                     //영화 관리
                     ConsoleUI.info("영화 관리 메뉴로 이동합니다...");
                     AdminView.movieManager(member);
@@ -200,7 +201,7 @@ public class StartView {
                     break;
                 case 4:
                     //통계보기
-                    ConsoleUI.info("통계 화면을 불러옵니다...");
+                    ConsoleUI.info("통계 메뉴로 이동합니다...");
                     AdminView.statistics(member);
                     break;
                 case 5 :

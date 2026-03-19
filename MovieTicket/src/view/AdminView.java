@@ -26,28 +26,29 @@ public class AdminView {
                     "[2] 회원 목록 조회",
                     "[3] 회원 상세 조회",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN);
+            }, ConsoleUI.GREEN, 9);
 
             int menu = ConsoleUI.promptInt(sc, "회원 관리 메뉴 번호를 입력하세요");
 
             switch (menu){
                 case 1 :
                     //회원 삭제
-                    ConsoleUI.info("회원 삭제를 진행합니다.");
+                    ConsoleUI.info("회원 삭제 메뉴로 이동합니다...");
                     deleteUserByName();
                     break;
                 case 2 :
                     //회원 목록 조회
-                    ConsoleUI.info("회원 목록을 불러옵니다.");
+                    ConsoleUI.info("회원 목록을 불러옵니다...");
                     MemberController.selectUsers(member);
                 case 3 :
                     //회원 상세 조회
-                    ConsoleUI.info("회원 상세 정보를 조회합니다.");
+                    ConsoleUI.info("회원 상세 정보를 조회합니다...");
                     selectUserDetail();
                     userManage(member);
                     break;
                 case 0 :
                     //이전으로 돌아가기
+                    ConsoleUI.info("이전 화면으로 돌아갑니다...");
                     StartView.printAdminMenu(member);
                     break;
                 default:
@@ -59,7 +60,7 @@ public class AdminView {
     }
 
     private static void selectUserDetail() {
-        String userId = ConsoleUI.prompt(sc, "상세 검색할 회원의 아이디를 입력하세요: ");
+        String userId = ConsoleUI.prompt(sc, "상세 검색할 회원의 아이디를 입력하세요");
         MemberController.selectUserDetail(userId);
     }
 
@@ -88,29 +89,29 @@ public class AdminView {
                     "[2] 문의 상세 조회",
                     "[3] 문의 답변",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN);
+            }, ConsoleUI.GREEN, 9);
 
-            int menu = ConsoleUI.promptInt(sc, "문의 관리 메뉴를 선택하세요 : ");
+            int menu = ConsoleUI.promptInt(sc, "문의 관리 메뉴를 선택하세요");
             switch (menu){
                 case 1 :
                     //문의 목록 조회
-                    ConsoleUI.info("전체 문의 정보를 조회합니다.");
+                    ConsoleUI.info("전체 문의 정보를 조회합니다...");
                     InquiryController.selectInquiry(member);
                     break;
                 case 2 :
                     //문의 상세 조회
-                    ConsoleUI.info("문의 상세 정보를 조회합니다.");
+                    ConsoleUI.info("문의 상세 정보를 조회합니다...");
                     selectInquiryDetail();
                     inquiryManage(member);
                     break;
                 case 3 :
                     //문의 답변
-                    ConsoleUI.info("문의 답변을 조회합니다.");
+                    ConsoleUI.info("문의 답변 화면으로 이동합니다...");
                     inquiryResponse();
                     break;
                 case 0 :
                     //이전으로 돌아가기
-                    ConsoleUI.info("이전으로 돌아갑니다.");
+                    ConsoleUI.info("이전으로 돌아갑니다...");
                     StartView.printAdminMenu(member);
                     break;
                 default:
@@ -126,11 +127,10 @@ public class AdminView {
     }
 
     private static void inquiryResponse() {
-        int inquiryId = ConsoleUI.promptInt(sc, "답변할 문의의 번호를 입력하세요 : ");
+        int inquiryId = ConsoleUI.promptInt(sc, "답변할 문의의 번호를 입력하세요");
         InquiryController.selectInquiryDetail(inquiryId);
 
-        System.out.print("답변 : ");
-        String response = ConsoleUI.prompt(sc, "답변 : ");
+        String response = ConsoleUI.prompt(sc, "답변");
         InquiryController.insertInquiryreResponse(inquiryId, response);
 
     }
@@ -146,33 +146,39 @@ public class AdminView {
                     "[4] 영화 수정",
                     "[5] 영화 삭제",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN);
+            }, ConsoleUI.GREEN, 9);
 
-            int menu = ConsoleUI.promptInt(sc, "영화 관리 메뉴를 선택하세요 : ");
+            int menu = ConsoleUI.promptInt(sc, "영화 관리 메뉴를 선택하세요");
             switch (menu){
                 case 1 :
                     //영화 목록 조회
+                    ConsoleUI.info("전체 영화 정보를 조회합니다...");
                     MovieController.selectAllMovies();
                     break;
                 case 2:
                     //영화 목록 상세 조회
+                    ConsoleUI.info("영화 상세 정보를 조회합니다...");
                     selectMovieDetail();
                     break;
                 case 3 :
                     //새로운 영화 등록
+                    ConsoleUI.info("영화 등록 메뉴로 이동합니다...");
                     AutoOrpassivity(member);
                     //insertMovie();
                     break;
                 case 4 :
                     //영화 정보 수정
+                    ConsoleUI.info("영화 수정 메뉴로 이동합니다...");
                     updateMovie(member);
                     break;
                 case 5 :
                     //영화 삭제
+                    ConsoleUI.info("영화 삭제 메뉴로 이동합니다...");
                     deleteMovieById();
                     break;
                 case 0 :
                     //이전으로 돌아가기
+                    ConsoleUI.info("이전 화면으로 돌아갑니다...");
                     StartView.printAdminMenu(member);
                     break;
                 default:
@@ -193,19 +199,22 @@ public class AdminView {
                     "[0] 돌아가기"
             }, ConsoleUI.GREEN);
 
-            int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요 : ");
+            int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요");
             switch (menu){
                 case 1:
+                    ConsoleUI.info("개봉 예정작 목록을 불러옵니다...");
                     MovieinsertView();
                     break;
                 case 2:
+                    ConsoleUI.info("수동 등록을 진행합니다...");
                     insertMovie();
                     break;
                 case 0:
+                    ConsoleUI.info("이전 화면으로 돌아갑니다...");
                     movieManager(member);
                     break;
                 default:
-                    new WrongInput();
+                    ConsoleUI.alert("올바른 메뉴 번호를 입력하세요.");
                     break;
             }
 
@@ -213,8 +222,7 @@ public class AdminView {
     }
 
     private static void deleteMovieById() {
-        System.out.print("삭제할 영화 ID를 입력하세요 : ");
-        int movieId = Integer.parseInt(sc.nextLine());
+        int movieId = ConsoleUI.promptInt(sc, "삭제할 영화 ID를 입력하세요");
         MovieController.deleteMovieById(movieId);
     }
 
@@ -228,21 +236,24 @@ public class AdminView {
                     "[0] 돌아가기"
             }, ConsoleUI.GREEN);
 
-            int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요 : ");
+            int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요");
             switch (menu){
                 case 1:
                     //상영 종료
+                    ConsoleUI.info("상영 종료 처리할 영화 목록을 불러옵니다...");
                     MovieController.selectMovieByIsScreen();
                     updateMovieIsScreen();
                     break;
                 case 2:
+                    ConsoleUI.info("영화 정보 수정을 진행합니다...");
                     updateMovieNormal();
                     break;
                 case 0:
+                    ConsoleUI.info("이전 화면으로 돌아갑니다...");
                     movieManager(member);
                     break;
                 default:
-                    new WrongInput();
+                    ConsoleUI.alert("올바른 메뉴 번호를 입력하세요.");
                     break;
             }
 
@@ -250,7 +261,7 @@ public class AdminView {
     }
 
     private static void updateMovieIsScreen() {
-        int movieId = ConsoleUI.promptInt(sc, "상영 종료할 영화 ID를 입력하세요 : ");
+        int movieId = ConsoleUI.promptInt(sc, " 상영 종료할 영화 ID를 입력하세요");
 
         String colName = "상영여부";
 
@@ -260,19 +271,16 @@ public class AdminView {
     }
 
     private static void updateMovieNormal() {
-        int movieId = ConsoleUI.promptInt(sc, "수정할 영화 ID를 입력하세요 : ");
+        int movieId = ConsoleUI.promptInt(sc, "수정할 영화 ID를 입력하세요");
 
-        System.out.print("수정할 칼럼명을 입력하세요 : ");
-        String colName = sc.nextLine();
-
-        System.out.print("내용을 입력하세요 : ");
-        String content = sc.nextLine();
+        String colName = ConsoleUI.prompt(sc, "수정할 칼럼명을 입력하세요");
+        String content = ConsoleUI.prompt(sc, "내용을 입력하세요");
 
         MovieController.updateMovie(movieId, colName, content);
     }
 
     private static void selectMovieDetail() {
-        int movieId = ConsoleUI.promptInt(sc, "상세 조회할 영화 ID를 입력하세요 : ");
+        int movieId = ConsoleUI.promptInt(sc, "상세 조회할 영화 ID를 입력하세요");
         MovieController.selectMovieDetail(movieId);
     }
 
@@ -343,15 +351,17 @@ public class AdminView {
                     break;
                 case "1":
                     try {
+                        ConsoleUI.info("개봉 예정작 상세 정보를 조회합니다...");
                         UpcomingMovieDetailAPI.showUpcomingMovieDetail(movies);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     break;
                 case "0":
+                    ConsoleUI.info("이전 화면으로 돌아갑니다...");
                     return;
                 default:
-                    ConsoleUI.alert("잘못된 입력입니다.");
+                    ConsoleUI.alert("올바른 메뉴를 입력하세요.");
             }
         }
     }
@@ -363,8 +373,7 @@ public class AdminView {
 
         Genre genre = null;
         while (genre == null) {
-            System.out.println("장르 (액션/애니메이션/스릴러/호러/코미디/로맨스/다큐/드라마/판타지) : ");
-            String inputGenre = sc.nextLine();
+            String inputGenre = ConsoleUI.prompt(sc, "장르 (액션/애니메이션/스릴러/호러/코미디/로맨스/다큐/드라마/판타지)");
             try {
                 genre = Genre.from(inputGenre);
             } catch (IllegalArgumentException e) {
@@ -372,14 +381,10 @@ public class AdminView {
             }
         }
 
-        System.out.print("상영시간 : ");
-        int screeningTime = Integer.parseInt(sc.nextLine());
+        int screeningTime = ConsoleUI.promptInt(sc, "상영시간");
+        String director = ConsoleUI.prompt(sc, "감독");
+        String status = ConsoleUI.prompt(sc, "상영여부");
 
-        System.out.print("감독 : ");
-        String director = sc.nextLine();
-
-        System.out.print("상영여부 : ");
-        String status = sc.nextLine();
         Boolean isScreening = false;
         if(status.equals("상영중")) {
             isScreening = true;
@@ -396,8 +401,7 @@ public class AdminView {
     public static void insertMovieAuto(String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director) {
         MovieService movieService = new MovieService();
 
-        System.out.print("개봉 예정일 영화를 등록하시겠습니까?(Y|N)");
-        String answer = sc.nextLine();
+        String answer = ConsoleUI.prompt(sc, "개봉 예정일 영화를 등록하시겠습니까?(Y/N)");
 
         List<Movie> list = movieService.selectAllMovies();
         for(Movie m2 : list){
@@ -409,8 +413,7 @@ public class AdminView {
         }
 
         if(answer.toUpperCase().equals("Y")){
-            System.out.print("상영여부를 입력해주세요. : ");
-            String status = sc.nextLine();
+            String status = ConsoleUI.prompt(sc, "상영여부를 입력해주세요");
             Boolean isScreening = false;
             if(status.equals("상영중")) {
                 isScreening = true;
@@ -435,28 +438,33 @@ public class AdminView {
                     "[3] 영화별 누적 예매 순위 (Top 10)",
                     "[4] 주간 매출 분석",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN);
+            }, ConsoleUI.GREEN, 14);
 
-            int menu = ConsoleUI.promptInt(sc, "관리 메뉴 번호를 입력하세요 : ");
+            int menu = ConsoleUI.promptInt(sc, "관리 메뉴 번호를 입력하세요");
             switch(menu) {
                 case 1 :
                     //신규 가입자 및 회원 증감 추이
+                    ConsoleUI.info("신규 가입자 및 회원 증감 추이를 불러옵니다...");
                     DashboardController.user();
                     break;
                 case 2 :
                     //영화 장르 선호도
+                    ConsoleUI.info("영화 장르 선호도를 불러옵니다...");
                     DashboardController.preferGenre();
                     break;
                 case 3 :
                     //영화별 누적 예매 순위 (Top 10)
+                    ConsoleUI.info("영화별 누적 예매 순위를 불러옵니다...");
                     DashboardController.movieTopten();
                     break;
                 case 4:
                     //주간 요일별 매출 및 예매 분석
+                    ConsoleUI.info("주간 매출 분석을 불러옵니다...");
                     DashboardController.reservationMovie();
                     break;
                 case 0 :
                     // 이전으로 돌아가기
+                    ConsoleUI.info("이전 화면으로 돌아갑니다...");
                     movieManager(member);
                     break;
                 default:
