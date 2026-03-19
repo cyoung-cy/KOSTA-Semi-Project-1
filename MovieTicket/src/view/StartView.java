@@ -138,6 +138,7 @@ public class StartView {
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
                     ConsoleUI.success("로그아웃 되었습니다.");
+                    StartView.menu();
                     return;
                 case 7 :
                     //회원탈퇴
@@ -197,17 +198,17 @@ public class StartView {
 //                    //영화 관리
 //                    AdminView.scheduleManager(member);
 //                    break;
-                case 4 :
+                case 3 :
                     //문의 관리
                     ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
                     AdminView.inquiryManage(member);
                     break;
-                case 5:
+                case 4:
                     //통계보기
                     ConsoleUI.info("통계 화면을 불러옵니다...");
                     AdminView.statistics(member);
                     break;
-                case 6 :
+                case 5 :
                     //로그아웃
                     ConsoleUI.info("로그아웃을 진행합니다...");
                     StartView.logout(member.getMemberId(), member.getUserId());
@@ -365,7 +366,7 @@ public class StartView {
         ConsoleUI.blank(1);
         ConsoleUI.printHeader("WRITE REVIEW", "TICKET HOLDER ONLY", ConsoleUI.RED, ConsoleUI.YELLOW);
 
-        ReservationController.selectReservationsByMemberId(memberId);
+//        ReservationController.selectReservationsByMemberId(memberId);
         List<Member> m = memberDAO.selectUsers();
 
         String name = null;

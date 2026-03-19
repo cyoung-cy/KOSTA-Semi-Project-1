@@ -132,7 +132,6 @@ public class AdminView {
         int inquiryId = ConsoleUI.promptInt(sc, "답변할 문의의 번호를 입력하세요 : ");
         InquiryController.selectInquiryDetail(inquiryId);
 
-        System.out.print("답변 : ");
         String response = ConsoleUI.prompt(sc, "답변 : ");
         InquiryController.insertInquiryreResponse(inquiryId, response);
 

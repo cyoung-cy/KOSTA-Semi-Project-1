@@ -71,6 +71,7 @@ public class InquiryController {
             EndView.printInquiryDetail(list);
         }catch (Exception e){
 //            e.printStackTrace();
+            FailView.errorMessage(e.getMessage());
             //startview 이동
         }
     }
