@@ -182,7 +182,7 @@ public class AdminView {
                     "[1] 개봉 예정작 등록",
                     "[2] 수동 등록",
                     "[0] 돌아가기"
-            }, ConsoleUI.GREEN);
+            }, ConsoleUI.GREEN, 11);
 
             int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요");
             switch (menu){
@@ -217,8 +217,8 @@ public class AdminView {
 
         Genre genre = null;
         while (genre == null) {
-            System.out.println("장르 (액션/애니메이션/스릴러/호러/코미디/로맨스/다큐/드라마/판타지) : ");
-            String inputGenre = sc.nextLine();
+
+            String inputGenre = ConsoleUI.prompt(sc, "장르 (액션/애니메이션/스릴러/호러/코미디/로맨스/드라마/판타지)");
             try {
                 genre = Genre.from(inputGenre);
             } catch (IllegalArgumentException e) {

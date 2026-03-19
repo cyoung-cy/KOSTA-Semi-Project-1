@@ -452,7 +452,7 @@ public class EndView {
                 );
             }
             System.out.println(separator);
-            System.out.println("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
             String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase("q")) {
