@@ -51,7 +51,7 @@ public class SeatDAOImpl implements SeatDAO{
 
 	@Override
 	public int updateIsReserved(Connection conn, int seatId, boolean isReserved) {
-		String sql = "UPDATE SEAT SET IS_RESERVED = ? WHERE SEAT_ID = ? AND IS_RESERVED = FALSE";
+		String sql = "UPDATE SEAT SET IS_RESERVED = ? WHERE SEAT_ID = ? AND (IS_RESERVED = FALSE OR IS_RESERVED IS NULL)";
 		return queryExecutor.update(conn, sql, isReserved, seatId);
 	}
 
