@@ -4,14 +4,16 @@ import controller.MemberController;
 import controller.MovieController;
 import controller.ReservationController;
 import controller.ReviewController;
-import dao.MemberDAO;
-import dao.impl.MemberDAOImpl;
+import dao.*;
+import dao.impl.*;
 import dto.Genre;
 import dto.Member;
 import dto.Reservation;
 import dto.Review;
 import exception.WrongInput;
 import service.ReservationService;
+import service.SchedulesService;
+import service.SeatService;
 import session.Session;
 import session.SessionSet;
 import util.BadWordUtil;
@@ -188,7 +190,7 @@ public class StartView {
                     ConsoleUI.info("전체 회원 정보를 불러옵니다...");
                     MemberController.selectUsers(member);
                     break;
-                case 2 :ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
+                case 2 :
                     //영화 관리
                     ConsoleUI.info("영화 관리 메뉴로 이동합니다...");
                     AdminView.movieManager(member);
@@ -197,22 +199,23 @@ public class StartView {
 //                    //영화 관리
 //                    AdminView.scheduleManager(member);
 //                    break;
-                case 4 :
+                case 3 :
                     //문의 관리
                     ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
                     AdminView.inquiryManage(member);
                     break;
-                case 5:
+                case 4:
                     //통계보기
                     ConsoleUI.info("통계 화면을 불러옵니다...");
                     AdminView.statistics(member);
                     break;
-                case 6 :
+                case 5:
                     //로그아웃
                     ConsoleUI.info("로그아웃을 진행합니다...");
                     StartView.logout(member.getMemberId(), member.getUserId());
                     ConsoleUI.success("로그아웃 되었습니다.");
-                    return;
+                    menu();
+                    break;
                 case 0 :
                     //종료
                     ConsoleUI.info("프로그램을 종료합니다.");
@@ -262,7 +265,11 @@ public class StartView {
         String select = ConsoleUI.prompt(sc, "정말 탈퇴하시겠습니까? (Y/N)").trim().toUpperCase();
 
         if(select.equals("Y")) {
-            MemberController.deleteUserByMemberId(member);
+            try {
+                MemberController.deleteUserByMemberId(member);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         } else if(select.equals("N")) {
             ConsoleUI.info("회원탈퇴가 취소되었습니다.");
         } else {
@@ -357,15 +364,15 @@ public class StartView {
 
         ConsoleUI.success("회원가입 요청이 완료되었습니다.");
     }
-
     public static void insertReview(int memberId) {
         ReservationService reservationService = ReservationService.getInstance();
+        ReservationController reservationController = ReservationController.getInstance();
         MemberDAO memberDAO = new MemberDAOImpl();
 
         ConsoleUI.blank(1);
         ConsoleUI.printHeader("WRITE REVIEW", "TICKET HOLDER ONLY", ConsoleUI.RED, ConsoleUI.YELLOW);
 
-        ReservationController.selectReservationsByMemberId(memberId);
+        reservationController.selectReservationsByMemberId(memberId);
         List<Member> m = memberDAO.selectUsers();
 
         String name = null;
@@ -435,7 +442,21 @@ public class StartView {
         ConsoleUI.success("리뷰가 등록되었습니다.");
     }
 
+
     public static void main(String[] args) {
+        ReservationDAO reservationDAO = ReservationDAOImpl.getInstance();
+        ReservationInfoDAO reservationInfoDAO = ReservationInfoDAOImpl.getInstance();
+        SchedulesDAO schedulesDAO = SchedulesDAOImpl.getInstance();
+        MemberDAO memberDAO = new MemberDAOImpl();
+        SeatDAO seatDAO = SeatDAOImpl.getInstance();
+        MovieDAO movieDAO = new MovieDAOImpl();
+        RoomDAO roomDAO = RoomDAOImpl.getInstance();
+
+        ReservationService.init(reservationDAO, reservationInfoDAO, schedulesDAO, memberDAO, seatDAO);
+        SchedulesService.init(schedulesDAO, movieDAO, roomDAO);
+        SeatService.init(seatDAO, roomDAO);
+
+
         new StartView();
     }
 }
