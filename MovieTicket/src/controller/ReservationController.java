@@ -53,7 +53,7 @@ public class ReservationController {
             System.out.println("\n=== 🎬 영화 예매 시스템을 시작합니다 ===");
 
             // Step 1: 영화 선택 (서비스에서 리스트 뽑아서 뷰에 전달)
-            List<Movie> movieList = movieService.selectAllMovies();
+            List<Movie> movieList = movieService.selectMovieByIsScreen();
             int movieId = reservationView.askMovieId(movieList); 
 
             // Step 2: 상영 일정 선택 (선택된 영화 ID로 스케줄 조회 후 뷰에 전달)
