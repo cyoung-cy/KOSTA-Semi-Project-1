@@ -13,10 +13,7 @@ public class Ticket {
 	 * TODO:영화 예매 정보 담는 VO
 	 */
 	private int reservationId; // 예약 번호
-	private String userName; // 예약자 이름
 	private String movieTitle; // 예약한 영화 이름
-	private int totalPrice; // 총 가격
-	private int count; // 예약 좌석 수
 	private List<Seat> seats; // 예약한 좌석 정보
 	private String roomName; // 몇 관인지
 	private Timestamp startTime; // 상영 시작 시간
@@ -28,12 +25,9 @@ public class Ticket {
 		
 	}
 
-	public Ticket(int reservationId, String userName, String movieTitle, int totalPrice, int count, String roomName, List<Seat> seats, Timestamp startTime, Timestamp endTime) {
+	public Ticket(int reservationId, String movieTitle,  String roomName, List<Seat> seats, Timestamp startTime, Timestamp endTime) {
 		this.reservationId = reservationId;
-		this.userName = userName;
 		this.movieTitle = movieTitle;
-		this.totalPrice = totalPrice;
-		this.count = count;
 		this.roomName = roomName;
 		this.seats = seats;
 		this.startTime = startTime;
@@ -56,36 +50,12 @@ public class Ticket {
 		this.reservationId = reservationId;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public String getMovieTitle() {
 		return movieTitle;
 	}
 
 	public void setMovieTitle(String movieTitle) {
 		this.movieTitle = movieTitle;
-	}
-
-	public int getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
 	}
 
 	public List<Seat> getSeats() {

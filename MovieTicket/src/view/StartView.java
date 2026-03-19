@@ -194,17 +194,21 @@ public class StartView {
                     ConsoleUI.info("영화 관리 메뉴로 이동합니다...");
                     AdminView.movieManager(member);
                     break;
-                case 3 :
+//                case 3 :
+//                    //영화 관리
+//                    AdminView.scheduleManager(member);
+//                    break;
+                case 4 :
                     //문의 관리
                     ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
                     AdminView.inquiryManage(member);
                     break;
-                case 4:
+                case 5:
                     //통계보기
                     ConsoleUI.info("통계 메뉴로 이동합니다...");
                     AdminView.statistics(member);
                     break;
-                case 5 :
+                case 6 :
                     //로그아웃
                     ConsoleUI.info("로그아웃을 진행합니다...");
                     StartView.logout(member.getMemberId(), member.getUserId());
@@ -356,7 +360,7 @@ public class StartView {
     }
 
     public static void insertReview(int memberId) {
-        ReservationService reservationService = new ReservationService();
+        ReservationService reservationService = ReservationService.getInstance();
         MemberDAO memberDAO = new MemberDAOImpl();
 
         ConsoleUI.blank(1);

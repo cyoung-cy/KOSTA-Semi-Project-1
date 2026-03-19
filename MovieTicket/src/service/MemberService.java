@@ -5,6 +5,7 @@ import dao.impl.MemberDAOImpl;
 import dto.Member;
 import exception.ExistedException;
 import exception.NotFoundException;
+import exception.WrongInput;
 import session.Session;
 import session.SessionSet;
 
@@ -97,9 +98,13 @@ public class MemberService {
     public void register(
     		Member member
     	) throws ExistedException, SQLException {
+        Member existedMember = memberDao.selectUserById(member.getUserId());
+        if(existedMember != null) {
+            throw new ExistedException("이미 존재하는 사용자 정보입니다.");
+        }
 
     	int result = memberDao.register(member);
-    	if(result == 0) throw new ExistedException("이미 존재하는 사용자 정보입니다.");
+    	if(result == 0) throw new WrongInput("회원가입에 실패했습니다.");
     }
     
     /*

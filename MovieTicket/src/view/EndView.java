@@ -10,6 +10,7 @@ import dto.Inquiry;
 import dto.Member;
 import dto.Movie;
 import util.PagingUtil;
+import util.PrintTickets;
 import vo.ReviewVO;
 import vo.Ticket;
 
@@ -327,17 +328,16 @@ public class EndView {
             );
             System.out.println(separator);
 
-            //현재 페이지 범위만 출력
-            for (int i = from; i < to; i++) {
-                Reservation r = reservationList.get(i);
+            for (Reservation r : reservationList) {
+                // selectMovieDetail()은 List로 반환하므로 get(0)으로 꺼냄
                 List<Movie> movieDetail = movieDAO.selectMovieDetail(r.getMovieId());
                 String title = (!movieDetail.isEmpty()) ? movieDetail.get(0).getMovieTitle() : "정보 없음";
 
                 System.out.println(
                         PagingUtil.padRight(String.valueOf(r.getReservationId()), reservIdW) + " | " +
-                                PagingUtil.padRight(String.valueOf(r.getMemberId()),      memberIdW) + " | " +
-                                PagingUtil.padRight(String.valueOf(r.getMovieId()),       movieIdW)  + " | " +
-                                PagingUtil.padRight(title,                                titleW)
+                                PagingUtil.padRight(String.valueOf(r.getMemberId()), memberIdW) + " | " +
+                                PagingUtil.padRight(String.valueOf(r.getMovieId()), movieIdW) + " | " +
+                                PagingUtil.padRight(title, titleW)
                 );
             }
 
@@ -375,7 +375,9 @@ public class EndView {
         final int PAGE_SIZE = 5; // 한 페이지 당 표시할 티켓 수
         int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
         int currentPage = 0;
-        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            PrintTickets.print(list);
+            Scanner scanner = new Scanner(System.in);
 
         final int reservIdW = 12;
         final int userNameW = 12;
@@ -458,9 +460,6 @@ public class EndView {
                 ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
             }
         }
-
-
-
     }
 
     /*

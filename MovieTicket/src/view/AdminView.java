@@ -1,10 +1,13 @@
 package view;
 
 import api.UpcomingMovieAPI;
+import cache.CinemaCache;
 import controller.DashboardController;
 import controller.InquiryController;
 import controller.MemberController;
 import controller.MovieController;
+import controller.RoomController;
+import controller.SchedulesController;
 import dto.*;
 import exception.WrongInput;
 import java.util.List;
@@ -474,6 +477,95 @@ public class AdminView {
 
         }
     }
+    
+//    public static void scheduleManager(Member member) {
+//        while(true){
+//        	System.out.println("=============================================================");
+//            System.out.println("                   🗓️  [상영 스케줄 관리]");
+//            System.out.println("=============================================================");
+//            System.out.println("                [1] 상영관별 스케줄 조회");
+//            System.out.println("                [2] 신규 스케줄 등록");
+//            System.out.println("                [3] 스케줄 정보 수정 (시간/관 변경)");
+//            System.out.println("                [4] 스케줄 삭제");
+//            System.out.println("                [0] 이전으로 돌아가기");
+//            System.out.println("=============================================================");
+//            System.out.print("메뉴를 선택하세요 : ");
+//
+//            System.out.print("관리 메뉴 번호를 입력하세요 : ");
+//            int menu = Integer.parseInt(sc.nextLine());
+//            switch (menu) {
+//                case 1 -> ScheduleView.viewSchedulesByRoom(member); 
+//                case 2 -> insertSchedule();     
+//                case 3 -> updateSchedule();     
+//                case 4 -> deleteSchedule();     
+//                case 0 -> StartView.printAdminMenu(member);
+//                default -> new WrongInput();
+//            }
+//        }
+//    }
+    
+//    private static void viewSchedulesByRoom(Member member) {
+//        System.out.println("\n=============================================================");
+//        System.out.println("🗓️  [ 상영관별 스케줄 상세 조회 ]");
+//        System.out.println("=============================================================");
+//
+//        RoomController.getInstance().selectAllRoomsFromCache();
+//
+//        System.out.print("\n👉 조회를 원하는 [상영관 ID]를 입력하세요: ");
+//        try {
+//            int roomId = Integer.parseInt(sc.nextLine());
+//
+//            String roomName = "알 수 없는 관"; // 초기값
+//            
+//            for (Room room : CinemaCache.getInstance().getRoomMap().values()) {
+//                if (room.getRoomId() == roomId) {
+//                    roomName = room.getName();
+//                    break;
+//                }
+//            }
+//            
+//            System.out.println("\n-------------------------------------------------------------");
+//            System.out.printf("📍 [%s번 상영관]의 오늘 이후 상영 일정\n", roomName);
+//            System.out.println("-------------------------------------------------------------");
+//
+//            SchedulesController.getInstance().selectSchedulesByRoomId(roomId);
+//
+//            System.out.println("-------------------------------------------------------------\n");
+//        } catch (NumberFormatException e) {
+//            System.out.println("❌ 숫자만 입력 가능합니다.");
+//        } catch (Exception e) {
+//            System.out.println("❌ 조회 중 오류 발생: " + e.getMessage());
+//        }
+//    }
+//    
+//    
+//    private static void insertSchedule() {
+//        System.out.println("\n=============================================================");
+//        System.out.println("🗓️  [ 신규 상영 스케줄 등록 ]");
+//        System.out.println("=============================================================");
+//        
+//        System.out.println(" [ 등록 가능한 영화 목록 ]");
+//        MovieController.selectMovieByIsScreen(); 
+//        System.out.print("👉 등록할 [영화 ID]를 입력하세요: ");
+//        int movieId = Integer.parseInt(sc.nextLine());
+//
+//        // 2. 상영관 목록 (1관, 2관 등)
+//        System.out.println(" [ 상영관 목록 ]");
+//        RoomController.getInstance().selectAllRoomsFromCache();
+//        System.out.print("👉 등록할 상영관 ID를 입력하세요");
+//        int roomId = Integer.parseInt(sc.nextLine());
+//
+//        // 3. 상영 시작 시간 (형식 가이드 제공)
+//        System.out.print("👉 상영 시작 시간 (형식: YYYY-MM-DD HH:mm): ");
+//        String startTimeStr = sc.nextLine();
+//        
+//        try {
+//            SchedulesController.getInstance().insertSchedule(movieId, roomId, startTimeStr);
+//            System.out.println("✅ 스케줄이 성공적으로 등록되었습니다!");
+//        } catch (Exception e) {
+//            System.out.println("❌ 스케줄 등록 실패: " + e.getMessage());
+//        }
+//    }
 }
 
 

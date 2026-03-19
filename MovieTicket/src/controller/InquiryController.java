@@ -55,7 +55,7 @@ public class InquiryController {
             List<Inquiry> list = inquiryService.selectInquiryDetail(inquiryId);
             EndView.printInquiryDetail(list);
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             //startview 이동
         }
     }
@@ -70,7 +70,7 @@ public class InquiryController {
             List<Inquiry> list = inquiryService.selectInquiryDetailByMember(inquiryId, member);
             EndView.printInquiryDetail(list);
         }catch (Exception e){
-            e.printStackTrace();
+//            e.printStackTrace();
             //startview 이동
         }
     }
