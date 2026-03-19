@@ -25,6 +25,28 @@ public class Schedules {
         return (room != null) ? room.getName() : "정보 없음";
     }
 
+	public String toDisplayString(int duration) {
+		String start = formatTime(startTime);
+		String end = startTime.toLocalDateTime()
+				.plusMinutes(duration)
+				.toLocalTime()
+				.toString()
+				.substring(0, 5);
+
+		return "[#" + scheduleId + "] "
+				+ getRoomName() + " | "
+				+ start + " ~ " + end;
+	}
+
+	private String formatTime(Timestamp ts) {
+		if (ts == null) return "-";
+
+		return ts.toLocalDateTime()
+				.toLocalTime()
+				.toString()
+				.substring(0, 5);
+	}
+
 	public int getScheduleId() {
 		return scheduleId;
 	}
@@ -55,21 +77,6 @@ public class Schedules {
 
 	public void setMovieId(int movieId) {
 		this.movieId = movieId;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Schedules [scheduleId=");
-		builder.append(scheduleId);
-		builder.append(", startTime=");
-		builder.append(startTime);
-		builder.append(", roomId=");
-		builder.append(roomId);
-		builder.append(", movieId=");
-		builder.append(movieId);
-		builder.append("]");
-		return builder.toString();
 	}
 
 }

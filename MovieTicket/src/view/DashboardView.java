@@ -73,9 +73,10 @@ public class DashboardView {
     private static void waitForBack() {
         System.out.print(DIM + "\n  [0] 돌아가기 → " + RESET);
         Scanner sc = new Scanner(System.in);
+
         while (true) {
             if ("0".equals(sc.nextLine().trim())) break;
-            ConsoleUI.alert("0을 입력하면 돌아갑니다.");
+            ConsoleUI.alert("잘못된 입력입니다. 0을 입력하세요.");
         }
     }
 
@@ -221,61 +222,152 @@ public class DashboardView {
     }
 
     // ── 3. 누적 관객 순위 TOP 10 ─────────────────────────────────────
+//    public static void movieTopten(List<Movie> list, int totalAudiAcc) {
+//
+//        // 최대 관객 수 (바 스케일용)
+//        int maxAudi = list.stream().mapToInt(Movie::getAudiAcc).max().orElse(1);
+//        int barMax  = 22;
+//
+//        ConsoleUI.blank(1);
+//        ConsoleUI.printHeader("누적 관객 순위 TOP 10", null, GREEN, GREEN);
+//
+//        System.out.println(
+//                DIM + "  순위  영화 제목                            관객 수          상태      그래프" + RESET
+//        );
+//        System.out.println(GREEN + "  " + "─".repeat(74) + RESET);
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            Movie m = list.get(i);
+//
+//            // 순위 컬럼: 가시 너비 6 고정
+//            // 🥇🥈🥉 이모지는 터미널에서 2칸 차지 → 순수 텍스트 부분만 ANSI 포함
+//            String rankRaw;
+//            if      (i == 0) rankRaw = BOLD + BRIGHT_YELLOW + "1위" + RESET;
+//            else if (i == 1) rankRaw = BOLD + "\u001B[37m"  + "2위" + RESET;
+//            else if (i == 2) rankRaw = BOLD + "\u001B[33m"  + "3위" + RESET;
+//            else             rankRaw = (i + 1) + "위";
+//            String rankCol = padRight(rankRaw, 4); // "1위"~"10위" 최대 가시4칸
+//
+//            // 영화 제목: 가시 너비 28 고정 (한글 2칸 보정)
+//            String titleCol = padKorean(m.getMovieTitle(), 28);
+//
+//            // 관객 수: 우측 정렬 고정폭 (최대 13자리+명)
+//            String audiCol = String.format("%,12d명", m.getAudiAcc());
+//
+//            // 상태: 가시 너비 6 고정 ("상영중" 6칸, "상영종료" 8칸 → padRight로 맞춤)
+//            String status    = getStatus(m);
+//            String statusRaw = switch (status) {
+//                case "상영중"   -> BRIGHT_GREEN  + BOLD + "상영중" + RESET;
+//                case "개봉예정" -> BRIGHT_YELLOW + BOLD + "개봉예정" + RESET;
+//                default         -> DIM + "상영종료" + RESET;
+//            };
+//            String statusCol = padRight(statusRaw, 8); // "상영종료"=8칸 기준
+//
+//            // 바
+//            int barLen = (int) Math.round((double) m.getAudiAcc() / maxAudi * barMax);
+//            String barColor = (i < 3) ? BRIGHT_YELLOW : BAR_COLORS[i % BAR_COLORS.length];
+//            String bar = barColor + "▬".repeat(barLen) + RESET;
+//
+//            System.out.printf("  %s  %s  %s  %s  %s%n",
+//                    rankCol, titleCol, audiCol, statusCol, bar);
+//        }
+//
+//        System.out.println(GREEN + "  " + "─".repeat(74) + RESET);
+//        System.out.printf("  ▶ 전체 누적 관객 수: %s%,d명%s%n", BOLD + BRIGHT_CYAN, totalAudiAcc, RESET);
+//        ConsoleUI.printLine(GREEN);
+//        System.out.print(DIM + "\n  [0] 돌아가기 → " + RESET);
+//        sc.nextLine();
+//    }
     public static void movieTopten(List<Movie> list, int totalAudiAcc) {
 
-        // 최대 관객 수 (바 스케일용)
         int maxAudi = list.stream().mapToInt(Movie::getAudiAcc).max().orElse(1);
-        int barMax  = 22;
+
+        final int rankW = 4;
+        final int titleW = 26;
+        final int audiW = 12;
+        final int statusW = 8;
+        final int barMax = 14;
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("누적 관객 순위 TOP 10", null, GREEN, GREEN);
+        ConsoleUI.printHeader("누적 관객 순위 TOP 10", "누적 관객 수 기준", GREEN, GREEN);
 
-        System.out.println(
-                DIM + "  순위  영화 제목                            관객 수          상태      그래프" + RESET
-        );
-        System.out.println(GREEN + "  " + "─".repeat(74) + RESET);
+        String header =
+                padRight("순위", rankW) + "  " +
+                        padKorean("영화 제목", titleW) + "  " +
+                        padKorean("관객 수", audiW) + "  " +
+                        padKorean("상태", statusW) + "  " +
+                        "그래프";
+
+        System.out.println("  " + DIM + header + RESET);
+        System.out.println(GREEN + "  " + "─".repeat(72) + RESET);
 
         for (int i = 0; i < list.size(); i++) {
             Movie m = list.get(i);
 
-            // 순위 컬럼: 가시 너비 6 고정
-            // 🥇🥈🥉 이모지는 터미널에서 2칸 차지 → 순수 텍스트 부분만 ANSI 포함
             String rankRaw;
-            if      (i == 0) rankRaw = BOLD + BRIGHT_YELLOW + "1위" + RESET;
-            else if (i == 1) rankRaw = BOLD + "\u001B[37m"  + "2위" + RESET;
-            else if (i == 2) rankRaw = BOLD + "\u001B[33m"  + "3위" + RESET;
-            else             rankRaw = (i + 1) + "위";
-            String rankCol = padRight(rankRaw, 4); // "1위"~"10위" 최대 가시4칸
+            if (i == 0) {
+                rankRaw = BOLD + BRIGHT_YELLOW + "1위" + RESET;
+            } else if (i == 1) {
+                rankRaw = BOLD + "\u001B[37m" + "2위" + RESET;
+            } else if (i == 2) {
+                rankRaw = BOLD + "\u001B[33m" + "3위" + RESET;
+            } else {
+                rankRaw = (i + 1) + "위";
+            }
+            String rankCol = padRight(rankRaw, rankW);
 
-            // 영화 제목: 가시 너비 28 고정 (한글 2칸 보정)
-            String titleCol = padKorean(m.getMovieTitle(), 28);
+            String title = fitKorean(m.getMovieTitle(), titleW);
+            String titleCol = padKorean(title, titleW);
 
-            // 관객 수: 우측 정렬 고정폭 (최대 13자리+명)
-            String audiCol = String.format("%,12d명", m.getAudiAcc());
+            String audiCol = String.format("%,11d명", m.getAudiAcc());
 
-            // 상태: 가시 너비 6 고정 ("상영중" 6칸, "상영종료" 8칸 → padRight로 맞춤)
-            String status    = getStatus(m);
+            String status = getStatus(m);
             String statusRaw = switch (status) {
-                case "상영중"   -> BRIGHT_GREEN  + BOLD + "상영중" + RESET;
+                case "상영중" -> BRIGHT_GREEN + BOLD + "상영중" + RESET;
                 case "개봉예정" -> BRIGHT_YELLOW + BOLD + "개봉예정" + RESET;
-                default         -> DIM + "상영종료" + RESET;
+                default -> DIM + "상영종료" + RESET;
             };
-            String statusCol = padRight(statusRaw, 8); // "상영종료"=8칸 기준
+            String statusCol = padRight(statusRaw, statusW);
 
-            // 바
             int barLen = (int) Math.round((double) m.getAudiAcc() / maxAudi * barMax);
             String barColor = (i < 3) ? BRIGHT_YELLOW : BAR_COLORS[i % BAR_COLORS.length];
-            String bar = barColor + "▬".repeat(barLen) + RESET;
+            String bar = barLen > 0 ? barColor + "▬".repeat(barLen) + RESET : "";
 
-            System.out.printf("  %s  %s  %s  %s  %s%n",
-                    rankCol, titleCol, audiCol, statusCol, bar);
+            String line =
+                    rankCol + "  " +
+                            titleCol + "  " +
+                            audiCol + "  " +
+                            statusCol + "  " +
+                            bar;
+
+            System.out.println("  " + line);
         }
 
-        System.out.println(GREEN + "  " + "─".repeat(74) + RESET);
-        System.out.printf("  ▶ 전체 누적 관객 수: %s%,d명%s%n", BOLD + BRIGHT_CYAN, totalAudiAcc, RESET);
+        System.out.println(GREEN + "  " + "─".repeat(72) + RESET);
+        System.out.println("  ▶ 전체 누적 관객 수: " + BOLD + BRIGHT_CYAN + String.format("%,d명", totalAudiAcc) + RESET);
         ConsoleUI.printLine(GREEN);
-        System.out.print(DIM + "\n  [0] 돌아가기 → " + RESET);
-        sc.nextLine();
+        waitForBack();
+    }
+
+    private static String fitKorean(String str, int maxWidth) {
+        if (str == null) return "-";
+
+        int width = 0;
+        StringBuilder sb = new StringBuilder();
+
+        for (char c : str.toCharArray()) {
+            int charWidth = (c >= '\uAC00' && c <= '\uD7A3') ? 2 : 1;
+
+            if (width + charWidth > maxWidth - 3) {
+                sb.append("...");
+                return sb.toString();
+            }
+
+            sb.append(c);
+            width += charWidth;
+        }
+
+        return sb.toString();
     }
 
     private static String getStatus(Movie m) {

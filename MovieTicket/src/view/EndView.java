@@ -352,42 +352,6 @@ public class EndView {
 0313
 이동혁
 TODO: 예약 리스트 조회 View*/
-//    public static void printTickets(List<Ticket> list) {
-//        final int PAGE_SIZE = 2; // 한 페이지 당 표시할 티켓 수
-//        int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
-//        int currentPage = 0;
-//        while (true) {// 현재 페이지 데이터 출력
-//            List pageList = new ArrayList();
-//            int from = currentPage * PAGE_SIZE;
-//            int to = Math.min(from + PAGE_SIZE, list.size());
-//            for(int i = from; i < to; i++) {
-//                pageList.add(list.get(i));}
-//            PrintTickets.print(pageList);
-//            Scanner scanner = new Scanner(System.in);
-//
-//            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
-//            String input = scanner.nextLine().trim();
-//
-//            if (input.equalsIgnoreCase("q")) {
-//                ConsoleUI.info("목록을 종료합니다.");
-//                break;
-//            } else if (input.equals(">")) {
-//                if (currentPage < totalPage - 1) {
-//                    currentPage++;
-//                } else {
-//                    ConsoleUI.alert("마지막 페이지입니다.");
-//                }
-//            } else if (input.equals("<")) {
-//                if (currentPage > 0) {
-//                    currentPage--;
-//                } else {
-//                    ConsoleUI.alert("첫 번째 페이지입니다.");
-//                }
-//            } else {
-//                ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
-//            }
-//        }
-//    }
     public static void printTickets(List<Ticket> list) {
         if (list == null || list.isEmpty()) {
             ConsoleUI.alert("조회된 예매 내역이 없습니다.");
@@ -446,74 +410,6 @@ TODO: 예약 리스트 조회 View*/
      * 이동혁
      * TODO: 리뷰 리스트 조회 View
      */
-//    public static void reviewList(List<ReviewVO> list) {
-//
-//        final int PAGE_SIZE = 5; // 한 페이지에 표시할 리뷰 수
-//        int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
-//        if (totalPage == 0) totalPage = 1;
-//        int currentPage = 0;
-//
-//        Scanner scanner = new Scanner(System.in);
-//
-//        final int reviewIdW = 12;
-//        final int movieTitleW = 12;
-//        final int ratingW = 12;
-//        final int contentW = 50;
-//
-//        String separator = "-".repeat(reviewIdW) + "-+-"
-//                + "-".repeat(movieTitleW) + "-+-"
-//                + "-".repeat(ratingW) + "-+-"
-//                + "-".repeat(contentW);
-//
-//        while (true) {
-//            System.out.println("\n[리뷰 목록] 총 " + (currentPage + 1) + " / " + totalPage + "페이지");
-//            System.out.println(separator);
-//            System.out.println(
-//                    PagingUtil.padRight("리뷰 번호", reviewIdW) + " | " +
-//                            PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
-//                            PagingUtil.padRight("평점", ratingW) + " | " +
-//                            PagingUtil.padRight("내용", contentW)
-//            );
-//            System.out.println(separator);
-//
-//            // 현재 페이지 데이터 출력
-//            int from = currentPage * PAGE_SIZE;
-//            int to = Math.min(from + PAGE_SIZE, list.size());
-//            for (int i = from; i < to; i++) {
-//                ReviewVO review = list.get(i);
-//                int starCount = review.getRating(); // 별점 개수
-//
-//                System.out.println(
-//                        PagingUtil.padRight(String.valueOf(review.getReviewId()), reviewIdW) + " | " +
-//                                PagingUtil.padRight(review.getMovieTitle(), movieTitleW) + " | " +
-//                                PagingUtil.padRight("★".repeat(starCount) + "☆".repeat(5 - starCount), ratingW) + " | " +
-//                                PagingUtil.padRight(review.getContent(), contentW)
-//                );
-//            }
-//            System.out.println(separator);
-//            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
-//            String input = scanner.nextLine().trim();
-//
-//            if (input.equalsIgnoreCase("q")) {
-//                ConsoleUI.info("목록을 종료합니다.");
-//                return;
-//            } else if (input.equals(">")) {
-//                if (currentPage < totalPage - 1) {
-//                    currentPage++;
-//                } else {
-//                    ConsoleUI.alert("마지막 페이지입니다.");
-//                }
-//            } else if (input.equals("<")) {
-//                if (currentPage > 0) {
-//                    currentPage--;
-//                } else {
-//                    ConsoleUI.alert("첫 번째 페이지입니다.");
-//                }
-//            } else {
-//                ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
-//            }
-//        }
-//    }
     public static void reviewList(List<ReviewVO> list) {
         final int PAGE_SIZE = 5;
 

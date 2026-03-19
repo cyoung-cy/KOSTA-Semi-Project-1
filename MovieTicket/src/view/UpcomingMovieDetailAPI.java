@@ -95,7 +95,7 @@ public class UpcomingMovieDetailAPI {
 
         Scanner sc = new Scanner(System.in);
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("개봉예정작 상세조회", null, ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("개봉예정작 상세조회", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         String inputId = ConsoleUI.prompt(sc, "상세조회할 영화 ID를 입력하세요").trim();
 
@@ -116,33 +116,63 @@ public class UpcomingMovieDetailAPI {
         MovieAPI detailMovie = getUpcomingMovieDetail(selectedMovie);
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("개봉예정작 상세정보", null, ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("개봉예정작 상세정보", "등록 전 영화 정보를 확인하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         // Movie 객체 반환받도록 수정
         return printUpcomingMovieDetail(detailMovie);
     }
 
     public static Movie printUpcomingMovieDetail(MovieAPI movie) {
-        System.out.println("제목 : " + nullToBlank(movie.getTitle()));
+        System.out.println("영화 ID : " + movie.getMovieId());
+        System.out.println("제목 : " + ConsoleUI.CYAN + nullToBlank(movie.getTitle()) + ConsoleUI.RESET);
         System.out.println("배우 : " + movie.getActorText());
         System.out.println("개봉일 : " + formatDate(movie.getOpenDate()));
         System.out.println("장르 : " + nullToBlank(movie.getGenre()));
         System.out.println("상영시간 : " + (movie.getShowTime() == null ? 0 : movie.getShowTime()));
         System.out.println("감독 : " + nullToBlank(movie.getDirector()));
 
-        String openDate  = formatDate(movie.getOpenDate());
-        String genre     = nullToBlank(movie.getGenre());
-        int showTime     = (movie.getShowTime() == null ? 0 : movie.getShowTime());
-        String director  = nullToBlank(movie.getDirector());
+        String openDate = formatDate(movie.getOpenDate());
+        String genre = nullToBlank(movie.getGenre());
+        int showTime = (movie.getShowTime() == null ? 0 : movie.getShowTime());
+        String director = nullToBlank(movie.getDirector());
 
-        // Movie 객체 반환받도록 수정
         return AdminView.insertMovieAuto(
                 movie.getTitle(), movie.getActorText(), openDate, genre, showTime, director);
     }
 
+    private static String padRightByDisplayWidth(String text, int width) {
+        if (text == null) text = "";
+
+        int displayWidth = getDisplayWidth(text);
+        if (displayWidth >= width) {
+            return text;
+        }
+
+        return text + " ".repeat(width - displayWidth);
+    }
+
+    private static int getDisplayWidth(String text) {
+        int width = 0;
+
+        for (char c : text.toCharArray()) {
+            if ((c >= 0xAC00 && c <= 0xD7A3) ||
+                    (c >= 0x1100 && c <= 0x11FF) ||
+                    (c >= 0x3130 && c <= 0x318F) ||
+                    (c >= 0x4E00 && c <= 0x9FFF) ||
+                    (c >= 0xFF01 && c <= 0xFF60) ||
+                    (c >= 0xFFE0 && c <= 0xFFE6)) {
+                width += 2;
+            } else {
+                width += 1;
+            }
+        }
+
+        return width;
+    }
+
     private static String formatDate(String openDate) {
         if (openDate == null || !openDate.matches("\\d{8}")) {
-            return "";
+            return "-";
         }
 
         return openDate.substring(0, 4) + "-"
