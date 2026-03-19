@@ -2,25 +2,28 @@ package dto;
 
 import java.sql.Timestamp;
 
+import cache.CinemaCache;
+
 public class Schedules {
 	
 	private int scheduleId;
-	private Timestamp day;
 	private Timestamp startTime;
 	private int roomId;
 	private int movieId;
 	
-	public Schedules() {
-		
-	}
+	public Schedules() {}
 	
-	public Schedules(int scheduleId, Timestamp day, Timestamp startTime, int roomId, int movieId) {
+	public Schedules(int scheduleId, Timestamp startTime, int roomId, int movieId) {
 		this.scheduleId = scheduleId;
-		this.day = day;
 		this.startTime = startTime;
 		this.roomId = roomId;
 		this.movieId = movieId;
 	}
+	
+	public String getRoomName() {
+        Room room = CinemaCache.getInstance().getRoomById(this.roomId);
+        return (room != null) ? room.getName() : "정보 없음";
+    }
 
 	public int getScheduleId() {
 		return scheduleId;
@@ -28,14 +31,6 @@ public class Schedules {
 
 	public void setScheduleId(int scheduleId) {
 		this.scheduleId = scheduleId;
-	}
-
-	public Timestamp getDay() {
-		return day;
-	}
-
-	public void setDay(Timestamp day) {
-		this.day = day;
 	}
 
 	public Timestamp getStartTime() {
@@ -67,8 +62,6 @@ public class Schedules {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Schedules [scheduleId=");
 		builder.append(scheduleId);
-		builder.append(", day=");
-		builder.append(day);
 		builder.append(", startTime=");
 		builder.append(startTime);
 		builder.append(", roomId=");
@@ -78,5 +71,5 @@ public class Schedules {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }

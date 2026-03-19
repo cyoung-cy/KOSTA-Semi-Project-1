@@ -52,4 +52,11 @@ public interface MovieDAO {
      * TODO: 상영중인 영화 조회
      * */
     List<Movie> selectMovieByIsScreen();
+    
+    /*
+     * 0318
+     * 한상혁
+     * TODO: 영화ID로 단일 영화 조회
+     * */
+    Movie selectOne(int movieId);
 }

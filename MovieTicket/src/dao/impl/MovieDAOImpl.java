@@ -3,14 +3,21 @@ package dao.impl;
 import dao.MovieDAO;
 import dto.Movie;
 import exception.NotFoundException;
+import mapper.MovieMapper;
 import util.DbManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import common.jdbc.QueryExecutor;
+
 public class MovieDAOImpl implements MovieDAO {
 
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static MovieMapper movieMapper = MovieMapper.getInstance();
+	
     @Override
     public List<Movie> selectAllMovies() {
         Connection con = null;
@@ -230,5 +237,14 @@ public class MovieDAOImpl implements MovieDAO {
         return list;
     }
 
+    @Override
+    public Movie selectOne(int movieId) {
+    	String sql = "select * from MOVIE where MOVIE_ID = ?";
+    	
+    	Object[] params = { movieId };
+    	
+    	List<Movie> list = queryExecutor.query(sql, movieMapper, params);
+    	return list.isEmpty() ? null : list.get(0);
+    }
 
 }

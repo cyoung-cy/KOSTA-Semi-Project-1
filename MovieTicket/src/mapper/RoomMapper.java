@@ -5,18 +5,14 @@ import java.sql.SQLException;
 
 import common.jdbc.RowMapper;
 import dto.Room;
-import dto.Seat;
 
 public class RoomMapper implements RowMapper<Room> {
 	
-	private static RoomMapper instance;
+	private static final RoomMapper instance = new RoomMapper();
 	
 	private RoomMapper() {};
 	
 	public static RoomMapper getInstance() {
-		if(instance == null) {
-			instance = new RoomMapper();
-		}
 		return instance;
 	}
 	
@@ -27,4 +23,5 @@ public class RoomMapper implements RowMapper<Room> {
         room.setName(rs.getString("NAME"));
         return room;
     }
+	
 }

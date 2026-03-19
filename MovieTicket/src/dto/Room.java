@@ -1,5 +1,6 @@
 package dto;
 
+import java.util.List;
 import java.util.Set;
 
 public class Room {
@@ -50,37 +51,67 @@ public class Room {
 
         // 3. 배열 자리에 좌석 배정
         for (Seat seat : seatSet) {
-            newLayout[seat.getRowNum()][seat.getColNum()] = seat;
+            newLayout[seat.getRowNum()-1][seat.getColNum()-1] = seat;
         }
 
         return newLayout;
     }
     
-    public void displayLayout() {
-    	// 1. 열 번호 가이드 (1, 2, 3...)
-        System.out.print("   ");  // 시작지점 비우는 역할
-        for (int j = 0; j < layout[0].length; j++) {
-            System.out.printf("%3d", j + 1);  // 좌석당 띄어씌기 3칸 확보
-        }
-        System.out.println("\n-------------------------");
-        // 행 탐색
-        for (int i = 0; i < layout.length; i++) {
-        	System.out.print((char)('A' + i) + " |"); // 행 가이드 (A, B...)
-            // 해당 행의 열(col) 탐색
-            for (int j = 0; j < layout[i].length; j++) {
-                
-                Seat seat = layout[i][j]; 
+//    public void displayLayout() {
+//    	// 1. 열 번호 가이드 (1, 2, 3...)
+//        System.out.print("   ");  // 시작지점 비우는 역할
+//        for (int j = 0; j < layout[0].length; j++) {
+//            System.out.printf("%3d", j + 1);  // 좌석당 띄어씌기 3칸 확보
+//        }
+//        System.out.println("\n-------------------------");
+//        // 행 탐색
+//        for (int i = 0; i < layout.length; i++) {
+//        	System.out.print((char)('A' + i) + " |"); // 행 가이드 (A, B...)
+//            // 해당 행의 열(col) 탐색
+//            for (int j = 0; j < layout[i].length; j++) {
+//                
+//                Seat seat = layout[i][j]; 
+//
+//                if (seat == null) {
+//                    // 통로 출력역할인데 아직 통로 미존재
+//                    System.out.print("   "); 
+//                } else {
+//                    // 예약 상태에 따라 표시
+//                    String mark = seat.isReserved() ? "[X]" : "[O]";
+//                    System.out.print(mark);
+//                }
+//            }
+//            System.out.println(); // 줄바꿈
+//        }
+//    }
+    
+    // 실시간 예약 반영되는 레이아웃
+    public void displaySeatLayout(List<String> reservedNames) {
+        System.out.println("\n        		 [ SCREEN ] ");
+        System.out.println("    	1  2  3     4  5  6  7     8  9  10"); 
+        System.out.println("  --------------------------------");
 
-                if (seat == null) {
-                    // 통로 출력역할인데 아직 통로 미존재
+        for (int row = 1; row <= 10; row++) {
+            char rowChar = (char) ('A' + row - 1);
+            System.out.print(rowChar + " "); 
+
+            for (int col = 1; col <= 10; col++) {
+                String seatName = rowChar + String.valueOf(col);
+                String status = reservedNames.contains(seatName) ? "[X]" : "[O]";
+
+                System.out.print(status);
+
+                // 통로 만들기 (3번, 7번 뒤에 공백 추가)
+                if (col == 3 || col == 7) {
                     System.out.print("   "); 
-                } else {
-                    // 예약 상태에 따라 표시
-                    String mark = seat.isReserved() ? "[X]" : "[O]";
-                    System.out.print(mark);
                 }
             }
             System.out.println(); // 줄바꿈
+
+            // 중간 가로 통로 (E열 뒤에 한 줄 띄우기)
+            if (row == 5) {
+                System.out.println(); 
+            }
         }
     }
     

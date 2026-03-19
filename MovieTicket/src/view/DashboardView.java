@@ -3,6 +3,7 @@ package view;
 import dto.Member;
 import dto.Movie;
 import dto.Reservation;
+import dto.WeeklyStat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -179,7 +180,7 @@ public class DashboardView {
         return "상영종료";
     }
 
-    public static void reservationMovie(List<Reservation> list) {
+    public static void reservationMovie(List<WeeklyStat> list) {
 
         // 요일 인덱스 매핑 (DAYOFWEEK: 1=일, 2=월, ..., 7=토)
         String[] dayNames = {"일", "월", "화", "수", "목", "금", "토"};
@@ -188,11 +189,10 @@ public class DashboardView {
         int[] counts = new int[7];
         int[] sales  = new int[7];
 
-        for (Reservation r : list) {
-            int dow = r.getScheduleId(); // DAYOFWEEK (1=일 ~ 7=토)
-            int idx = dow - 1;           // 배열 인덱스 (0=일 ~ 6=토)
-            counts[idx] = r.getCount();
-            sales[idx]  = r.getTotalPrice();
+        for (WeeklyStat stat : list) {
+            int idx    = stat.getDayOfWeek() - 1; // 1=일 → 0, 7=토 → 6
+            counts[idx] = stat.getCount();
+            sales[idx]  = stat.getDailySales();
         }
 
         // 최대 매출 요일 계산

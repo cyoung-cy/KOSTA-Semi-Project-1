@@ -19,7 +19,6 @@ public class TicketDAOImpl implements TicketDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select * from v_TICKET where MEMBER_ID = ?";
-        List<Ticket> list = null;
 
         // MAP으로 데이터를 담아두기
         Map<Integer, Ticket> map = new LinkedHashMap<>();
@@ -38,23 +37,22 @@ public class TicketDAOImpl implements TicketDAO {
                     ticket = new Ticket();
                     ticket.setReservationId(reservationId);
                     ticket.setMovieTitle(rs.getString(3));
-                    ticket.setTotalPrice(rs.getInt(4));
-                    ticket.setCount(rs.getInt(5));
                     ticket.setSeats(new ArrayList<>());
-                    ticket.setRoomName(rs.getString(7));
-                    ticket.setStartTime(rs.getTimestamp(8));
-                    ticket.setEndTime(rs.getTimestamp(9));
+                    ticket.setRoomName(rs.getString(5));
+                    ticket.setStartTime(rs.getTimestamp(6));
+                    ticket.setEndTime(rs.getTimestamp(7));
                     map.put(reservationId, ticket);
                 }
                 // 좌석을 티켓에 담기
                 Seat seat = new Seat();
-                seat.setName(rs.getString(6));
+                seat.setName(rs.getString(4));
 
                 ticket.getSeats().add(seat);
 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             DbManager.close(con, ps, rs);
         }

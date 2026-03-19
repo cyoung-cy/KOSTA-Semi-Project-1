@@ -1,10 +1,5 @@
 package dao.impl;
 
-import dao.MemberDAO;
-import dto.Member;
-import exception.NotFoundException;
-import util.DbManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,12 +9,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import common.jdbc.QueryExecutor;
 import dao.MemberDAO;
+import dto.Member;
+import mapper.MemberMapper;
+import util.DbManager;
 
 public class MemberDAOImpl implements MemberDAO {
 
-
-
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static MemberMapper memberMapper = MemberMapper.getInstance();
+	
     @Override
     public int register(Member member) throws SQLException {
         Connection con = null;
@@ -41,7 +42,7 @@ public class MemberDAOImpl implements MemberDAO {
         	
         	re = ps.executeUpdate();
         } catch (SQLException e) {
-        	e.printStackTrace();
+//        	e.printStackTrace();
             throw new RuntimeException();
         } finally {
             DbManager.close(con, ps, null);
@@ -106,7 +107,8 @@ public class MemberDAOImpl implements MemberDAO {
                 		rs.getString("BIRTH_DATE"),
                 		genreList,
                 		rs.getString("CARD_INFO"),
-                		rs.getString("ROLE")
+                		rs.getString("ROLE"),
+                        rs.getString("CREATE_AT")
                 );
                 list.add(member);
             }
@@ -142,6 +144,30 @@ public class MemberDAOImpl implements MemberDAO {
             DbManager.close(con, ps, rs);
         }
         return list;
+    }
+
+    @Override
+    public Member selectUserById(String userId) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from MEMBER where USER_ID = ?";
+        Member member = null;
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                member = new Member(rs.getInt("MEMBER_ID"), rs.getString("USER_ID"), rs.getString("NAME"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DbManager.close(con, ps, rs);
+        }
+        return member;
     }
 
     @Override
@@ -208,7 +234,7 @@ public class MemberDAOImpl implements MemberDAO {
 			
 			result = ps.executeUpdate();
 		} catch(SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new RuntimeException();
 		} finally {
 			DbManager.close(con, ps, null);
@@ -243,7 +269,16 @@ public class MemberDAOImpl implements MemberDAO {
         return re;
 	}
 	
-
-	
+	@Override
+	public Member selectOneById(Connection conn, int memberId) {
+		String sql = "select * from MEMBER where Member_ID = ?";
+		
+		Object[] params = { memberId };
+		
+		List<Member> list = queryExecutor.query(sql, memberMapper, params);
+		
+		return list.isEmpty() ? null : list.get(0);
+	}
+		
 
 }

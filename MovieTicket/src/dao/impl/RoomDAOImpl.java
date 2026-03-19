@@ -2,20 +2,22 @@ package dao.impl;
 
 import java.util.Set;
 
-import common.jdbc.BaseDAO;
+import common.jdbc.QueryExecutor;
 import dao.RoomDAO;
 import dto.Room;
+import mapper.RoomMapper;
 
-public class RoomDAOImpl extends BaseDAO implements RoomDAO{
+public class RoomDAOImpl implements RoomDAO{
 	
-	private static RoomDAOImpl instance;
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static final RoomMapper roomMapper = RoomMapper.getInstance();
+	
+	private static final RoomDAOImpl instance = new RoomDAOImpl();
 	
 	private RoomDAOImpl() {}
 	
 	public static RoomDAOImpl getInstance() {
-		if(instance == null) {
-			instance = new RoomDAOImpl();
-		}
 		return instance;
 	}
 
@@ -25,13 +27,16 @@ public class RoomDAOImpl extends BaseDAO implements RoomDAO{
 		
 		Object[] params = { roomName };
 		
-		return insertAndGetPk(sql,params);
+		return queryExecutor.insertAndGetPk(sql,params);
 	}
+	
+	
 
 	@Override
 	public Set<Room> selectAllRooms() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from ROOM";
+		
+		return queryExecutor.queryForSet(sql, roomMapper);
 	}
 
 	@Override
@@ -40,11 +45,14 @@ public class RoomDAOImpl extends BaseDAO implements RoomDAO{
 		return null;
 	}
 
-	@Override
-	public Room selectRoomByMovieId(int movieId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public int selectIdByRoomName(String roomName) {
+//		String sql = "select ROOM_ID where ROOM_NAME = ?";
+//		
+//		Object[] params = { roomName};
+//		
+//		return queryExecutor.queryForObject(sql, int.class, params);
+//	}
 
 	@Override
 	public Set<Room> selectRoomsByShowing(boolean isShowing) {
@@ -58,8 +66,7 @@ public class RoomDAOImpl extends BaseDAO implements RoomDAO{
 	}
 
 	@Override
-	public void deleteRoom(int roomId) {
-		// TODO Auto-generated method stub
+	public void delete(int roomId) {
 		
 	}
 
