@@ -122,7 +122,7 @@ public class StartView {
                 case 2 :
                     //영화 추천
                     ConsoleUI.info("영화 목록을 불러옵니다.");
-                    MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre());
+                    MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre(),member);
                     break;
                 case 3 :
                     //영화 리뷰 작성

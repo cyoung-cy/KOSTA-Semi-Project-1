@@ -4,10 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import controller.InquiryController;
-import controller.MemberController;
-import controller.ReviewController;
-import controller.TicketController;
+import controller.*;
 import dto.Member;
 import dto.Movie;
 import util.ValidateUtil;
@@ -181,7 +178,7 @@ public class UserView {
 	* 이동혁
 	* 영화 추천 후 선택 View
 	 */
-	public static void recommendationMovie(List<Movie> list) {
+	public static void recommendationMovie(List<Movie> list, Member member) {
 		while(true) {
 			EndView.printAllMovies(list); // 간략한 목록 출력용
 
@@ -196,8 +193,7 @@ public class UserView {
 			int menu = ConsoleUI.promptInt(sc, "메뉴를 선택하세요");
 			switch(menu) {
 				case 1:
-					// TODO: 영화 예매 뷰 호출
-					ConsoleUI.info("영화 예매 기능은 추후 연결 예정입니다.");
+					ReservationController.getInstance().manageReservation(member);
 					break;
 				case 2:
 					int movieId = ConsoleUI.promptInt(sc, "리뷰를 볼 영화를 선택해주세요");
