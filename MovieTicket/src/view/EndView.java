@@ -92,7 +92,7 @@ public class EndView {
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
-            String processedColor = inquiry.getProcessed() ? ConsoleUI.GREEN : ConsoleUI.RED;
+            String processedColor = inquiry.getProcessed() ? ConsoleUI.CYAN : ConsoleUI.RED;
 
             String row =
                     "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
@@ -101,7 +101,7 @@ public class EndView {
                             " | 처리여부 : " + processedColor + fit(processedText, 8) + ConsoleUI.RESET;
 
             System.out.println(row);
-            System.out.println("제목 : " + ConsoleUI.GREEN + inquiry.getTitle() + ConsoleUI.RESET);
+            System.out.println("제목 : " + ConsoleUI.CYAN + inquiry.getTitle() + ConsoleUI.RESET);
             printDashLine();
         }
     }
@@ -117,7 +117,7 @@ public class EndView {
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
-            String processedColor = inquiry.getProcessed() ? ConsoleUI.GREEN : ConsoleUI.RED;
+            String processedColor = inquiry.getProcessed() ? ConsoleUI.CYAN : ConsoleUI.RED;
 
             String row =
                     "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
@@ -125,7 +125,7 @@ public class EndView {
                             " | 처리여부 : " + processedColor + fit(processedText, 8) + ConsoleUI.RESET;
 
             System.out.println(row);
-            System.out.println("제목 : " + ConsoleUI.GREEN + inquiry.getTitle() + ConsoleUI.RESET);
+            System.out.println("제목 : " + ConsoleUI.CYAN + inquiry.getTitle() + ConsoleUI.RESET);
             printDashLine();
         }
     }
@@ -519,7 +519,7 @@ TODO: 예약 리스트 조회 View*/
         printDetailItem("이름", member.getName());
         printDetailItem("전화번호", member.getPhone());
         printDetailItem("주소", member.getAddress());
-        printDetailItem("생년월일", member.getBirthDate());
+        printDetailItem("생년월일", formatDate(member.getBirthDate()));
         printDetailItem("선호 장르",
                 member.getPreferredGenre() == null ? "-" : String.join(", ", member.getPreferredGenre()));
         printDetailItem("카드 정보", member.getCardInfo());
@@ -529,16 +529,69 @@ TODO: 예약 리스트 조회 View*/
 
     private static void printDetailItem(String label, String value) {
         System.out.println("■ " + label);
-        System.out.println("  " + ConsoleUI.GREEN + (value == null || value.isBlank() ? "-" : value) + ConsoleUI.RESET);
+        System.out.println("  " + ConsoleUI.CYAN + (value == null || value.isBlank() ? "-" : value) + ConsoleUI.RESET);
     }
 
     private static void printDetailItem(String label, int value) {
         System.out.println("■ " + label);
-        System.out.println("  " + ConsoleUI.GREEN + value + ConsoleUI.RESET);
+        System.out.println("  " + ConsoleUI.CYAN + value + ConsoleUI.RESET);
     }
 
     private static void printDetailItem(String label, boolean value, String trueText, String falseText) {
         System.out.println("■ " + label);
-        System.out.println("  " + ConsoleUI.GREEN + (value ? trueText : falseText) + ConsoleUI.RESET);
+
+        String color = value ? ConsoleUI.CYAN : ConsoleUI.RED;
+        String text = value ? trueText : falseText;
+
+        System.out.println("  " + color + text + ConsoleUI.RESET);
+    }
+
+    private static String formatDate(String dateTime) {
+        if (dateTime == null || dateTime.isBlank()) return "-";
+
+        // "1999-01-01 00:00:00" → "1999-01-01"
+        if (dateTime.contains(" ")) {
+            return dateTime.split(" ")[0];
+        }
+
+        return dateTime;
+    }
+
+    public static void printMovieReservationList(List<Movie> list) {
+        if (list == null || list.isEmpty()) {
+            ConsoleUI.alert("예매 가능한 영화가 없습니다.");
+            return;
+        }
+
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("영화 목록 조회", "예매할 영화를 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+
+        for (int i = 0; i < list.size(); i++) {
+            Movie movie = list.get(i);
+            String status = movie.getIsScreening() ? "상영중" : "상영종료";
+
+            System.out.println(
+                    ConsoleUI.GREEN + (i + 1) + ConsoleUI.RESET +
+                            " [" +
+                            (movie.getIsScreening() ? ConsoleUI.GREEN : ConsoleUI.RED) +
+                            status +
+                            ConsoleUI.RESET +
+                            "]"
+            );
+
+            System.out.println(
+                    "영화 ID : " + ConsoleUI.CYAN + movie.getMovieId() + ConsoleUI.RESET +
+                            " | 제목 : " + ConsoleUI.CYAN + safe(movie.getMovieTitle()) + ConsoleUI.RESET
+            );
+
+            printDashLine();
+        }
+
+        System.out.println("[0] 뒤로가기");
+        ConsoleUI.printLine(ConsoleUI.RED);
+    }
+
+    private static String safe(String text) {
+        return text == null || text.isBlank() ? "-" : text;
     }
 }

@@ -442,7 +442,7 @@ public class AdminView {
                     "[3] 영화별 누적 예매 순위 (Top 10)",
                     "[4] 주간 매출 분석",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN, 14);
+            }, ConsoleUI.GREEN, 15);
 
             int menu = ConsoleUI.promptInt(sc, "관리 메뉴 번호를 입력하세요");
             switch (menu) {
