@@ -25,7 +25,7 @@ public class MemberDAOImpl implements MemberDAO {
     public int register(Member member) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "insert into MEMBER(USER_ID, PASSWORD, NAME, PHONE, ADDRESS, BIRTH_DATE, PREFERRED_GENRE, CARD_INFO, ROLE) values(?,?,?,?,?,?,?,?,'user')";
+        String sql = "insert into MEMBER(USER_ID, PASSWORD, NAME, PHONE, ADDRESS, BIRTH_DATE, PREFERRED_GENRE, CARD_INFO, ROLE, CREATE_AT) values(?,?,?,?,?,?,?,?,'user', now())";
         int re = 0;
         try {
         	con = DbManager.getConnection();
