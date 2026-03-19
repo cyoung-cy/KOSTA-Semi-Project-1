@@ -1,5 +1,6 @@
 package view;
 
+import cache.CinemaCache;
 import controller.MemberController;
 import controller.MovieController;
 import controller.ReservationController;
@@ -115,8 +116,8 @@ public class StartView {
             switch(menu) {
                 case 1 :
                     //영화 예매
-                    // 개발완료 후 병합예정
-                    ConsoleUI.info("[개발 미완료] 예매 기능 UI는 추후 구현 예정");
+                    ReservationController.getInstance().manageReservation(member);
+                    //ConsoleUI.info("[개발 미완료] 예매 기능 UI는 추후 구현 예정");
                     break;
                 case 2 :
                     //영화 추천
@@ -455,7 +456,7 @@ public class StartView {
         ReservationService.init(reservationDAO, reservationInfoDAO, schedulesDAO, memberDAO, seatDAO);
         SchedulesService.init(schedulesDAO, movieDAO, roomDAO);
         SeatService.init(seatDAO, roomDAO);
-
+        CinemaCache.init(seatDAO, roomDAO);  // 추가
 
         new StartView();
     }
