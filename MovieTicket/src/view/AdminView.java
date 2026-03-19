@@ -22,27 +22,30 @@ public class AdminView {
 
     public static void userManage(Member member) {
         while(true){
-            System.out.println("=============================================================");
-            System.out.println("                       [회원 관리]");
-            System.out.println("=============================================================");
-            System.out.println("                      [1] 회원 삭제");
-            System.out.println("                      [2] 회원 목록 조회");
-            System.out.println("                      [3] 회원 상세 조회");
-            System.out.println("                      [0] 이전으로 돌아가기");
-            System.out.println("=============================================================");
-            System.out.print("회원 관리 메뉴 번호를 입력하세요 : ");
+            ConsoleUI.printHeader("회원 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
-            int menu = Integer.parseInt(sc.nextLine());
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 회원 삭제",
+                    "[2] 회원 목록 조회",
+                    "[3] 회원 상세 조회",
+                    "[0] 이전으로 돌아가기"
+            }, ConsoleUI.GREEN);
+
+            int menu = ConsoleUI.promptInt(sc, "회원 관리 메뉴 번호를 입력하세요");
+
             switch (menu){
                 case 1 :
                     //회원 삭제
+                    ConsoleUI.info("회원 삭제를 진행합니다.");
                     deleteUserByName();
                     break;
                 case 2 :
                     //회원 목록 조회
+                    ConsoleUI.info("회원 목록을 불러옵니다.");
                     MemberController.selectUsers(member);
                 case 3 :
                     //회원 상세 조회
+                    ConsoleUI.info("회원 상세 정보를 조회합니다.");
                     selectUserDetail();
                     userManage(member);
                     break;
@@ -51,8 +54,7 @@ public class AdminView {
                     StartView.printAdminMenu(member);
                     break;
                 default:
-                    new WrongInput();
-                    break;
+                    ConsoleUI.alert("올바른 메뉴 번호를 입력하세요.");
 
             }
         }
@@ -60,14 +62,12 @@ public class AdminView {
     }
 
     private static void selectUserDetail() {
-        System.out.print("상세 검색할 회원의 아이디를 입력하세요 : ");
-        String userId = sc.nextLine();
+        String userId = ConsoleUI.prompt(sc, "상세 검색할 회원의 아이디를 입력하세요: ");
         MemberController.selectUserDetail(userId);
     }
 
     private static void deleteUserByName() {
-        System.out.print("삭제할 회원의 이름을 입력해주세요 : ");
-        String name = sc.nextLine();
+        String name = ConsoleUI.prompt(sc, "삭제할 회원의 이름을 입력해주세요");
         MemberController.deleteUserByName(name);
     }
 
@@ -84,76 +84,74 @@ public class AdminView {
 
     public static void inquiryManage(Member member) {
         while(true){
-            System.out.println("=============================================================");
-            System.out.println("                       [문의 관리]");
-            System.out.println("=============================================================");
-            System.out.println("                      [1] 문의 목록 조회");
-            System.out.println("                      [2] 문의 상세 조회");
-            System.out.println("                      [3] 문의 답변");
-            System.out.println("                      [0] 이전으로 돌아가기");
-            System.out.println("=============================================================");
-            System.out.print("문의 관리 메뉴를 선택하세요 : ");
+            ConsoleUI.printHeader("문의 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
-            int menu = Integer.parseInt(sc.nextLine());
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 문의 목록 조회",
+                    "[2] 문의 상세 조회",
+                    "[3] 문의 답변",
+                    "[0] 이전으로 돌아가기"
+            }, ConsoleUI.GREEN);
+
+            int menu = ConsoleUI.promptInt(sc, "문의 관리 메뉴를 선택하세요 : ");
             switch (menu){
                 case 1 :
                     //문의 목록 조회
+                    ConsoleUI.info("전체 문의 정보를 조회합니다.");
                     InquiryController.selectInquiry(member);
                     break;
                 case 2 :
                     //문의 상세 조회
+                    ConsoleUI.info("문의 상세 정보를 조회합니다.");
                     selectInquiryDetail();
                     inquiryManage(member);
                     break;
                 case 3 :
                     //문의 답변
+                    ConsoleUI.info("문의 답변을 조회합니다.");
                     inquiryResponse();
                     break;
                 case 0 :
                     //이전으로 돌아가기
+                    ConsoleUI.info("이전으로 돌아갑니다.");
                     StartView.printAdminMenu(member);
                     break;
                 default:
-                    new WrongInput();
+                    ConsoleUI.alert("올바른 메뉴 번호를 입력하세요.");
                     break;
             }
         }
     }
 
     private static void selectInquiryDetail() {
-        System.out.print("상세 검색할 문의의 번호를 입력하세요 : ");
-        String num = sc.nextLine();
-        int inquiryId = Integer.parseInt(num);
+        int inquiryId = ConsoleUI.promptInt(sc, "상세 검색할 문의의 번호를 입력하세요");
         InquiryController.selectInquiryDetail(inquiryId);
     }
 
     private static void inquiryResponse() {
-        System.out.print("답변할 문의의 번호를 입력하세요 : ");
-        String num = sc.nextLine();
-        int inquiryId = Integer.parseInt(num);
+        int inquiryId = ConsoleUI.promptInt(sc, "답변할 문의의 번호를 입력하세요 : ");
         InquiryController.selectInquiryDetail(inquiryId);
 
         System.out.print("답변 : ");
-        String response = sc.nextLine();
+        String response = ConsoleUI.prompt(sc, "답변 : ");
         InquiryController.insertInquiryreResponse(inquiryId, response);
 
     }
 
-    public static void moivieManager(Member member) {
+    public static void movieManager(Member member) {
         while(true){
-            System.out.println("=============================================================");
-            System.out.println("                       [영화 관리]");
-            System.out.println("=============================================================");
-            System.out.println("                      [1] 영화 목록 조회");
-            System.out.println("                      [2] 영화 목록 상세 조회");
-            System.out.println("                      [3] 새로운 영화 등록");
-            System.out.println("                      [4] 영화 정보 수정");
-            System.out.println("                      [5] 영화 삭제");
-            System.out.println("                      [0] 이전으로 돌아가기");
-            System.out.println("=============================================================");
-            System.out.print("영화 관리 메뉴를 선택하세요 : ");
+            ConsoleUI.printHeader("영화 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
-            int menu = Integer.parseInt(sc.nextLine());
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 영화 목록 조회",
+                    "[2] 영화 상세 조회",
+                    "[3] 영화 등록",
+                    "[4] 영화 수정",
+                    "[5] 영화 삭제",
+                    "[0] 이전으로 돌아가기"
+            }, ConsoleUI.GREEN);
+
+            int menu = ConsoleUI.promptInt(sc, "영화 관리 메뉴를 선택하세요 : ");
             switch (menu){
                 case 1 :
                     //영화 목록 조회
@@ -181,7 +179,8 @@ public class AdminView {
                     StartView.printAdminMenu(member);
                     break;
                 default:
-                    new WrongInput();
+                    //new WrongInput();
+                    ConsoleUI.alert("올바른 메뉴 번호를 입력하세요.");
                     break;
             }
         }
@@ -189,12 +188,15 @@ public class AdminView {
 
     private static void AutoOrpassivity(Member member) {
         while (true){
-            System.out.println("=============================================================");
-            System.out.println("  [1] 개봉 예정작 등록 | [2] 수동 등록 | [0] '영화 관리' 돌아가기");
-            System.out.println("=============================================================");
-            System.out.print("등록 방법을 선택하세요 : ");
+            ConsoleUI.printHeader("영화 등록 방식 선택", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
-            int menu = Integer.parseInt(sc.nextLine());
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 개봉 예정작 등록",
+                    "[2] 수동 등록",
+                    "[0] 돌아가기"
+            }, ConsoleUI.GREEN);
+
+            int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요 : ");
             switch (menu){
                 case 1:
                     MovieinsertView();
@@ -203,7 +205,7 @@ public class AdminView {
                     insertMovie();
                     break;
                 case 0:
-                    moivieManager(member);
+                    movieManager(member);
                     break;
                 default:
                     new WrongInput();
@@ -221,12 +223,15 @@ public class AdminView {
 
     private static void updateMovie(Member member) {
         while (true){
-            System.out.println("=============================================================");
-            System.out.println(" [1] 상영 종료 하기 | [2] 영화 정보 수정 | [0] '영화 관리' 돌아가기");
-            System.out.println("=============================================================");
-            System.out.print("등록 방법을 선택하세요 : ");
+            ConsoleUI.printHeader("영화 수정", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
-            int menu = Integer.parseInt(sc.nextLine());
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 상영 종료",
+                    "[2] 영화 정보 수정",
+                    "[0] 돌아가기"
+            }, ConsoleUI.GREEN);
+
+            int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요 : ");
             switch (menu){
                 case 1:
                     //상영 종료
@@ -234,10 +239,10 @@ public class AdminView {
                     updateMovieIsScreen();
                     break;
                 case 2:
-                    updqteMovieNormal();
+                    updateMovieNormal();
                     break;
                 case 0:
-                    moivieManager(member);
+                    movieManager(member);
                     break;
                 default:
                     new WrongInput();
@@ -248,8 +253,7 @@ public class AdminView {
     }
 
     private static void updateMovieIsScreen() {
-        System.out.print("상영 종료할 영화 ID를 입력하세요 : ");
-        int movieId = Integer.parseInt(sc.nextLine());
+        int movieId = ConsoleUI.promptInt(sc, "상영 종료할 영화 ID를 입력하세요 : ");
 
         String colName = "상영여부";
 
@@ -258,9 +262,8 @@ public class AdminView {
         MovieController.updateMovie(movieId, colName, content);
     }
 
-    private static void updqteMovieNormal() {
-        System.out.print("수정할 영화 ID를 입력하세요 : ");
-        int movieId = Integer.parseInt(sc.nextLine());
+    private static void updateMovieNormal() {
+        int movieId = ConsoleUI.promptInt(sc, "수정할 영화 ID를 입력하세요 : ");
 
         System.out.print("수정할 칼럼명을 입력하세요 : ");
         String colName = sc.nextLine();
@@ -272,15 +275,12 @@ public class AdminView {
     }
 
     private static void selectMovieDetail() {
-        System.out.print("상세 조회할 영화 ID를 입력하세요 : ");
-        int movieId = Integer.parseInt(sc.nextLine());
+        int movieId = ConsoleUI.promptInt(sc, "상세 조회할 영화 ID를 입력하세요 : ");
         MovieController.selectMovieDetail(movieId);
     }
 
     public static void MovieinsertView() {
-        System.out.println("=======================================================");
-        System.out.println("                      [개봉예정작]");
-        System.out.println("=======================================================");
+        ConsoleUI.printHeader("개봉 예정작 목록", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         List<MovieAPI> movies = null;
         try {
@@ -330,18 +330,19 @@ public class AdminView {
 
             System.out.println(separator);
             System.out.printf("페이지 [%d / %d]  전체 %d건%n", currentPage + 1, totalPages, movies.size());
-            System.out.print("[ < 이전 | > 다음 | 1 상세조회 | 0 이전 ] 입력: ");
 
-            String input = sc.nextLine().trim();
-
+            String input = ConsoleUI.prompt(sc, "[ < 이전 | > 다음 | 1 상세조회 | 0 이전 ]");
             switch (input) {
                 case ">":
-                    if (currentPage < totalPages - 1) currentPage++;
-                    else System.out.println("마지막 페이지입니다.");
+                    if (currentPage < totalPages - 1) {
+                        currentPage++;
+                    } else {
+                        ConsoleUI.alert("마지막 페이지입니다.");
+                    }
                     break;
                 case "<":
                     if (currentPage > 0) currentPage--;
-                    else System.out.println("첫 번째 페이지입니다.");
+                    else ConsoleUI.alert("첫 번째 페이지입니다.");
                     break;
                 case "1":
                     try {
@@ -353,20 +354,15 @@ public class AdminView {
                 case "0":
                     return;
                 default:
-                    System.out.println("잘못된 입력입니다.");
+                    ConsoleUI.alert("잘못된 입력입니다.");
             }
         }
     }
 
     public static void insertMovie(){
-        System.out.print("제목 : ");
-        String movieTitle = sc.nextLine();
-
-        System.out.print("배우(000, 000, 000) : ");
-        String actor = sc.nextLine();
-
-        System.out.print("개봉일(0000-00-00) : ");
-        String releaseDate = sc.nextLine();
+        String movieTitle = ConsoleUI.prompt(sc, "제목");
+        String actor = ConsoleUI.prompt(sc, "배우(000, 000, 000)");
+        String releaseDate = ConsoleUI.prompt(sc, "개봉일(0000-00-00)");
 
         Genre genre = null;
         while (genre == null) {
@@ -434,18 +430,17 @@ public class AdminView {
 
     public static void statistics(Member member) {
         while(true){
-            System.out.println("=============================================================");
-            System.out.println("                          [Dashboard]");
-            System.out.println("=============================================================");
-            System.out.println("                [1] 신규 가입자 및 회원 증감 추이");
-            System.out.println("                [2] 영화 장르 선호도");
-            System.out.println("                [3] 영화별 누적 예매 순위 (Top 10)");
-            System.out.println("                [4] 주간 요일별 매출 및 예매 분석");
-            System.out.println("                [0] 이전으로 돌아가기");
-            System.out.println("=============================================================");
+            ConsoleUI.printHeader("DASHBOARD", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
-            System.out.print("관리 메뉴 번호를 입력하세요 : ");
-            int menu =Integer.parseInt(sc.nextLine());
+            ConsoleUI.printMenu(new String[]{
+                    "[1] 신규 가입자 및 회원 증감 추이",
+                    "[2] 영화 장르 선호도",
+                    "[3] 영화별 누적 예매 순위 (Top 10)",
+                    "[4] 주간 매출 분석",
+                    "[0] 이전으로 돌아가기"
+            }, ConsoleUI.GREEN);
+
+            int menu = ConsoleUI.promptInt(sc, "관리 메뉴 번호를 입력하세요 : ");
             switch(menu) {
                 case 1 :
                     //신규 가입자 및 회원 증감 추이
@@ -465,10 +460,10 @@ public class AdminView {
                     break;
                 case 0 :
                     // 이전으로 돌아가기
-                    moivieManager(member);
+                    movieManager(member);
                     break;
                 default:
-                    new WrongInput();
+                    ConsoleUI.alert("올바른 메뉴 번호를 입력하세요.");
                     break;
             }
 

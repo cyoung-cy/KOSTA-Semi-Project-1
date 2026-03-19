@@ -93,11 +93,10 @@ public class UpcomingMovieDetailAPI {
     public static void showUpcomingMovieDetail(List<MovieAPI> movies) throws Exception {
 
         Scanner sc = new Scanner(System.in);
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("개봉예정작 상세조회", null, ConsoleUI.RED, ConsoleUI.YELLOW);
 
-        System.out.println("------------------------------------------------");
-        System.out.print("상세조회할 영화 ID를 입력하세요 : ");
-
-        String inputId = sc.nextLine().trim();
+        String inputId = ConsoleUI.prompt(sc, "상세조회할 영화 ID를 입력하세요").trim();
 
         MovieAPI selectedMovie = null;
 
@@ -109,15 +108,15 @@ public class UpcomingMovieDetailAPI {
         }
 
         if (selectedMovie == null) {
-            System.out.println("목록에 없는 영화 ID입니다.");
+            ConsoleUI.alert("목록에 없는 영화 ID입니다.");
             return;
         }
 
+        ConsoleUI.info("상세정보를 불러옵니다.");
         MovieAPI detailMovie = getUpcomingMovieDetail(selectedMovie);
-        
-        System.out.println("=======================================================");
-        System.out.println("                  [개봉예정작 상세정보]");
-        System.out.println("=======================================================");
+
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("개봉예정작 상세정보", null, ConsoleUI.RED, ConsoleUI.YELLOW);
 
         printUpcomingMovieDetail(detailMovie);
     }

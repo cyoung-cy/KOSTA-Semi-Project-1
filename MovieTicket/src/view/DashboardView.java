@@ -49,11 +49,10 @@ public class DashboardView {
         }
 
         // 출력
-        System.out.println("=============================================================");
-        System.out.println("               [ 회원 유입 및 증감 리포트 ]");
-        System.out.println("=============================================================");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("회원 유입 및 증감 리포트", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
         System.out.printf(" %-10s | %-9s | %s%n", "기준일자", "가입자 수", "시각화 (1명당 ■)");
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("-".repeat(61));
 
         for (String dateStr : dates) {
             int cnt = dataMap.getOrDefault(dateStr, 0);
@@ -63,9 +62,9 @@ public class DashboardView {
             System.out.printf(" %-11s | %5d명    | %s%n", displayDate, cnt, bar);
         }
 
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("-".repeat(61));
         System.out.println(" ▶ 전일 대비 증감율: " + changeStr);
-        System.out.println("=============================================================");
+        ConsoleUI.printLine(ConsoleUI.GREEN);
         System.out.print("[0] 돌아가기 : ");
 
         Scanner sc = new Scanner(System.in);
@@ -74,7 +73,7 @@ public class DashboardView {
             if (input.equals("0")) {
                 break;
             } else {
-                System.out.println("0을 입력하면 돌아갑니다.");
+                System.out.println("[알림] 0을 입력하면 돌아갑니다.");
             }
         }
     }
@@ -91,11 +90,10 @@ public class DashboardView {
             total += m.getMemberId();
         }
 
-        System.out.println("=============================================================");
-        System.out.println("               [ 선호 장르별 시장 점유율 ]");
-        System.out.println("=============================================================");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("선호 장르별 시장 점유율", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
         System.out.println("  순위 |   장르     |  회원 수  |  비중 (%)  |  그래프");
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("-".repeat(61));
 
         int rank = 1;
         int graphMax = 15;
@@ -117,9 +115,9 @@ public class DashboardView {
             rank++;
         }
 
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("-".repeat(61));
         System.out.printf(" ▶ 전체 선호 장르 선택 수: %d건%n", total);
-        System.out.println("=============================================================");
+        ConsoleUI.printLine(ConsoleUI.GREEN);
         System.out.print("[0] 돌아가기 : ");
 
         Scanner sc = new Scanner(System.in);
@@ -128,7 +126,7 @@ public class DashboardView {
             if (input.equals("0")) {
                 break;
             } else {
-                System.out.println("0을 입력하면 돌아갑니다.");
+                System.out.println("[알림] 0을 입력하면 돌아갑니다.");
             }
         }
     }
@@ -144,11 +142,11 @@ public class DashboardView {
     }
 
     public static void movieTopten(List<Movie> list, int totalAudiAcc) {
-        System.out.println("=================================================================");
-        System.out.println("                  [ 누적 관객 순위 TOP 10 ]");
-        System.out.println("=================================================================");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("누적 관객 순위 TOP 10", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+
         System.out.println(" 순위 | 영화 제목                    | 관객 수        | 상태");
-        System.out.println("-----------------------------------------------------------------");
+        System.out.println("-".repeat(65));
 
         for (int i = 0; i < list.size(); i++) {
             Movie m = list.get(i);
@@ -160,9 +158,9 @@ public class DashboardView {
             System.out.printf("%s| %s| %s | %s%n", rank, title, audi, status);
         }
 
-        System.out.println("-----------------------------------------------------------------");
+        System.out.println("-".repeat(65));
         System.out.printf(" ▶ 현재 전체 누적 관객 수: %,d명%n", totalAudiAcc);
-        System.out.println("=================================================================");
+        ConsoleUI.printLine(ConsoleUI.GREEN);
         System.out.print("[0] 돌아가기 : ");
         sc.nextLine();
     }
@@ -209,11 +207,10 @@ public class DashboardView {
             }
         }
 
-        System.out.println("=============================================================");
-        System.out.println("               [ 주간 매출 및 예매 분석 ]");
-        System.out.println("=============================================================");
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("주간 매출 및 예매 분석", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
         System.out.println(" 요일 | 예매수 |     그래프 (5건당 *)      |   일일 매출액");
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("-".repeat(61));
 
         for (int i = 0; i < 7; i++) {
             String day    = dayNames[i];
@@ -230,7 +227,7 @@ public class DashboardView {
         System.out.printf(" [결과 분석] 이번 주는 '%s요일'에 최대 매출액을 달성했습니다.%n",
                 dayNames[maxDayIdx]);
         System.out.printf(" ▶ 주간 총 합산 매출: ₩%,d%n", totalSales);
-        System.out.println("=============================================================");
+        ConsoleUI.printLine(ConsoleUI.GREEN);
         System.out.print("[0] 돌아가기 : ");
         sc.nextLine();
     }

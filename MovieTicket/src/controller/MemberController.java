@@ -6,10 +6,7 @@ import dto.Member;
 import service.MemberService;
 import session.Session;
 import session.SessionSet;
-import view.AdminView;
-import view.EndView;
-import view.FailView;
-import view.StartView;
+import view.*;
 
 public class MemberController {
 	static MemberService memberService = new MemberService();
@@ -22,6 +19,8 @@ public class MemberController {
 		try {
 			// 로그인 로직
 			Member member = memberService.login(userId, password);
+			ConsoleUI.info("로그인 되었습니다.");
+
 			SessionSet sessionSet = SessionSet.getInstance();
 			Session session = new Session(member.getMemberId(), member.getUserId());
 			sessionSet.add(session);
