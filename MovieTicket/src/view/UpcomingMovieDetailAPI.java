@@ -112,7 +112,7 @@ public class UpcomingMovieDetailAPI {
             return null;
         }
 
-        ConsoleUI.info("상세정보를 불러옵니다.");
+        ConsoleUI.info("상세정보를 불러옵니다...");
         MovieAPI detailMovie = getUpcomingMovieDetail(selectedMovie);
 
         ConsoleUI.blank(1);

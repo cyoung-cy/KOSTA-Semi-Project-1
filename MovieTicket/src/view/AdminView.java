@@ -229,8 +229,7 @@ public class AdminView {
         int screeningTime = ConsoleUI.promptInt(sc, "상영시간(분)");
         String director   = ConsoleUI.prompt(sc, "감독");
 
-        System.out.print("상영여부 (상영중/상영종료) : ");
-        String status = sc.nextLine().trim();
+        String status = ConsoleUI.prompt(sc, "상영여부 (상영중/상영종료)");
         boolean isScreening = status.equals("상영중");
 
         Movie m = new Movie(movieTitle, actor, releaseDate, genre.name(), screeningTime, director, isScreening);
@@ -253,7 +252,7 @@ public class AdminView {
                     "[0] 돌아가기"
             }, ConsoleUI.GREEN);
 
-            int menu = ConsoleUI.promptInt(sc, "수정 방법을 선택하세요 : ");
+            int menu = ConsoleUI.promptInt(sc, "수정 방법을 선택하세요");
             switch (menu) {
                 case 1:
                     //상영 종료

@@ -13,6 +13,7 @@ import exception.AppConfigException;
 import exception.NotFoundException;
 import exception.ReservationException;
 import util.DbManager;
+import view.ConsoleUI;
 
 public class ReservationService {
 
@@ -139,8 +140,9 @@ public class ReservationService {
 			movieDAO.updateAudiAcc(conn, req.getMovieId(), totalCount);
 
 			// 모든 과정 성공 시 커밋
-	        conn.commit(); 
-	        System.out.println("예약 성공! 예약 번호: " + reservationId);
+	        conn.commit();
+			ConsoleUI.info("예약 성공! 예약 번호: " + reservationId);
+	        //System.out.println("예약 성공! 예약 번호: " + reservationId);
 
 	    } catch (Exception e) {
 	        if (conn != null) {
