@@ -91,7 +91,7 @@ public class EndView {
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
-            String processedColor = inquiry.getProcessed() ? ConsoleUI.GREEN : ConsoleUI.RED;
+            String processedColor = inquiry.getProcessed() ? ConsoleUI.CYAN : ConsoleUI.RED;
 
             String row =
                     "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
@@ -100,7 +100,7 @@ public class EndView {
                             " | 처리여부 : " + processedColor + fit(processedText, 8) + ConsoleUI.RESET;
 
             System.out.println(row);
-            System.out.println("제목 : " + ConsoleUI.GREEN + inquiry.getTitle() + ConsoleUI.RESET);
+            System.out.println("제목 : " + ConsoleUI.CYAN + inquiry.getTitle() + ConsoleUI.RESET);
             printDashLine();
         }
     }
@@ -116,7 +116,7 @@ public class EndView {
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
-            String processedColor = inquiry.getProcessed() ? ConsoleUI.GREEN : ConsoleUI.RED;
+            String processedColor = inquiry.getProcessed() ? ConsoleUI.CYAN : ConsoleUI.RED;
 
             String row =
                     "문의 번호 : " + fit(String.valueOf(inquiry.getInquiryId()), 4) +
@@ -124,7 +124,7 @@ public class EndView {
                             " | 처리여부 : " + processedColor + fit(processedText, 8) + ConsoleUI.RESET;
 
             System.out.println(row);
-            System.out.println("제목 : " + ConsoleUI.GREEN + inquiry.getTitle() + ConsoleUI.RESET);
+            System.out.println("제목 : " + ConsoleUI.CYAN + inquiry.getTitle() + ConsoleUI.RESET);
             printDashLine();
         }
     }
@@ -513,7 +513,7 @@ public class EndView {
         printDetailItem("이름", member.getName());
         printDetailItem("전화번호", member.getPhone());
         printDetailItem("주소", member.getAddress());
-        printDetailItem("생년월일", member.getBirthDate());
+        printDetailItem("생년월일", formatDate(member.getBirthDate()));
         printDetailItem("선호 장르",
                 member.getPreferredGenre() == null ? "-" : String.join(", ", member.getPreferredGenre()));
         printDetailItem("카드 정보", member.getCardInfo());
@@ -523,16 +523,31 @@ public class EndView {
 
     private static void printDetailItem(String label, String value) {
         System.out.println("■ " + label);
-        System.out.println("  " + ConsoleUI.GREEN + (value == null || value.isBlank() ? "-" : value) + ConsoleUI.RESET);
+        System.out.println("  " + ConsoleUI.CYAN + (value == null || value.isBlank() ? "-" : value) + ConsoleUI.RESET);
     }
 
     private static void printDetailItem(String label, int value) {
         System.out.println("■ " + label);
-        System.out.println("  " + ConsoleUI.GREEN + value + ConsoleUI.RESET);
+        System.out.println("  " + ConsoleUI.CYAN + value + ConsoleUI.RESET);
     }
 
     private static void printDetailItem(String label, boolean value, String trueText, String falseText) {
         System.out.println("■ " + label);
-        System.out.println("  " + ConsoleUI.GREEN + (value ? trueText : falseText) + ConsoleUI.RESET);
+
+        String color = value ? ConsoleUI.CYAN : ConsoleUI.RED;
+        String text = value ? trueText : falseText;
+
+        System.out.println("  " + color + text + ConsoleUI.RESET);
+    }
+
+    private static String formatDate(String dateTime) {
+        if (dateTime == null || dateTime.isBlank()) return "-";
+
+        // "1999-01-01 00:00:00" → "1999-01-01"
+        if (dateTime.contains(" ")) {
+            return dateTime.split(" ")[0];
+        }
+
+        return dateTime;
     }
 }
