@@ -550,4 +550,42 @@ public class EndView {
 
         return dateTime;
     }
+
+    public static void printMovieReservationList(List<Movie> list) {
+        if (list == null || list.isEmpty()) {
+            ConsoleUI.alert("예매 가능한 영화가 없습니다.");
+            return;
+        }
+
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("영화 목록 조회", "예매할 영화를 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+
+        for (int i = 0; i < list.size(); i++) {
+            Movie movie = list.get(i);
+            String status = movie.getIsScreening() ? "상영중" : "상영종료";
+
+            System.out.println(
+                    ConsoleUI.GREEN + (i + 1) + ConsoleUI.RESET +
+                            " [" +
+                            (movie.getIsScreening() ? ConsoleUI.GREEN : ConsoleUI.RED) +
+                            status +
+                            ConsoleUI.RESET +
+                            "]"
+            );
+
+            System.out.println(
+                    "영화 ID : " + ConsoleUI.CYAN + movie.getMovieId() + ConsoleUI.RESET +
+                            " | 제목 : " + ConsoleUI.CYAN + safe(movie.getMovieTitle()) + ConsoleUI.RESET
+            );
+
+            printDashLine();
+        }
+
+        System.out.println("[0] 뒤로가기");
+        ConsoleUI.printLine(ConsoleUI.RED);
+    }
+
+    private static String safe(String text) {
+        return text == null || text.isBlank() ? "-" : text;
+    }
 }

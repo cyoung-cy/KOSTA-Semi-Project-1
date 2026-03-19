@@ -197,7 +197,7 @@ public class UserView {
 			switch(menu) {
 				case 1:
 					// TODO: 영화 예매 뷰 호출
-					ConsoleUI.info("영화 예매 기능은 추후 연결 예정입니다.");
+					ConsoleUI.info("영화 예매 메뉴로 이동합니다...");
 					break;
 				case 2:
 					int movieId = ConsoleUI.promptInt(sc, "리뷰를 볼 영화를 선택해주세요");

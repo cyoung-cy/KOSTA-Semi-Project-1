@@ -14,6 +14,7 @@ import service.MovieService;
 import service.ReservationService;
 import service.SchedulesService;
 import service.SeatService;
+import view.ConsoleUI;
 import view.EndView;
 import view.FailView;
 import view.ReservationView;
@@ -46,59 +47,57 @@ public class ReservationController {
 		}
 	}
 
-	public void manageReservation(Member member) {
-		ReservationRequest req = new ReservationRequest();
-		MovieService movieService = new MovieService();
-		try {
-            System.out.println("\n=== 🎬 영화 예매 시스템을 시작합니다 ===");
+    public void manageReservation(Member member) {
+        ReservationRequest req = new ReservationRequest();
+        MovieService movieService = new MovieService();
 
-            // Step 1: 영화 선택 (Movie 객체로 받음)
+        try {
+            ConsoleUI.blank(1);
+            ConsoleUI.printHeader("영화 예매", "예매를 시작합니다", ConsoleUI.RED, ConsoleUI.YELLOW, 1);
+
+            // Step 1: 영화 선택
             List<Movie> movieList = movieService.selectMovieByIsScreen();
-            Movie selectedMovie = reservationView.askMovieId(movieList);  // Movie 객체 반환
-            int movieId = selectedMovie.getMovieId(); // movieId 추출
+            Movie selectedMovie = reservationView.askMovieId(movieList);
+            int movieId = selectedMovie.getMovieId();
 
-            // Step 2: 상영 일정 선택 (선택된 영화 ID로 스케줄 조회 후 뷰에 전달)
+            // Step 2: 상영 일정 선택
             List<Schedules> scheduleList = schedulesService.getAvailableSchedules(movieId);
             Schedules selectedSchedule = null;
-            int scheduleId = 0;
-            
+            int scheduleId;
+
             while (true) {
                 try {
                     int choice = reservationView.askScheduleId(scheduleList);
-                    
-                    // 사용자가 입력한 번호(인덱스+1)가 리스트 범위 안에 있는지 체크
+
                     if (choice >= 1 && choice <= scheduleList.size()) {
                         selectedSchedule = scheduleList.get(choice - 1);
-                        
                         scheduleId = selectedSchedule.getScheduleId();
-                        
-                        req.setScheduleId(selectedSchedule.getScheduleId());
-                        req.setMovieId(selectedSchedule.getMovieId()); 
-                        
-                        break; // 성공했으니 루프 탈출!
+
+                        req.setScheduleId(scheduleId);
+                        req.setMovieId(selectedSchedule.getMovieId());
+
+                        break;
                     } else {
-                        System.out.println("❌ 목록에 있는 번호를 선택해주세요. (1 ~ " + scheduleList.size() + ")");
+                        ConsoleUI.alert("목록에 있는 번호를 선택해주세요. (1 ~ " + scheduleList.size() + ")");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("❌ 숫자만 입력 가능합니다.");
+                    ConsoleUI.alert("숫자만 입력해주세요.");
                 } catch (Exception e) {
-                    System.out.println("❌ 알 수 없는 오류: " + e.getMessage());
+                    ConsoleUI.alert("오류가 발생했습니다. " + e.getMessage());
                 }
             }
-            
+
             // Step 3: 인원 설정
             req.setAdultCount(reservationView.askAdultCount());
             req.setTeenCount(reservationView.askTeenCount());
             req.setBabyCount(reservationView.askBabyCount());
 
             // Step 4: 좌석 선택
-            // 실시간 예약 현황 가져오기 (DB 실시간 조회)
-            List<String> reservedNames = seatService.getReservedSeatNames(scheduleId);
-            
-	         // 캐시에서 해당 일정의 룸 객체 꺼내기 (메모리 조회)
-	         Room room = CinemaCache.getInstance().getRoomById(selectedSchedule.getRoomId());
-	         
-	         List<String> selectedSeats = reservationView.askSeats(room, reservedNames);
+            List<String> reservedNames = seatService.getReservedSeatNames(req.getScheduleId());
+
+            Room room = CinemaCache.getInstance().getRoomById(selectedSchedule.getRoomId());
+
+            List<String> selectedSeats = reservationView.askSeats(room, reservedNames);
             req.setSelectSeats(selectedSeats);
 
             // Step 5: 결제 및 사용자 정보 결합
