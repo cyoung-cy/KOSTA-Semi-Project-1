@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-
 public class EndView {
 
     // EndView 공통 출력 보조 메서드 (영문 기준)
@@ -227,9 +226,9 @@ public class EndView {
     }
 
     /*
-    * 0315
-    * 이동혁
-    * TODO: 추천 영화 조회 View
+     * 0315
+     * 이동혁
+     * TODO: 추천 영화 조회 View
      */
     public static void printRecommendationMovies(List<Movie> list) {
         if (list == null || list.isEmpty()) {
@@ -276,7 +275,6 @@ public class EndView {
         ConsoleUI.info(s);
     }
 
-
     /*
      * 0314
      * 김채영
@@ -294,12 +292,12 @@ public class EndView {
 
         final int reservIdW = 12;
         final int memberIdW = 10;
-        final int movieIdW  = 10;
-        final int titleW    = 36;
+        final int movieIdW = 10;
+        final int titleW = 36;
 
         String separator = "-".repeat(reservIdW) + "-+-" +
                 "-".repeat(memberIdW) + "-+-" +
-                "-".repeat(movieIdW)  + "-+-" +
+                "-".repeat(movieIdW) + "-+-" +
                 "-".repeat(titleW);
 
         // 회원 이름 조회
@@ -313,7 +311,7 @@ public class EndView {
         // 페이징 루프
         while (true) {
             int from = currentPage * PAGE_SIZE;
-            int to   = Math.min(from + PAGE_SIZE, reservationList.size());
+            int to = Math.min(from + PAGE_SIZE, reservationList.size());
 
             System.out.println("\n[" + name + " 예약 목록]  총 " + reservationList.size() + "건" +
                     "  (" + (currentPage + 1) + " / " + totalPages + " 페이지)");
@@ -321,9 +319,9 @@ public class EndView {
 
             //헤더는 루프 밖에서 한 번만
             System.out.println(
-                    PagingUtil.padRight("예약 ID",  reservIdW) + " | " +
-                            PagingUtil.padRight("회원 ID",  memberIdW) + " | " +
-                            PagingUtil.padRight("영화 ID",  movieIdW)  + " | " +
+                    PagingUtil.padRight("예약 ID", reservIdW) + " | " +
+                            PagingUtil.padRight("회원 ID", memberIdW) + " | " +
+                            PagingUtil.padRight("영화 ID", movieIdW) + " | " +
                             PagingUtil.padRight("영화 제목", titleW)
             );
             System.out.println(separator);
@@ -375,89 +373,88 @@ public class EndView {
         final int PAGE_SIZE = 5; // 한 페이지 당 표시할 티켓 수
         int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
         int currentPage = 0;
+
         while (true) {
             PrintTickets.print(list);
             Scanner scanner = new Scanner(System.in);
 
-        final int reservIdW = 12;
-        final int userNameW = 12;
-        final int movieTitleW = 20;
-        final int totalPriceW = 10;
-        final int countW = 5;
-        final int roomNameW = 10;
-        final int startTimeW = 10;
-        final int endTimeW = 10;
-        final int seatNameW = 20;
+            final int reservIdW = 12;
+            final int userNameW = 12;
+            final int movieTitleW = 20;
+            final int totalPriceW = 10;
+            final int countW = 5;
+            final int roomNameW = 10;
+            final int startTimeW = 10;
+            final int endTimeW = 10;
+            final int seatNameW = 20;
 
-        String separator = "-".repeat(reservIdW) + "-+-" +
-                "-".repeat(userNameW) + "-+-" + "-".repeat(movieTitleW) + "-+-" +
-                "-".repeat(totalPriceW) + "-+-" + "-".repeat(countW) + "-+-" +
-                "-".repeat(roomNameW) + "-+-" + "-".repeat(startTimeW) + "-+-" +
-                "-".repeat(endTimeW) + "-+-" + "-".repeat(seatNameW);
+            String separator = "-".repeat(reservIdW) + "-+-" +
+                    "-".repeat(userNameW) + "-+-" + "-".repeat(movieTitleW) + "-+-" +
+                    "-".repeat(totalPriceW) + "-+-" + "-".repeat(countW) + "-+-" +
+                    "-".repeat(roomNameW) + "-+-" + "-".repeat(startTimeW) + "-+-" +
+                    "-".repeat(endTimeW) + "-+-" + "-".repeat(seatNameW);
 
-        while(true) {
+            while (true) {
 
-            System.out.println("\n[티켓 목록]  총 " + (currentPage + 1) + " / " + totalPage + " 페이지");
-            System.out.println(separator);
-            System.out.println(
-                    PagingUtil.padRight("예약 번호", reservIdW) + " | " +
-                            PagingUtil.padRight("예약자 이름", userNameW) + " | " +
-                            PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
-                            PagingUtil.padRight("총 가격", totalPriceW) + " | " +
-                            PagingUtil.padRight("예약 좌석 수", countW) + " | " +
-                            PagingUtil.padRight("상영관", roomNameW) + " | " +
-                            PagingUtil.padRight("상영 시작 시간", startTimeW) + " | " +
-                            PagingUtil.padRight("상영 종료 시간", endTimeW) + " | " +
-                            PagingUtil.padRight("좌석 번호", seatNameW)
-            );
-
-            System.out.println(separator);
-
-            // 현재 페이지 데이터 출력
-            int from = currentPage * PAGE_SIZE;
-            int to = Math.min(from + PAGE_SIZE, list.size());
-
-            for (int i = from; i < to; i++) {
-                Ticket ticket = list.get(i);
-                String seatNames = ticket.getSeats().stream()
-                        .map(Seat::getName)
-                        .collect(Collectors.joining(", "));
+                System.out.println("\n[티켓 목록]  총 " + (currentPage + 1) + " / " + totalPage + " 페이지");
+                System.out.println(separator);
                 System.out.println(
-                        PagingUtil.padRight(String.valueOf(ticket.getReservationId()), reservIdW) + " | " +
-                                PagingUtil.padRight(ticket.getUserName(), userNameW) +" | " +
-                                PagingUtil.padRight(ticket.getMovieTitle(), movieTitleW) +" | " +
-                                PagingUtil.padRight(String.valueOf(ticket.getTotalPrice()), totalPriceW) +" | " +
-                                PagingUtil.padRight(String.valueOf(ticket.getCount()), countW) +" | " +
-                                PagingUtil.padRight(ticket.getRoomName(), roomNameW) +" | " +
-                                PagingUtil.padRight(ticket.getStartTime().toString(), startTimeW) +" | " +
-                                PagingUtil.padRight(ticket.getEndTime().toString(), endTimeW) +" | " +
-                                PagingUtil.padRight(seatNames, seatNameW)
+                        PagingUtil.padRight("예약 번호", reservIdW) + " | " +
+                                PagingUtil.padRight("예약자 이름", userNameW) + " | " +
+                                PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
+                                PagingUtil.padRight("총 가격", totalPriceW) + " | " +
+                                PagingUtil.padRight("예약 좌석 수", countW) + " | " +
+                                PagingUtil.padRight("상영관", roomNameW) + " | " +
+                                PagingUtil.padRight("상영 시작 시간", startTimeW) + " | " +
+                                PagingUtil.padRight("상영 종료 시간", endTimeW) + " | " +
+                                PagingUtil.padRight("좌석 번호", seatNameW)
                 );
 
-            }
+                System.out.println(separator);
 
-            System.out.println(separator);
+                // 현재 페이지 데이터 출력
+                int from = currentPage * PAGE_SIZE;
+                int to = Math.min(from + PAGE_SIZE, list.size());
 
-            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
-            String input = scanner.nextLine().trim();
+                for (int i = from; i < to; i++) {
+                    Ticket ticket = list.get(i);
+                    String seatNames = ticket.getSeats().stream()
+                            .map(Seat::getName)
+                            .collect(Collectors.joining(", "));
+                    System.out.println(
+                            PagingUtil.padRight(String.valueOf(ticket.getReservationId()), reservIdW) + " | " +
+                                    PagingUtil.padRight(ticket.getMovieTitle(), movieTitleW) + " | " +
+                                    PagingUtil.padRight(ticket.getRoomName(), roomNameW) + " | " +
+                                    PagingUtil.padRight(ticket.getStartTime().toString(), startTimeW) + " | " +
+                                    PagingUtil.padRight(ticket.getEndTime().toString(), endTimeW) + " | " +
+                                    PagingUtil.padRight(seatNames, seatNameW)
+                    );
 
-            if (input.equalsIgnoreCase("q")) {
-                ConsoleUI.info("목록을 종료합니다.");
-                break;
-            } else if (input.equals(">")) {
-                if (currentPage < totalPage - 1) {
-                    currentPage++;
-                } else {
-                    ConsoleUI.alert("마지막 페이지입니다.");
                 }
-            } else if (input.equals("<")) {
-                if (currentPage > 0) {
-                    currentPage--;
+
+                System.out.println(separator);
+
+                System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+                String input = scanner.nextLine().trim();
+
+                if (input.equalsIgnoreCase("q")) {
+                    ConsoleUI.info("목록을 종료합니다.");
+                    break;
+                } else if (input.equals(">")) {
+                    if (currentPage < totalPage - 1) {
+                        currentPage++;
+                    } else {
+                        ConsoleUI.alert("마지막 페이지입니다.");
+                    }
+                } else if (input.equals("<")) {
+                    if (currentPage > 0) {
+                        currentPage--;
+                    } else {
+                        ConsoleUI.alert("첫 번째 페이지입니다.");
+                    }
                 } else {
-                    ConsoleUI.alert("첫 번째 페이지입니다.");
+                    ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
                 }
-            } else {
-                ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
             }
         }
     }
@@ -471,7 +468,7 @@ public class EndView {
 
         final int PAGE_SIZE = 5; // 한 페이지에 표시할 리뷰 수
         int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
-        if(totalPage == 0) totalPage = 1;
+        if (totalPage == 0) totalPage = 1;
         int currentPage = 0;
 
         Scanner scanner = new Scanner(System.in);
@@ -486,14 +483,14 @@ public class EndView {
                 + "-".repeat(ratingW) + "-+-"
                 + "-".repeat(contentW);
 
-        while(true) {
+        while (true) {
             System.out.println("\n[리뷰 목록] 총 " + (currentPage + 1) + " / " + totalPage + "페이지");
             System.out.println(separator);
             System.out.println(
                     PagingUtil.padRight("리뷰 번호", reviewIdW) + " | " +
-                    PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
-                    PagingUtil.padRight("평점", ratingW) + " | " +
-                    PagingUtil.padRight("내용", contentW)
+                            PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
+                            PagingUtil.padRight("평점", ratingW) + " | " +
+                            PagingUtil.padRight("내용", contentW)
             );
             System.out.println(separator);
 
@@ -506,9 +503,9 @@ public class EndView {
 
                 System.out.println(
                         PagingUtil.padRight(String.valueOf(review.getReviewId()), reviewIdW) + " | " +
-                        PagingUtil.padRight(review.getMovieTitle(), movieTitleW) + " | " +
-                        PagingUtil.padRight("★".repeat(starCount) + "☆".repeat(5 - starCount), ratingW) + " | " +
-                        PagingUtil.padRight(review.getContent(), contentW)
+                                PagingUtil.padRight(review.getMovieTitle(), movieTitleW) + " | " +
+                                PagingUtil.padRight("★".repeat(starCount) + "☆".repeat(5 - starCount), ratingW) + " | " +
+                                PagingUtil.padRight(review.getContent(), contentW)
                 );
             }
             System.out.println(separator);
@@ -547,7 +544,6 @@ public class EndView {
         printDetailItem("상영시간", movie.getScreeningTime() + "분");
         printDetailItem("감독", movie.getDirector());
         printDetailItem("상영여부", movie.getIsScreening(), "상영중", "상영종료");
-
     }
 
     public static void printInquiryDetail(Inquiry inquiry) {
@@ -596,5 +592,4 @@ public class EndView {
         System.out.println("■ " + label);
         System.out.println("  " + ConsoleUI.GREEN + (value ? trueText : falseText) + ConsoleUI.RESET);
     }
-
 }
