@@ -1,5 +1,6 @@
 package controller;
 
+import dto.Member;
 import dto.Movie;
 import service.MovieService;
 import view.EndView;
@@ -30,10 +31,10 @@ public class MovieController {
      * 이동혁
      * TODO: 사용자 추천 영화 조회
      * */
-    public static void selectAllMoviesByPreferredGenre(List<String> preferredGenre) {
+    public static void selectAllMoviesByPreferredGenre(List<String> preferredGenre, Member member) {
         try {
             List<Movie> list = movieService.selectAllMoviesByPreferredGenre(preferredGenre);
-            UserView.recommendationMovie(list);
+            UserView.recommendationMovie(list, member);
         } catch (Exception e) {
             FailView.errorMessage(e.getMessage());
         }
