@@ -87,9 +87,9 @@ public class Room {
     
     // 실시간 예약 반영되는 레이아웃
     public void displaySeatLayout(List<String> reservedNames) {
-        System.out.println("\n        		 [ SCREEN ] ");
-        System.out.println("    	1  2  3     4  5  6  7     8  9  10"); 
-        System.out.println("  --------------------------------");
+        System.out.println("\n        	  [ SCREEN ] ");
+        System.out.println("  1  2  3     4  5  6  7     8  9  10");
+        System.out.println("  -----------------------------------");
 
         for (int row = 1; row <= 10; row++) {
             char rowChar = (char) ('A' + row - 1);

@@ -1,6 +1,7 @@
 package view;
 
 import api.APIKeyConfig;
+import dto.Movie;
 import dto.MovieAPI;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -89,8 +90,8 @@ public class UpcomingMovieDetailAPI {
 
         return movie;
     }
-    
-    public static void showUpcomingMovieDetail(List<MovieAPI> movies) throws Exception {
+
+    public static Movie showUpcomingMovieDetail(List<MovieAPI> movies) throws Exception {
 
         Scanner sc = new Scanner(System.in);
         ConsoleUI.blank(1);
@@ -99,7 +100,6 @@ public class UpcomingMovieDetailAPI {
         String inputId = ConsoleUI.prompt(sc, "상세조회할 영화 ID를 입력하세요").trim();
 
         MovieAPI selectedMovie = null;
-
         for (MovieAPI movie : movies) {
             if (movie.getMovieId().equals(inputId)) {
                 selectedMovie = movie;
@@ -109,7 +109,7 @@ public class UpcomingMovieDetailAPI {
 
         if (selectedMovie == null) {
             ConsoleUI.alert("목록에 없는 영화 ID입니다.");
-            return;
+            return null;
         }
 
         ConsoleUI.info("상세정보를 불러옵니다.");
@@ -118,10 +118,11 @@ public class UpcomingMovieDetailAPI {
         ConsoleUI.blank(1);
         ConsoleUI.printHeader("개봉예정작 상세정보", null, ConsoleUI.RED, ConsoleUI.YELLOW);
 
-        printUpcomingMovieDetail(detailMovie);
+        // Movie 객체 반환받도록 수정
+        return printUpcomingMovieDetail(detailMovie);
     }
 
-    public static void printUpcomingMovieDetail(MovieAPI movie) {
+    public static Movie printUpcomingMovieDetail(MovieAPI movie) {
         System.out.println("제목 : " + nullToBlank(movie.getTitle()));
         System.out.println("배우 : " + movie.getActorText());
         System.out.println("개봉일 : " + formatDate(movie.getOpenDate()));
@@ -129,12 +130,14 @@ public class UpcomingMovieDetailAPI {
         System.out.println("상영시간 : " + (movie.getShowTime() == null ? 0 : movie.getShowTime()));
         System.out.println("감독 : " + nullToBlank(movie.getDirector()));
 
-        String OpenDate = formatDate(movie.getOpenDate());
-        String genre = nullToBlank(movie.getGenre());
-        int showTime = (movie.getShowTime() == null ? 0 : movie.getShowTime());
-        String director = nullToBlank(movie.getDirector());
+        String openDate  = formatDate(movie.getOpenDate());
+        String genre     = nullToBlank(movie.getGenre());
+        int showTime     = (movie.getShowTime() == null ? 0 : movie.getShowTime());
+        String director  = nullToBlank(movie.getDirector());
 
-        AdminView.insertMovieAuto(movie.getTitle(), movie.getActorText(), OpenDate, genre, showTime, director);
+        // Movie 객체 반환받도록 수정
+        return AdminView.insertMovieAuto(
+                movie.getTitle(), movie.getActorText(), openDate, genre, showTime, director);
     }
 
     private static String formatDate(String openDate) {

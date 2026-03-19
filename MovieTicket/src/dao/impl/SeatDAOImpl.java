@@ -58,7 +58,7 @@ public class SeatDAOImpl implements SeatDAO{
 	@Override
 	public List<Integer> findIdsByNames(Connection conn, int scheduleId, List<String> seatNames) {
 		StringBuilder sql = new StringBuilder(
-				"SELECT s.SEAT_ID FROM SEAT s "
+				"SELECT DISTINCT s.SEAT_ID FROM SEAT s "
 						+ "JOIN SCHEDULES sc ON s.ROOM_ID = sc.ROOM_ID "  // SCHEDULES → SCHEDULE
 						+ "WHERE sc.SCHEDULE_ID = ? AND s.NAME IN (");
 
