@@ -14,6 +14,7 @@ import util.PrintTickets;
 import vo.ReviewVO;
 import vo.Ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -365,16 +366,21 @@ public class EndView {
     }
 
     /*
-     * 0313
-     * 이동혁
-     * TODO: 예약 리스트 조회 View
-     */
+
+0313
+이동혁
+TODO: 예약 리스트 조회 View*/
     public static void printTickets(List<Ticket> list) {
         final int PAGE_SIZE = 2; // 한 페이지 당 표시할 티켓 수
         int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
         int currentPage = 0;
-        while (true) {
-            PrintTickets.print(list);
+        while (true) {// 현재 페이지 데이터 출력
+            List pageList = new ArrayList();
+            int from = currentPage * PAGE_SIZE;
+            int to = Math.min(from + PAGE_SIZE, list.size());
+            for(int i = from; i < to; i++) {
+                pageList.add(list.get(i));}
+            PrintTickets.print(pageList);
             Scanner scanner = new Scanner(System.in);
 
             System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");

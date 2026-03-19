@@ -455,8 +455,14 @@ public class StartView {
         MovieDAO movieDAO = new MovieDAOImpl();
         RoomDAO roomDAO = RoomDAOImpl.getInstance();
 
-        ReservationService.init(reservationDAO, reservationInfoDAO, schedulesDAO, memberDAO, seatDAO);
-        SchedulesService.init(schedulesDAO, movieDAO, roomDAO);
+        ReservationService.init(
+                ReservationDAOImpl.getInstance(),
+                ReservationInfoDAOImpl.getInstance(),
+                SchedulesDAOImpl.getInstance(),
+                new MemberDAOImpl(),
+                SeatDAOImpl.getInstance(),
+                new MovieDAOImpl()   // 추가
+        );        SchedulesService.init(schedulesDAO, movieDAO, roomDAO);
         SeatService.init(seatDAO, roomDAO);
         CinemaCache.init(seatDAO, roomDAO);  // 추가
 

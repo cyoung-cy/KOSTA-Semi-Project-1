@@ -61,9 +61,8 @@ public class SeatService {
      * 한상혁
      * TODO: 예약좌석 이름 리스트
      * */
-	public List<String> getReservedSeatNames(int scheduleId) {
-
-		return seatDAO.selectReservedSeatNames(scheduleId);
-    }
+	 public List<String> getReservedSeatNames(int roomId) {
+		 return seatDAO.findReservedSeatNamesByRoomId(roomId);
+	 }
 	
 }
