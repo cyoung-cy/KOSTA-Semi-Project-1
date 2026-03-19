@@ -40,7 +40,7 @@ public class ReservationController {
 	public void selectReservationsByMemberId(int memberId) {
 		try {
 			List<Reservation> list = reservationService.selectReservationsByMemberId(memberId);
-//            EndView.selectReservationsByMemberId(list, memberId);
+            EndView.selectReservationsByMemberId(list, memberId);
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}

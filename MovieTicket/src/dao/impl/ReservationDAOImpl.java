@@ -51,6 +51,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                 Reservation r = new Reservation();
                 r.setMemberId(rs.getInt("MEMBER_ID"));
                 r.setReservationId(rs.getInt("RESERVATION_ID"));
+                r.setMovieId(rs.getInt("MOVIE_ID"));
                 list.add(r);
             }
 
