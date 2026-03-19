@@ -57,6 +57,10 @@ public interface SeatDAO {
      * */
     List<String> findReservedSeatNamesByScheduleId(int scheduleId);
 
-
-
+    /*
+     * 20260319
+     * 김채영
+     * TODO: 예약된 좌석 검색
+     * */
+    List<String> findReservedSeatNamesByRoomId(int roomId);
 }

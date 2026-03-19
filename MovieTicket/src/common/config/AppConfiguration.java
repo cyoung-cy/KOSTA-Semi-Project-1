@@ -25,11 +25,15 @@ public class AppConfiguration {
 		SeatService.init(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
 		RoomService.init(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
 		SchedulesService.init(SchedulesDAOImpl.getInstance(), new MovieDAOImpl(), RoomDAOImpl.getInstance());
-		ReservationService.init(ReservationDAOImpl.getInstance(), ReservationInfoDAOImpl.getInstance(),
-    			SchedulesDAOImpl.getInstance(), new MemberDAOImpl(), SeatDAOImpl.getInstance());
-		CinemaCache.init(
-				SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
-//		System.out.println("서비스 싱글톤 인스턴스 주입 완료");
+		ReservationService.init(
+				ReservationDAOImpl.getInstance(),
+				ReservationInfoDAOImpl.getInstance(),
+				SchedulesDAOImpl.getInstance(),
+				new MemberDAOImpl(),
+				SeatDAOImpl.getInstance(),
+				new MovieDAOImpl()  // 추가
+		);
+		CinemaCache.init(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
 	}
 
 	public static AppConfiguration getInstance() {

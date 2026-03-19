@@ -254,4 +254,11 @@ public class MovieDAOImpl implements MovieDAO {
     	return list.isEmpty() ? null : list.get(0);
     }
 
+    @Override
+    public int updateAudiAcc(Connection conn, int movieId, int count) {
+        String sql = "UPDATE MOVIE SET AUDI_ACC = IFNULL(AUDI_ACC, 0) + ? WHERE MOVIE_ID = ?";
+        Object[] params = { count, movieId };
+        return queryExecutor.update(conn, sql, params);
+    }
+
 }

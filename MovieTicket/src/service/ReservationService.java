@@ -4,11 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import dao.MemberDAO;
-import dao.ReservationDAO;
-import dao.ReservationInfoDAO;
-import dao.SchedulesDAO;
-import dao.SeatDAO;
+import dao.*;
 import dto.Reservation;
 import dto.ReservationInfo;
 import dto.ReservationRequest;
@@ -32,14 +28,18 @@ public class ReservationService {
 
     private static ReservationService instance;
 
-    private ReservationService(ReservationDAO reservationDAO, ReservationInfoDAO reservationInfoDAO,
-    		SchedulesDAO schedulesDAO, MemberDAO memberDAO, SeatDAO seatDAO) {
-        this.reservationDAO = reservationDAO;
-        this.reservationInfoDAO = reservationInfoDAO;
-        this.schedulesDAO = schedulesDAO;
-        this.memberDAO = memberDAO;
-        this.seatDAO = seatDAO;
-    }
+	private final MovieDAO movieDAO;  // 추가
+
+	private ReservationService(ReservationDAO reservationDAO, ReservationInfoDAO reservationInfoDAO,
+							   SchedulesDAO schedulesDAO, MemberDAO memberDAO, SeatDAO seatDAO, MovieDAO movieDAO) {  // 추가
+		this.reservationDAO = reservationDAO;
+		this.reservationInfoDAO = reservationInfoDAO;
+		this.schedulesDAO = schedulesDAO;
+		this.memberDAO = memberDAO;
+		this.seatDAO = seatDAO;
+		this.movieDAO = movieDAO;  // 추가
+	}
+
 
 	public static ReservationService getInstance() {
 		if (instance == null)
@@ -47,12 +47,12 @@ public class ReservationService {
 
 		return instance;
 	}
-	
+
 	public static ReservationService init(ReservationDAO reservationDAO, ReservationInfoDAO reservationInfoDAO,
-    		SchedulesDAO schedulesDAO, MemberDAO memberDAO, SeatDAO seatDAO) {
+										  SchedulesDAO schedulesDAO, MemberDAO memberDAO, SeatDAO seatDAO, MovieDAO movieDAO) {  // 추가
 		if (instance == null)
-			instance = new ReservationService(reservationDAO, reservationInfoDAO, schedulesDAO, memberDAO, seatDAO);
-		
+			instance = new ReservationService(reservationDAO, reservationInfoDAO,
+					schedulesDAO, memberDAO, seatDAO, movieDAO);
 		return instance;
 	}
 
@@ -134,7 +134,11 @@ public class ReservationService {
 	        	saveInfo(conn, reservationId, seatIds.get(currentIdx++), 0,"어린이");
 	        }
 
-	        // 모든 과정 성공 시 커밋
+			// ── AUDI_ACC 업데이트 추가 ──
+			int totalCount = req.getAdultCount() + req.getTeenCount() + req.getBabyCount();
+			movieDAO.updateAudiAcc(conn, req.getMovieId(), totalCount);
+
+			// 모든 과정 성공 시 커밋
 	        conn.commit(); 
 	        System.out.println("예약 성공! 예약 번호: " + reservationId);
 

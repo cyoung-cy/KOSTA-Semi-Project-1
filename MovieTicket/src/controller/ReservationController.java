@@ -93,11 +93,13 @@ public class ReservationController {
             req.setBabyCount(reservationView.askBabyCount());
 
             // Step 4: 좌석 선택
-            List<String> reservedNames = seatService.getReservedSeatNames(req.getScheduleId());
-
-            Room room = CinemaCache.getInstance().getRoomById(selectedSchedule.getRoomId());
-
-            List<String> selectedSeats = reservationView.askSeats(room, reservedNames);
+            // 실시간 예약 현황 가져오기 (DB 실시간 조회)
+            List<String> reservedNames = seatService.getReservedSeatNames(selectedSchedule.getRoomId());
+            
+	         // 캐시에서 해당 일정의 룸 객체 꺼내기 (메모리 조회)
+	         Room room = CinemaCache.getInstance().getRoomById(selectedSchedule.getRoomId());
+	         
+	         List<String> selectedSeats = reservationView.askSeats(room, reservedNames);
             req.setSelectSeats(selectedSeats);
 
             // Step 5: 결제 및 사용자 정보 결합
