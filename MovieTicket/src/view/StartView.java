@@ -122,7 +122,7 @@ public class StartView {
                 case 2 :
                     //영화 추천
                     ConsoleUI.info("영화 목록을 불러옵니다.");
-                    MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre());
+                    MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre(),member);
                     break;
                 case 3 :
                     //영화 리뷰 작성
@@ -455,8 +455,14 @@ public class StartView {
         MovieDAO movieDAO = new MovieDAOImpl();
         RoomDAO roomDAO = RoomDAOImpl.getInstance();
 
-        ReservationService.init(reservationDAO, reservationInfoDAO, schedulesDAO, memberDAO, seatDAO);
-        SchedulesService.init(schedulesDAO, movieDAO, roomDAO);
+        ReservationService.init(
+                ReservationDAOImpl.getInstance(),
+                ReservationInfoDAOImpl.getInstance(),
+                SchedulesDAOImpl.getInstance(),
+                new MemberDAOImpl(),
+                SeatDAOImpl.getInstance(),
+                new MovieDAOImpl()   // 추가
+        );        SchedulesService.init(schedulesDAO, movieDAO, roomDAO);
         SeatService.init(seatDAO, roomDAO);
         CinemaCache.init(seatDAO, roomDAO);  // 추가
 
