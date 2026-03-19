@@ -105,17 +105,4 @@ public class Inquiry {
         this.response = response;
     }
 
-    @Override
-    public String toString() {
-        return "\n===== 문의 정보 =====\n" +
-                "문의 번호 : " + inquiryId + "\n" +
-                "회원 번호 : " + memberId + "\n" +
-                "제목 : " + title + "\n" +
-                "내용 : " + content + "\n" +
-                "카테고리 : " + category + "\n" +
-                "작성일 : " + createdAt + "\n" +
-                "처리 상태 : " + (processed ? "resolved" : "pending") + "\n" +
-                "답변 : " + (response != null ? response : "아직 답변이 없습니다.") + "\n" +
-                "====================";
-    }
 }

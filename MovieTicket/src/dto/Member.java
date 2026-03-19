@@ -147,23 +147,6 @@ public class Member {
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return "===== 회원 정보 =====\n" +
-				"회원 번호 : " + memberId + "\n" +
-				"회원 아이디 : " + userId + "\n" +
-				"비밀번호 : " + password + "\n" +
-				"이름 : " + name + "\n" +
-				"전화번호 : " + phone + "\n" +
-				"주소 : " + address + "\n" +
-				"생년월일 : " + birthDate + "\n" +
-				"선호 장르 : " + preferredGenre.toString() + "\n" +
-				"카드 정보 : " + cardInfo + "\n" +
-				"권한 : " + role + "\n" +
-                "가입일 : " + createAt + "\n" +
-				"====================";
-	}
-
     public String getCreateAt() {
         return createAt;
     }

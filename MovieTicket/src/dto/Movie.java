@@ -109,17 +109,7 @@ public class Movie {
         this.audiAcc = audiAcc;
     }
 
-    @Override
-    public String toString() {
-        return "\n===== 영화 정보 =====\n" +
-                "영화 번호        : " + movieId + "\n" +
-                "제목            : " + movieTitle + "\n" +
-                "배우            : " + actor + "\n" +
-                "개봉일          : " + releaseDate + "\n" +
-                "장르            : " + genre + "\n" +
-                "상영시간         : " + screeningTime + " 분\n" +
-                "감독            : " + director + "\n" +
-                "상영여부         : " + (isScreening ? "상영중" : "상영종료") + "\n" +
-                "======================";
+    public boolean isScreening() {
+        return isScreening;
     }
 }
