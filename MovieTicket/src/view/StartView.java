@@ -140,6 +140,7 @@ public class StartView {
                     //로그아웃
                     StartView.logout(member.getMemberId(), member.getUserId());
                     ConsoleUI.success("로그아웃 되었습니다.");
+                    StartView.menu();
                     return;
                 case 7 :
                     //회원탈퇴
