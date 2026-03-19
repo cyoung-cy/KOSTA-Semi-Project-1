@@ -195,9 +195,10 @@ public class UserView {
 				case 1:
 					// TODO: 영화 예매 뷰 호출
 					ConsoleUI.info("영화 예매 메뉴로 이동합니다...");
+					ReservationController.getInstance().manageReservation(member);
 					break;
 				case 2:
-					int movieId = ConsoleUI.promptInt(sc, "리뷰를 볼 영화를 선택해주세요");
+					int movieId = ConsoleUI.promptInt(sc, "리뷰를 볼 영화ID를 선택해주세요");
 					// 영화	리뷰 조회 컨트롤러 호출
 					ReviewController.selectReviewsByMovie(movieId);
 					break;
