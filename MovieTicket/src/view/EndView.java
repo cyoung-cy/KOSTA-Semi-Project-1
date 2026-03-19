@@ -10,6 +10,7 @@ import dto.Inquiry;
 import dto.Member;
 import dto.Movie;
 import util.PagingUtil;
+import util.PrintTickets;
 import vo.ReviewVO;
 import vo.Ticket;
 
@@ -321,66 +322,9 @@ public class EndView {
         final int PAGE_SIZE = 5; // 한 페이지 당 표시할 티켓 수
         int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
         int currentPage = 0;
-        Scanner scanner = new Scanner(System.in);
-
-        final int reservIdW = 12;
-        final int userNameW = 12;
-        final int movieTitleW = 20;
-        final int totalPriceW = 10;
-        final int countW = 5;
-        final int roomNameW = 10;
-        final int startTimeW = 10;
-        final int endTimeW = 10;
-        final int seatNameW = 20;
-
-        String separator = "-".repeat(reservIdW) + "-+-" +
-                "-".repeat(userNameW) + "-+-" + "-".repeat(movieTitleW) + "-+-" +
-                "-".repeat(totalPriceW) + "-+-" + "-".repeat(countW) + "-+-" +
-                "-".repeat(roomNameW) + "-+-" + "-".repeat(startTimeW) + "-+-" +
-                "-".repeat(endTimeW) + "-+-" + "-".repeat(seatNameW);
-
-        while(true) {
-
-            System.out.println("\n[티켓 목록]  총 " + (currentPage + 1) + " / " + totalPage + " 페이지");
-            System.out.println(separator);
-            System.out.println(
-                    PagingUtil.padRight("예약 번호", reservIdW) + " | " +
-                            PagingUtil.padRight("예약자 이름", userNameW) + " | " +
-                            PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
-                            PagingUtil.padRight("총 가격", totalPriceW) + " | " +
-                            PagingUtil.padRight("예약 좌석 수", countW) + " | " +
-                            PagingUtil.padRight("상영관", roomNameW) + " | " +
-                            PagingUtil.padRight("상영 시작 시간", startTimeW) + " | " +
-                            PagingUtil.padRight("상영 종료 시간", endTimeW) + " | " +
-                            PagingUtil.padRight("좌석 번호", seatNameW)
-            );
-
-            System.out.println(separator);
-
-            // 현재 페이지 데이터 출력
-            int from = currentPage * PAGE_SIZE;
-            int to = Math.min(from + PAGE_SIZE, list.size());
-
-            for (int i = from; i < to; i++) {
-                Ticket ticket = list.get(i);
-                String seatNames = ticket.getSeats().stream()
-                        .map(Seat::getName)
-                        .collect(Collectors.joining(", "));
-                System.out.println(
-                        PagingUtil.padRight(String.valueOf(ticket.getReservationId()), reservIdW) + " | " +
-                                PagingUtil.padRight(ticket.getUserName(), userNameW) +" | " +
-                                PagingUtil.padRight(ticket.getMovieTitle(), movieTitleW) +" | " +
-                                PagingUtil.padRight(String.valueOf(ticket.getTotalPrice()), totalPriceW) +" | " +
-                                PagingUtil.padRight(String.valueOf(ticket.getCount()), countW) +" | " +
-                                PagingUtil.padRight(ticket.getRoomName(), roomNameW) +" | " +
-                                PagingUtil.padRight(ticket.getStartTime().toString(), startTimeW) +" | " +
-                                PagingUtil.padRight(ticket.getEndTime().toString(), endTimeW) +" | " +
-                                PagingUtil.padRight(seatNames, seatNameW)
-                );
-
-            }
-
-            System.out.println(separator);
+        while (true) {
+            PrintTickets.print(list);
+            Scanner scanner = new Scanner(System.in);
 
             System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
             String input = scanner.nextLine().trim();

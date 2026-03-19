@@ -42,7 +42,7 @@ public class MemberDAOImpl implements MemberDAO {
         	
         	re = ps.executeUpdate();
         } catch (SQLException e) {
-        	e.printStackTrace();
+//        	e.printStackTrace();
             throw new RuntimeException();
         } finally {
             DbManager.close(con, ps, null);
@@ -147,6 +147,30 @@ public class MemberDAOImpl implements MemberDAO {
     }
 
     @Override
+    public Member selectUserById(String userId) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from MEMBER where USER_ID = ?";
+        Member member = null;
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                member = new Member(rs.getInt("MEMBER_ID"), rs.getString("USER_ID"), rs.getString("NAME"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DbManager.close(con, ps, rs);
+        }
+        return member;
+    }
+
+    @Override
     public Member login(String userId, String password)  throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
@@ -210,7 +234,7 @@ public class MemberDAOImpl implements MemberDAO {
 			
 			result = ps.executeUpdate();
 		} catch(SQLException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw new RuntimeException();
 		} finally {
 			DbManager.close(con, ps, null);

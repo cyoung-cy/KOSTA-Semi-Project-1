@@ -16,6 +16,13 @@ public interface MemberDAO {
     List<Member> selectUsers();
 
     /*
+    * 20260318
+    * 이동혁
+    * TODO: 사용자 아이디로 검색
+     */
+    Member selectUserById(String userId);
+
+    /*
      * 20260311
      * 김채영
      * TODO:사용자 로그인 DAO 인터페이스

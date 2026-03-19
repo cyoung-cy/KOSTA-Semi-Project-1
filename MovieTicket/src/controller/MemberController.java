@@ -85,7 +85,7 @@ public class MemberController {
 			EndView.printUserShort(list);
 			AdminView.userManage(member);
 		}catch (Exception e){
-			e.printStackTrace();
+//			e.printStackTrace();
 			//startview 이동
 		}
     }
