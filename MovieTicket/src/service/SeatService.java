@@ -62,7 +62,8 @@ public class SeatService {
      * TODO: 예약좌석 이름 리스트
      * */
 	public List<String> getReservedSeatNames(int scheduleId) {
-        return seatDAO.selectReservedSeatNames(scheduleId);
+
+		return seatDAO.selectReservedSeatNames(scheduleId);
     }
 	
 }

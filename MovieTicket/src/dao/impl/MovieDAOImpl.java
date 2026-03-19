@@ -128,10 +128,10 @@ public class MovieDAOImpl implements MovieDAO {
         String sql = "insert into MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
                 "values (?, ?, ?, ?, ?, ?, ?)";
         int re = 0;
-
+        int generatedId = 0;
         try {
             con = DbManager.getConnection();
-            ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, movie.getMovieTitle());
             ps.setString(2, movie.getActor());
@@ -143,6 +143,13 @@ public class MovieDAOImpl implements MovieDAO {
 
             re = ps.executeUpdate();
 
+            // 생성된 PK 가져오기
+            try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    generatedId = rs.getInt(1);
+                    movie.setMovieId(generatedId);  // Movie 객체에 ID 반영
+                }
+            }
         } catch (SQLException e) {
             System.out.println("SQL 에러 발생!");
             throw new RuntimeException(e);

@@ -1,11 +1,11 @@
 package dao.impl;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import common.jdbc.QueryExecutor;
+import common.jdbc.RowMapper;
 import dao.SeatDAO;
 import dto.Seat;
 import mapper.SeatMapper;
@@ -48,29 +48,40 @@ public class SeatDAOImpl implements SeatDAO{
 	public Seat selectSeatById(int seatId) {
 		return null;
 	}
-	
+
 	@Override
 	public int updateIsReserved(Connection conn, int seatId, boolean isReserved) {
-		String sql = "update SEAT set IS_RESERVED = ? where SEAT_ID = ? and IS_RESERVED = false";
-		
-		Object[] params = { isReserved, seatId };
-		
-		return queryExecutor.update(conn, sql,params);
+		String sql = "UPDATE SEAT SET IS_RESERVED = ? WHERE SEAT_ID = ? AND (IS_RESERVED = FALSE OR IS_RESERVED IS NULL)";
+		return queryExecutor.update(conn, sql, isReserved, seatId);
 	}
-	
+
 	@Override
 	public List<Integer> findIdsByNames(Connection conn, int scheduleId, List<String> seatNames) {
-		String sql = "select s.SEAT_ID from SEAT s " +
-	             "join SCHEDULES sc on s.ROOM_ID = sc.ROOM_ID " +
-	             "where sc.SCHEDULE_ID = ? and s.NAME = ?";
-	    
- 	    List<Integer> ids = new ArrayList<>();
-	    for (String name : seatNames) {
-	    	Object[] params = {scheduleId, name};
-	        Integer id = queryExecutor.queryForObject(conn, sql, Integer.class, params);
-	        if (id != null) ids.add(id);
-	    }
-	    return ids;
+		StringBuilder sql = new StringBuilder(
+				"SELECT DISTINCT s.SEAT_ID FROM SEAT s "
+						+ "JOIN SCHEDULES sc ON s.ROOM_ID = sc.ROOM_ID "  // SCHEDULES → SCHEDULE
+						+ "WHERE sc.SCHEDULE_ID = ? AND s.NAME IN (");
+
+		for (int i = 0; i < seatNames.size(); i++) {
+			sql.append(i == 0 ? "?" : ",?");
+		}
+		sql.append(")");
+
+		Object[] params = new Object[1 + seatNames.size()];
+		params[0] = scheduleId;
+		for (int i = 0; i < seatNames.size(); i++) {
+			params[i + 1] = seatNames.get(i);
+		}
+
+		// queryForList(conn, ...) 없음 → query(conn, ...) 직접 호출
+		return queryExecutor.query(conn, sql.toString(),
+				new RowMapper<Integer>() {
+					@Override
+					public Integer mapRow(java.sql.ResultSet rs) throws java.sql.SQLException {
+						return rs.getInt(1);
+					}
+				},
+				params);
 	}
 	
 	@Override
@@ -84,5 +95,17 @@ public class SeatDAOImpl implements SeatDAO{
 	    Object[] params = { scheduleId };
 	    return queryExecutor.queryForList(sql, rs -> rs.getString("NAME"), params);
 	}
-	
+
+	@Override
+	public List<String> findReservedSeatNamesByScheduleId(int scheduleId) {
+		String sql = "SELECT s.NAME FROM SEAT s "
+				+ "JOIN RESERVATION_INFO ri ON s.SEAT_ID = ri.SEAT_ID "
+				+ "JOIN RESERVATION r ON ri.RESERVATION_ID = r.RESERVATION_ID "
+				+ "WHERE r.SCHEDULE_ID = ?";
+
+		return queryExecutor.queryForList(sql,
+				rs -> rs.getString("NAME"),
+				scheduleId);
+	}
+
 }

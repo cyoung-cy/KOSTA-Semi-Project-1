@@ -40,7 +40,7 @@ public class ReservationController {
 	public void selectReservationsByMemberId(int memberId) {
 		try {
 			List<Reservation> list = reservationService.selectReservationsByMemberId(memberId);
-//            EndView.selectReservationsByMemberId(list, memberId);
+            EndView.selectReservationsByMemberId(list, memberId);
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}
@@ -52,9 +52,10 @@ public class ReservationController {
 		try {
             System.out.println("\n=== 🎬 영화 예매 시스템을 시작합니다 ===");
 
-            // Step 1: 영화 선택 (서비스에서 리스트 뽑아서 뷰에 전달)
-            List<Movie> movieList = movieService.selectAllMovies();
-            int movieId = reservationView.askMovieId(movieList); 
+            // Step 1: 영화 선택 (Movie 객체로 받음)
+            List<Movie> movieList = movieService.selectMovieByIsScreen();
+            Movie selectedMovie = reservationView.askMovieId(movieList);  // Movie 객체 반환
+            int movieId = selectedMovie.getMovieId(); // movieId 추출
 
             // Step 2: 상영 일정 선택 (선택된 영화 ID로 스케줄 조회 후 뷰에 전달)
             List<Schedules> scheduleList = schedulesService.getAvailableSchedules(movieId);

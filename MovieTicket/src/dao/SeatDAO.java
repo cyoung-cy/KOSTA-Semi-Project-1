@@ -49,5 +49,14 @@ public interface SeatDAO {
      * TODO: 스케줄 번호를 통해 해당 상영관의 예약좌석 이름 반환
      * */
     List<String> selectReservedSeatNames(int scheduleId);
-    
+
+    /*
+     * 20260319
+     * 김채영
+     * TODO: 해당 스케줄에서 예약 완료된 좌석 이름 목록
+     * */
+    List<String> findReservedSeatNamesByScheduleId(int scheduleId);
+
+
+
 }

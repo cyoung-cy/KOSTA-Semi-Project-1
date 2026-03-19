@@ -66,5 +66,12 @@ public class SchedulesDAOImpl implements SchedulesDAO{
 	    Object[] params = { scheduleId };
 	    return queryExecutor.queryForObject(conn, sql, schedulesMapper, params);
 	}
+
+	@Override
+	public List<Schedules> selectByRoomIdAndDate(int roomId, String date) {
+		String sql = "SELECT * FROM SCHEDULES WHERE ROOM_ID = ? AND DATE(START_TIME) = ?";
+		Object[] params = { roomId, date };
+		return queryExecutor.query(sql, schedulesMapper, params);
+	}
 	
 }

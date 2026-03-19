@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import dto.Member;
@@ -127,7 +128,7 @@ public class MemberController {
 	 * 이동혁
 	 * TODO: 사용자 탈퇴
 	 */
-	public static void deleteUserByMemberId(Member member) {
+	public static void deleteUserByMemberId(Member member) throws SQLException {
 		try {
 			memberService.deleteMemberByMemberId(member.getMemberId());
         	Session session = new Session(member.getMemberId(), member.getUserId());
