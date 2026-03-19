@@ -23,7 +23,7 @@ public class ReviewController {
                 FailView.errorMessage("리뷰가 등록되지 않았습니다.");
             }
             reviewService.insertReview(memberId, movieId, rating, content);
-            EndView.successMessage("리뷰가 성공적으로 등록되었습니다.");
+            EndView.successMessage("리뷰를 등록합니다...");
         } catch (Exception e) {
             FailView.errorMessage(e.getMessage());
         }

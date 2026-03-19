@@ -116,25 +116,29 @@ public class StartView {
             switch(menu) {
                 case 1 :
                     //영화 예매
+                    ConsoleUI.info("예매 화면으로 이동합니다...");
                     ReservationController.getInstance().manageReservation(member);
                     //ConsoleUI.info("[개발 미완료] 예매 기능 UI는 추후 구현 예정");
                     break;
                 case 2 :
                     //영화 추천
-                    ConsoleUI.info("영화 목록을 불러옵니다...");
+                    ConsoleUI.info("회원님의 취향에 맞는 영화 추천 목록을 불러옵니다...");
                     MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre(),member);
                     break;
                 case 3 :
                     //영화 리뷰 작성
+                    ConsoleUI.info("리뷰 작성 화면으로 이동합니다...");
                     insertReview(member.getMemberId());
                     //printUserMenu(member);
                     break;
                 case 4 :
                     //마이페이지
+                    ConsoleUI.info("마이페이지를 불러옵니다...");
                 	UserView.myPage(member);
                     break;
                 case 5 :
                     //문의하기
+                    ConsoleUI.info("문의 작성 화면으로 이동합니다...");
                     UserView.inquiry(member);
                     break;
                 case 6 :
@@ -145,6 +149,7 @@ public class StartView {
                     return;
                 case 7 :
                     //회원탈퇴
+                    ConsoleUI.info("회원탈퇴를 진행합니다...");
                 	StartView.withDrawal(member);
                 	break;
                 case 0 :
@@ -167,8 +172,6 @@ public class StartView {
     	SessionSet sessionSet = SessionSet.getInstance();
 
         while(true){
-            //ConsoleUI.blank(2);
-
             ConsoleUI.printHeader(
                     "ADMIN CONTROL ROOM",
                     "WELCOME, " + member.getName() + " MANAGER!",
@@ -369,7 +372,7 @@ public class StartView {
         MemberDAO memberDAO = new MemberDAOImpl();
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("WRITE REVIEW", "TICKET HOLDER ONLY", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("리뷰 작성", "예매한 영화에 대해 리뷰를 작성하세요!", ConsoleUI.RED, ConsoleUI.YELLOW, 9);
 
         reservationController.selectReservationsByMemberId(memberId);
         List<Member> m = memberDAO.selectUsers();
@@ -438,7 +441,7 @@ public class StartView {
         Review re = new Review(memberId, movieId, rating, content);
         ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
 
-        ConsoleUI.success("리뷰가 등록되었습니다.");
+        ConsoleUI.success("리뷰가 등록되었습니다!");
     }
 
 
