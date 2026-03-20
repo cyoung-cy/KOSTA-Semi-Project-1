@@ -32,7 +32,7 @@ public class UserView {
 					"[2] 예매 내역 조회",
 					"[3] 리뷰 내역 조회",
 					"[0] 이전으로 돌아가기"
-			}, null);
+			}, null, 10);
 
 			int menu = ConsoleUI.promptInt(sc, "마이 페이지 메뉴를 선택하세요");
             switch(menu) {
@@ -42,12 +42,12 @@ public class UserView {
             		break;
             	case 2:
             		//예매 내역 조회
-					ConsoleUI.info("예매 내역을 불러옵니다.");
+					ConsoleUI.info("예매 내역을 불러옵니다...");
 					TicketController.getTicketsInfo(member.getMemberId());
             		break;
             	case 3:
             		//리뷰 내역 조회
-					ConsoleUI.info("리뷰 내역을 불러옵니다.");
+					ConsoleUI.info("리뷰 내역을 불러옵니다...");
 					ReviewController.selectReviews(member);
             		break;
             	case 0:
@@ -159,7 +159,7 @@ public class UserView {
 					InquiryController.insertInquiry(member, content, category, title);
 					break;
 				case 2:
-					ConsoleUI.info("문의 내역을 불러옵니다.");
+					ConsoleUI.info("문의 내역을 불러옵니다...");
 					InquiryController.selectInquiryByMember(member);
 					int inquiryId = ConsoleUI.promptInt(sc, "상세 조회할 문의 번호를 입력해주세요.(처리된 문의만 가능)");
 					InquiryController.selectInquiryDetailByMember(inquiryId, member);
@@ -188,7 +188,7 @@ public class UserView {
 					"[1] 영화 예매하기",
 					"[2] 영화 리뷰보기",
 					"[3] 뒤로가기"
-			}, null);
+			}, null, 9);
 
 			int menu = ConsoleUI.promptInt(sc, "메뉴를 선택하세요");
 			switch(menu) {
@@ -198,7 +198,7 @@ public class UserView {
 					ReservationController.getInstance().manageReservation(member);
 					break;
 				case 2:
-					int movieId = ConsoleUI.promptInt(sc, "리뷰를 볼 영화ID를 선택해주세요");
+					int movieId = ConsoleUI.promptInt(sc, "리뷰를 조회할 영화 ID를 입력하세요");
 					// 영화	리뷰 조회 컨트롤러 호출
 					ReviewController.selectReviewsByMovie(movieId);
 					break;

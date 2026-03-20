@@ -24,7 +24,7 @@ public class ReservationView {
                 int choice = ConsoleUI.promptInt(sc, "예매하실 영화 번호를 입력하세요");
 
                 if (choice == 0) {
-                    throw new RuntimeException("뒤로가기");
+                    throw new RuntimeException("뒤로가기 실행");
                 }
 
                 if (choice >= 1 && choice <= movieList.size()) {
@@ -41,9 +41,6 @@ public class ReservationView {
     }
 
     private void printMovieList(List<Movie> movieList) {
-        ConsoleUI.blank(1);
-        ConsoleUI.printHeader("영화 목록 조회", "예매할 영화를 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
-
         for (int i = 0; i < movieList.size(); i++) {
             Movie movie = movieList.get(i);
             System.out.println(
@@ -56,7 +53,7 @@ public class ReservationView {
 
             printDashLine();
         }
-        System.out.println("[0] 뒤로가기");
+        System.out.println("[0] 이전 단계로");
         ConsoleUI.printLine(ConsoleUI.RED);
     }
 
@@ -65,7 +62,7 @@ public class ReservationView {
     // ──────────────────────────────────────────────
     public void printMovieDetail(Movie movie) {
         String subtitle = "[" + movie.getMovieTitle() + "] 상세 정보";
-        ConsoleUI.printHeader("선택한 영화 정보", subtitle, ConsoleUI.RED, ConsoleUI.YELLOW, 2);
+        ConsoleUI.printHeader("MOVIE DETAIL", subtitle, ConsoleUI.RED, ConsoleUI.YELLOW, -2);
 
         printDetailItem("영화 번호", String.valueOf(movie.getMovieId()));
         printDetailItem("배우", movie.getActor());
@@ -74,16 +71,13 @@ public class ReservationView {
         printDetailItem("상영시간", movie.getScreeningTime() + "분");
         printDetailItem("감독", movie.getDirector());
         printDetailItem("상영여부", movie.getIsScreening() ? "상영중" : "상영종료");
-
-        ConsoleUI.printLine(ConsoleUI.RED);
     }
 
     // ──────────────────────────────────────────────
     // Step 2 : 스케줄 선택
     // ──────────────────────────────────────────────
     public int askScheduleId(List<Schedules> scheduleList) {
-        ConsoleUI.blank(1);
-        ConsoleUI.printHeader("상영 스케줄 선택", "당일 15분 후 상영 스케줄은 예매가 불가합니다", ConsoleUI.RED, ConsoleUI.YELLOW, 2);
+        ConsoleUI.printHeader("SCREENING SCHEDULE", "당일 15분 후 상영 스케줄부터 예매가 가능합니다", ConsoleUI.RED, ConsoleUI.YELLOW, 2);
 
         for (int i = 0; i < scheduleList.size(); i++) {
             Schedules s = scheduleList.get(i);
@@ -98,9 +92,7 @@ public class ReservationView {
         System.out.println("[0] 이전 단계로");
         ConsoleUI.printLine(ConsoleUI.RED);
 
-        int choice = ConsoleUI.promptInt(sc, "스케줄 번호를 선택하세요");
-        if (choice == 0) throw new RuntimeException("뒤로가기");
-        return choice;
+        return ConsoleUI.promptInt(sc, "스케줄 번호를 선택하세요");
     }
 
     // ──────────────────────────────────────────────
@@ -133,18 +125,70 @@ public class ReservationView {
     // ──────────────────────────────────────────────
     // Step 4 : 좌석 선택
     // ──────────────────────────────────────────────
+//    public List<String> askSeats(Room room, List<String> reservedNames) {
+//        room.displaySeatLayout(reservedNames);
+//
+//        ConsoleUI.blank(1);
+//        System.out.println("[ ] : Available (예매 가능)");
+//        System.out.println("[X] : Booked (예매 완료)");
+//        ConsoleUI.printLine(ConsoleUI.RED);
+//
+//        List<String> selectedSeats = new ArrayList<>();
+//
+//        while (true) {
+//            String input = ConsoleUI.prompt(sc, "좌석 선택 (예: A-10, A-9)");
+//
+//            if (input.isBlank()) {
+//                ConsoleUI.alert("좌석을 입력해주세요.");
+//                continue;
+//            }
+//
+//            String[] parts = input.split("[,\\s]+");
+//            selectedSeats.clear();
+//            boolean valid = true;
+//
+//            for (String part : parts) {
+//                String normalized = part.trim().replace("-", "").toUpperCase();
+//
+//                if (reservedNames.contains(normalized)) {
+//                    ConsoleUI.alert(normalized + " 은(는) 이미 예약된 좌석입니다.");
+//                    valid = false;
+//                    break;
+//                }
+//
+//                if (!normalized.matches("[A-J][1-9]|[A-J]10")) {
+//                    ConsoleUI.alert("잘못된 좌석 형식입니다: " + part);
+//                    valid = false;
+//                    break;
+//                }
+//
+//                if (selectedSeats.contains(normalized)) {
+//                    ConsoleUI.alert("중복 좌석이 포함되어 있습니다: " + normalized);
+//                    valid = false;
+//                    break;
+//                }
+//
+//                selectedSeats.add(normalized);
+//            }
+//
+//            if (valid && !selectedSeats.isEmpty()) {
+//                return selectedSeats;
+//            }
+//        }
+//    }
     public List<String> askSeats(Room room, List<String> reservedNames) {
         room.displaySeatLayout(reservedNames);
 
         ConsoleUI.blank(1);
-        System.out.println("[ ] : Available (예매 가능)");
-        System.out.println("[X] : Booked (예매 완료)");
+        System.out.println("   [O] : 예매 가능 좌석");
+        System.out.println("   " + ConsoleUI.GRAY + ConsoleUI.BOLD + "[X]" + ConsoleUI.RESET + " : 예매 완료 좌석");
+        System.out.println("   입력 예시 : A-10, A-9 / B1, B2");
         ConsoleUI.printLine(ConsoleUI.RED);
 
         List<String> selectedSeats = new ArrayList<>();
 
         while (true) {
-            String input = ConsoleUI.prompt(sc, "좌석 선택 (예: A-10, A-9)");
+            String input = ConsoleUI.prompt(sc, "좌석 선택");
 
             if (input.isBlank()) {
                 ConsoleUI.alert("좌석을 입력해주세요.");
@@ -158,20 +202,20 @@ public class ReservationView {
             for (String part : parts) {
                 String normalized = part.trim().replace("-", "").toUpperCase();
 
-                if (reservedNames.contains(normalized)) {
-                    ConsoleUI.alert(normalized + " 은(는) 이미 예약된 좌석입니다.");
+                if (!normalized.matches("[A-J](10|[1-9])")) {
+                    ConsoleUI.alert("잘못된 좌석 형식입니다 : " + part);
                     valid = false;
                     break;
                 }
 
-                if (!normalized.matches("[A-J][1-9]|[A-J]10")) {
-                    ConsoleUI.alert("잘못된 좌석 형식입니다: " + part);
+                if (reservedNames.contains(normalized)) {
+                    ConsoleUI.alert(normalized + " 좌석은 이미 예약된 좌석입니다.");
                     valid = false;
                     break;
                 }
 
                 if (selectedSeats.contains(normalized)) {
-                    ConsoleUI.alert("중복 좌석이 포함되어 있습니다: " + normalized);
+                    ConsoleUI.alert("중복 좌석이 포함되어 있습니다 : " + normalized);
                     valid = false;
                     break;
                 }
@@ -180,6 +224,7 @@ public class ReservationView {
             }
 
             if (valid && !selectedSeats.isEmpty()) {
+                ConsoleUI.success("선택 좌석 : " + String.join(", ", selectedSeats));
                 return selectedSeats;
             }
         }
@@ -190,7 +235,7 @@ public class ReservationView {
     // ──────────────────────────────────────────────
     public String askCardInfo() {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("결제 정보 확인", "등록된 카드 정보를 입력하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("PAYMENT", "등록된 카드 정보를 입력하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         int choice = ConsoleUI.promptInt(sc, "결제를 진행하시겠습니까? (1: 결제승인 / 2: 취소)");
         if (choice != 1) throw new RuntimeException("결제를 취소하였습니다.");
@@ -207,7 +252,7 @@ public class ReservationView {
                 + (req.getBabyCount() * 0);
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("예매 완료", "예매가 정상적으로 완료되었습니다", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("BOOKING COMPLETE", "예매가 완료되었습니다! 즐거운 관람 되세요 🎬", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         printDetailItem("티켓 번호", String.valueOf(System.currentTimeMillis()));
         printDetailItem("좌석", String.valueOf(req.getSelectSeats()));
@@ -218,8 +263,8 @@ public class ReservationView {
         printDetailItem("금액", total + "원");
         printDetailItem("예매자 ID", String.valueOf(req.getMemberId()));
 
-        ConsoleUI.printLine(ConsoleUI.RED);
-        ConsoleUI.info("Enter(엔터)를 누르면 회원 메인 메뉴로 돌아갑니다.");
+        printDashLine();
+        ConsoleUI.info("Enter(엔터)를 누르면 회원 메인 메뉴로 돌아갑니다. ");
         sc.nextLine();
     }
 

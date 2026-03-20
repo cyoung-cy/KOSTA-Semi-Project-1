@@ -68,7 +68,7 @@ public class EndView {
      * */
     public static void printUserShort(List<Member> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("회원 목록", "전체 회원 현황 | 총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("MEMBER LIST", "전체 회원 현황 | 총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         for (Member member : list) {
             String row =
@@ -88,7 +88,7 @@ public class EndView {
      * */
     public static void printInquiryShort(List<Inquiry> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("문의 목록", "문의 접수 현황 | 총 " + list.size() + "건", ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
+        ConsoleUI.printHeader("INQUIRY LIST", "문의 접수 현황 | 총 " + list.size() + "건", ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
@@ -113,7 +113,7 @@ public class EndView {
      * */
     public static void printUserInquiryShort(List<Inquiry> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("내 문의 목록", "내 문의 내역 | 총 " + list.size() + "건", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("MY INQUIRIES", "내 문의 내역 | 총 " + list.size() + "건", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
@@ -206,7 +206,6 @@ public class EndView {
 
             if (input.equalsIgnoreCase("q")) {
                 ConsoleUI.info("목록을 종료합니다.");
-                //System.out.println();
                 break;
             } else if (input.equals(">")) {
                 if (currentPage < totalPages - 1) {
@@ -286,22 +285,14 @@ public class EndView {
     public static void selectReservationsByMemberId(List<Reservation> reservationList, int memberId) {
         MovieDAO movieDAO = new MovieDAOImpl();
         MemberDAO memberDAO = new MemberDAOImpl();
-        final int PAGE_SIZE = 15;
+
+        final int PAGE_SIZE = 5;
         int totalPages = (int) Math.ceil((double) reservationList.size() / PAGE_SIZE);
+        if (totalPages == 0) totalPages = 1;
         int currentPage = 0;
+
         Scanner scanner = new Scanner(System.in);
 
-        final int reservIdW = 12;
-        final int memberIdW = 10;
-        final int movieIdW = 10;
-        final int titleW = 36;
-
-        String separator = "-".repeat(reservIdW) + "-+-" +
-                "-".repeat(memberIdW) + "-+-" +
-                "-".repeat(movieIdW) + "-+-" +
-                "-".repeat(titleW);
-
-        // 회원 이름 조회
         List<Member> members = memberDAO.selectUsers();
         String name = members.stream()
                 .filter(m -> m.getMemberId() == memberId)
@@ -309,44 +300,34 @@ public class EndView {
                 .findFirst()
                 .orElse("알 수 없음");
 
-        // 페이징 루프
         while (true) {
             int from = currentPage * PAGE_SIZE;
             int to = Math.min(from + PAGE_SIZE, reservationList.size());
 
-            System.out.println("\n[" + name + " 예약 목록]  총 " + reservationList.size() + "건" +
-                    "  (" + (currentPage + 1) + " / " + totalPages + " 페이지)");
-            System.out.println(separator);
+            ConsoleUI.blank(1);
+            System.out.println("[" + name + " 님의 예약 목록] " + + (currentPage + 1) + " / " + totalPages + " 페이지");
+            System.out.println("-".repeat(ConsoleUI.WIDTH));
 
-            //헤더는 루프 밖에서 한 번만
-            System.out.println(
-                    PagingUtil.padRight("예약 ID", reservIdW) + " | " +
-                            PagingUtil.padRight("회원 ID", memberIdW) + " | " +
-                            PagingUtil.padRight("영화 ID", movieIdW) + " | " +
-                            PagingUtil.padRight("영화 제목", titleW)
-            );
-            System.out.println(separator);
+            for (int i = from; i < to; i++) {
+                Reservation r = reservationList.get(i);
 
-            for (Reservation r : reservationList) {
-                // selectMovieDetail()은 List로 반환하므로 get(0)으로 꺼냄
                 List<Movie> movieDetail = movieDAO.selectMovieDetail(r.getMovieId());
                 String title = (!movieDetail.isEmpty()) ? movieDetail.get(0).getMovieTitle() : "정보 없음";
 
-                System.out.println(
-                        PagingUtil.padRight(String.valueOf(r.getReservationId()), reservIdW) + " | " +
-                                PagingUtil.padRight(String.valueOf(r.getMemberId()), memberIdW) + " | " +
-                                PagingUtil.padRight(String.valueOf(r.getMovieId()), movieIdW) + " | " +
-                                PagingUtil.padRight(title, titleW)
-                );
+                System.out.println("[#" + (i - from + 1) + "]");
+                System.out.println("예약 ID   : " + r.getReservationId());
+                System.out.println("영화 ID   : " + ConsoleUI.CYAN + r.getMovieId() + ConsoleUI.RESET);
+                System.out.println("영화 제목 : " + title);
+                System.out.println("-".repeat(ConsoleUI.WIDTH));
             }
 
-            System.out.println(separator);
             System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
-            String input = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("q")) {
-                ConsoleUI.info("목록을 종료합니다.");
-                break; //while 루프를 빠져나감
+                ConsoleUI.info("예약 목록 조회를 종료합니다.");
+                ConsoleUI.blank(1);
+                return;
             } else if (input.equals(">")) {
                 if (currentPage < totalPages - 1) {
                     currentPage++;
@@ -360,7 +341,7 @@ public class EndView {
                     ConsoleUI.alert("첫 번째 페이지입니다.");
                 }
             } else {
-                ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
+                ConsoleUI.alert("올바른 입력이 아닙니다. <, >, Q 중 하나를 입력하세요.");
             }
         }
     }
@@ -371,24 +352,38 @@ public class EndView {
 이동혁
 TODO: 예약 리스트 조회 View*/
     public static void printTickets(List<Ticket> list) {
-        final int PAGE_SIZE = 2; // 한 페이지 당 표시할 티켓 수
+        if (list == null || list.isEmpty()) {
+            ConsoleUI.alert("조회된 예매 내역이 없습니다.");
+            return;
+        }
+
+        final int PAGE_SIZE = 2;
         int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
+        if (totalPage == 0) totalPage = 1;
         int currentPage = 0;
-        while (true) {// 현재 페이지 데이터 출력
-            List pageList = new ArrayList();
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            List<Ticket> pageList = new ArrayList<>();
             int from = currentPage * PAGE_SIZE;
             int to = Math.min(from + PAGE_SIZE, list.size());
-            for(int i = from; i < to; i++) {
-                pageList.add(list.get(i));}
+
+            for (int i = from; i < to; i++) {
+                pageList.add(list.get(i));
+            }
+
+            ConsoleUI.blank(1);
+            ConsoleUI.printHeader("BOOKING HISTORY", "예매 티켓을 확인하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
             PrintTickets.print(pageList);
-            Scanner scanner = new Scanner(System.in);
 
             System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
-            String input = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("q")) {
                 ConsoleUI.info("목록을 종료합니다.");
-                break;
+                ConsoleUI.printLine(ConsoleUI.RED);
+                return;
             } else if (input.equals(">")) {
                 if (currentPage < totalPage - 1) {
                     currentPage++;
@@ -414,55 +409,51 @@ TODO: 예약 리스트 조회 View*/
      * TODO: 리뷰 리스트 조회 View
      */
     public static void reviewList(List<ReviewVO> list) {
+        final int PAGE_SIZE = 5;
 
-        final int PAGE_SIZE = 5; // 한 페이지에 표시할 리뷰 수
+        if (list == null || list.isEmpty()) {
+            ConsoleUI.alert("등록된 리뷰가 없습니다.");
+            return;
+        }
+
         int totalPage = (int) Math.ceil((double) list.size() / PAGE_SIZE);
-        if (totalPage == 0) totalPage = 1;
         int currentPage = 0;
 
         Scanner scanner = new Scanner(System.in);
 
-        final int reviewIdW = 12;
-        final int movieTitleW = 12;
-        final int ratingW = 12;
-        final int contentW = 50;
-
-        String separator = "-".repeat(reviewIdW) + "-+-"
-                + "-".repeat(movieTitleW) + "-+-"
-                + "-".repeat(ratingW) + "-+-"
-                + "-".repeat(contentW);
-
         while (true) {
-            System.out.println("\n[리뷰 목록] 총 " + (currentPage + 1) + " / " + totalPage + "페이지");
-            System.out.println(separator);
-            System.out.println(
-                    PagingUtil.padRight("리뷰 번호", reviewIdW) + " | " +
-                            PagingUtil.padRight("영화 제목", movieTitleW) + " | " +
-                            PagingUtil.padRight("평점", ratingW) + " | " +
-                            PagingUtil.padRight("내용", contentW)
+            ConsoleUI.blank(1);
+            ConsoleUI.printHeader(
+                    "MOVIE REVIEWS",
+                    "해당 영화의 관람객 리뷰 목록입니다.",
+                    ConsoleUI.RED,
+                    ConsoleUI.YELLOW,
+                    3
             );
-            System.out.println(separator);
 
-            // 현재 페이지 데이터 출력
             int from = currentPage * PAGE_SIZE;
             int to = Math.min(from + PAGE_SIZE, list.size());
+
             for (int i = from; i < to; i++) {
                 ReviewVO review = list.get(i);
-                int starCount = review.getRating(); // 별점 개수
 
-                System.out.println(
-                        PagingUtil.padRight(String.valueOf(review.getReviewId()), reviewIdW) + " | " +
-                                PagingUtil.padRight(review.getMovieTitle(), movieTitleW) + " | " +
-                                PagingUtil.padRight("★".repeat(starCount) + "☆".repeat(5 - starCount), ratingW) + " | " +
-                                PagingUtil.padRight(review.getContent(), contentW)
-                );
+                String stars =
+                        ConsoleUI.YELLOW + "★".repeat(review.getRating()) +
+                                ConsoleUI.RESET +
+                                "☆".repeat(5 - review.getRating());
+
+                System.out.println(ConsoleUI.CYAN + "[리뷰 #" + review.getReviewId() + "]" + ConsoleUI.RESET);
+                System.out.println("영화 제목 : " + ConsoleUI.BOLD + review.getMovieTitle() + ConsoleUI.RESET);
+                System.out.println("평점      : " + stars);
+                System.out.println("내용      : " + review.getContent());
+                printDashLine();
             }
-            System.out.println(separator);
-            System.out.println("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
-            String input = scanner.nextLine().trim();
+
+            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+            String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("q")) {
-                ConsoleUI.info("목록을 종료합니다.");
+                ConsoleUI.info("리뷰 목록을 종료합니다.");
                 return;
             } else if (input.equals(">")) {
                 if (currentPage < totalPage - 1) {
@@ -477,14 +468,14 @@ TODO: 예약 리스트 조회 View*/
                     ConsoleUI.alert("첫 번째 페이지입니다.");
                 }
             } else {
-                ConsoleUI.alert("올바른 입력이 아닙니다. >, <, Q 중 하나를 입력하세요.");
+                ConsoleUI.alert("올바른 입력이 아닙니다. <, >, Q 중 하나를 입력하세요.");
             }
         }
     }
 
     public static void printMovieDetail(Movie movie) {
         String subtitle = "[" + movie.getMovieTitle() + "] 상세 정보";
-        ConsoleUI.printHeader("영화 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
+        ConsoleUI.printHeader("MOVIE DETAIL", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
 
         printDetailItem("영화 번호", movie.getMovieId());
         printDetailItem("배우", movie.getActor());
@@ -497,7 +488,7 @@ TODO: 예약 리스트 조회 View*/
 
     public static void printInquiryDetail(Inquiry inquiry) {
         String subtitle = "[문의 #" + inquiry.getInquiryId() + "] 상세 정보";
-        ConsoleUI.printHeader("문의 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("INQUIRY DETAIL", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         printDetailItem("회원 번호", inquiry.getMemberId());
         printDetailItem("제목", inquiry.getTitle());
@@ -511,7 +502,7 @@ TODO: 예약 리스트 조회 View*/
 
     private static void printMemberDetail(Member member) {
         String subtitle = "[" + member.getUserId() + "] 님의 회원 정보";
-        ConsoleUI.printHeader("회원 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("MEMBER DETAIL", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         printDetailItem("회원 번호", member.getMemberId());
         printDetailItem("회원 아이디", member.getUserId());
@@ -564,7 +555,7 @@ TODO: 예약 리스트 조회 View*/
         }
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("영화 목록 조회", "예매할 영화를 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("MOVIE LIST", "예매할 영화를 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         for (int i = 0; i < list.size(); i++) {
             Movie movie = list.get(i);

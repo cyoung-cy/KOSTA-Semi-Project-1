@@ -19,6 +19,8 @@ public class ConsoleUI {
     public static final String BLUE   = "\u001B[34m";
     public static final String PURPLE = "\u001B[35m";
     public static final String CYAN   = "\u001B[36m";
+    public static final String BRIGHT_MAGENTA = "\u001B[95m";
+    public static final String GRAY = "\u001B[90m";
 
     private ConsoleUI() {
     }
@@ -120,22 +122,11 @@ public class ConsoleUI {
         printLine(lineColor);
     }
 
-//    // 헤더 제목 전용 중앙 정렬
-//    public static void printlnHeaderCenter(String text) {
-//        System.out.println(center(text, WIDTH - 1));
-//    }
-
     // 헤더 제목 전용 중앙 정렬
     private static void printlnHeaderTitle(String text) {
         int textWidth = getDisplayWidth(removeAnsi(text));
         int padding = Math.max(0, (WIDTH - textWidth) / 2 - 1); // 1칸 왼쪽 보정
         System.out.println(" ".repeat(padding) + text);
-    }
-
-    public static void printSectionTitle(String title, String color) {
-        printLine(color);
-        printlnCenter(color + BOLD + title + RESET);
-        printLine(color);
     }
 
     // subtitle 중앙정렬 (기본값)
@@ -225,43 +216,4 @@ public class ConsoleUI {
             }
         }
     }
-
-    /**
-     * TODO: 표 구분선
-     * */
-    public static void printTableLine(int length, String color) {
-        if (color == null) {
-            System.out.println("-".repeat(length));
-        } else {
-            System.out.println(color + "-".repeat(length) + RESET);
-        }
-    }
-
-    private static String safe(String s) {
-        return s == null ? "" : s;
-    }
-
-    private static String padRight(String text, int width) {
-        if (text == null) {
-            text = "";
-        }
-
-        int textWidth = getDisplayWidth(removeAnsi(text));
-        int padding = Math.max(0, width - textWidth);
-        return text + " ".repeat(padding);
-    }
-
-    public static void printKeyValue(String key, String value) {
-        String safeValue = (value == null || value.isBlank()) ? "-" : value;
-        System.out.println(padRight(key, 10) + " : " + safeValue);
-    }
-
-    public static void printKeyValue(String key, int value) {
-        System.out.println(padRight(key, 10) + " : " + value);
-    }
-
-    public static void printKeyValue(String key, boolean value, String trueLabel, String falseLabel) {
-        System.out.println(padRight(key, 10) + " : " + (value ? trueLabel : falseLabel));
-    }
-
 }

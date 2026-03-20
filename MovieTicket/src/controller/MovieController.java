@@ -104,7 +104,7 @@ public class MovieController {
                 selectMovieDetail(movie.getMovieId());
             }
 
-            EndView.successMessage("영화가 등록되었습니다.");
+            EndView.successMessage("영화를 등록합니다...");
         }catch (Exception e){
             FailView.errorMessage(e.getMessage());
         }

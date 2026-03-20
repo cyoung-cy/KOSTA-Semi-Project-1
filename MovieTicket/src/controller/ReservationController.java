@@ -53,7 +53,13 @@ public class ReservationController {
 
         try {
             ConsoleUI.blank(1);
-            ConsoleUI.printHeader("영화 예매", "예매를 시작합니다", ConsoleUI.RED, ConsoleUI.YELLOW, 1);
+            ConsoleUI.printHeader(
+                    "MOVIE BOOKING",
+                    "예매할 영화를 선택하세요",
+                    ConsoleUI.RED,
+                    ConsoleUI.YELLOW,
+                    2
+            );
 
             // Step 1: 영화 선택
             List<Movie> movieList = movieService.selectMovieByIsScreen();
@@ -68,6 +74,10 @@ public class ReservationController {
             while (true) {
                 try {
                     int choice = reservationView.askScheduleId(scheduleList);
+
+                    if (choice == 0) {
+                        return; // 이전 단계로
+                    }
 
                     if (choice >= 1 && choice <= scheduleList.size()) {
                         selectedSchedule = scheduleList.get(choice - 1);

@@ -58,7 +58,7 @@ public class StartView {
                     StartView.signUp();
                     break;
                 case 0 :
-                    ConsoleUI.info("프로그램을 종료합니다.");
+                    ConsoleUI.info("프로그램을 종료합니다...");
                     System.exit(0);
                 default:
                     //new WrongInput();
@@ -96,7 +96,7 @@ public class StartView {
             // 사용자 메뉴 전용 헤더 적용
             ConsoleUI.printHeader(
                     "USER LOBBY",
-                    "WELCOME, " + member.getUserId(),
+                    "WELCOME, " + member.getUserId() + "!",
                     ConsoleUI.RED,
                     ConsoleUI.YELLOW
             );
@@ -116,25 +116,29 @@ public class StartView {
             switch(menu) {
                 case 1 :
                     //영화 예매
+                    ConsoleUI.info("예매 화면으로 이동합니다...");
                     ReservationController.getInstance().manageReservation(member);
                     //ConsoleUI.info("[개발 미완료] 예매 기능 UI는 추후 구현 예정");
                     break;
                 case 2 :
                     //영화 추천
-                    ConsoleUI.info("영화 목록을 불러옵니다.");
+                    ConsoleUI.info("회원님의 취향에 맞는 영화 추천 목록을 불러옵니다...");
                     MovieController.selectAllMoviesByPreferredGenre(member.getPreferredGenre(),member);
                     break;
                 case 3 :
                     //영화 리뷰 작성
+                    ConsoleUI.info("리뷰 작성 화면으로 이동합니다...");
                     insertReview(member.getMemberId());
                     //printUserMenu(member);
                     break;
                 case 4 :
                     //마이페이지
+                    ConsoleUI.info("마이페이지를 불러옵니다...");
                 	UserView.myPage(member);
                     break;
                 case 5 :
                     //문의하기
+                    ConsoleUI.info("문의 작성 화면으로 이동합니다...");
                     UserView.inquiry(member);
                     break;
                 case 6 :
@@ -145,11 +149,12 @@ public class StartView {
                     return;
                 case 7 :
                     //회원탈퇴
+                    ConsoleUI.info("회원탈퇴를 진행합니다...");
                 	StartView.withDrawal(member);
                 	break;
                 case 0 :
                     //종료
-                    ConsoleUI.info("프로그램을 종료합니다.");
+                    ConsoleUI.info("프로그램을 종료합니다...");
                     System.exit(0);
                     break;
                 default:
@@ -167,8 +172,6 @@ public class StartView {
     	SessionSet sessionSet = SessionSet.getInstance();
 
         while(true){
-            //ConsoleUI.blank(2);
-
             ConsoleUI.printHeader(
                     "ADMIN CONTROL ROOM",
                     "WELCOME, " + member.getName() + " MANAGER!",
@@ -198,10 +201,6 @@ public class StartView {
                     ConsoleUI.info("영화 관리 메뉴로 이동합니다...");
                     AdminView.movieManager(member);
                     break;
-//                case 3 :
-//                    //영화 관리
-//                    AdminView.scheduleManager(member);
-//                    break;
                 case 3 :
                     //문의 관리
                     ConsoleUI.info("문의 관리 메뉴로 이동합니다...");
@@ -221,7 +220,7 @@ public class StartView {
                     break;
                 case 0 :
                     //종료
-                    ConsoleUI.info("프로그램을 종료합니다.");
+                    ConsoleUI.info("프로그램을 종료합니다...");
                     System.exit(0);
                     break;
                 default:
@@ -333,7 +332,7 @@ public class StartView {
          */
         List<String> preferredGenre = null;
         while(true) {
-            System.out.print("선호 장르('액션', '애니메이션', '스릴러', '호러', '코미디', '로맨스', '다큐', '드라마', '판타지'\n 중에 최대 3개 콤마로 구분해서 입력)\n : ");
+            System.out.print("선호 장르('액션', '애니메이션', '스릴러', '호러', '코미디', '로맨스', '드라마', '판타지' 중에 최대 3개 콤마로 구분해서 입력)\n : ");
             try {
                 preferredGenre = Arrays.stream(sc.nextLine().split(","))
                         .map(String::trim)
@@ -365,7 +364,7 @@ public class StartView {
                 cardInfo
         );
 
-        ConsoleUI.success("회원가입 요청이 완료되었습니다.");
+        ConsoleUI.success("회원가입이 완료되었습니다.");
     }
     public static void insertReview(int memberId) {
         ReservationService reservationService = ReservationService.getInstance();
@@ -373,7 +372,7 @@ public class StartView {
         MemberDAO memberDAO = new MemberDAOImpl();
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("WRITE REVIEW", "TICKET HOLDER ONLY", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("WRITE REVIEW", "예매한 영화에 대해 리뷰를 작성하세요!", ConsoleUI.RED, ConsoleUI.YELLOW, 5);
 
         reservationController.selectReservationsByMemberId(memberId);
         List<Member> m = memberDAO.selectUsers();
@@ -442,7 +441,7 @@ public class StartView {
         Review re = new Review(memberId, movieId, rating, content);
         ReviewController.insertReview(re.getMemberId(), re.getMovieId(), re.getRating(), re.getContent());
 
-        ConsoleUI.success("리뷰가 등록되었습니다.");
+        ConsoleUI.success("리뷰가 등록되었습니다!");
     }
 
 

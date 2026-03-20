@@ -19,13 +19,13 @@ public class AdminView {
 
     public static void userManage(Member member) {
         while (true) {
-            ConsoleUI.printHeader("회원 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MEMBER MANAGEMENT", "회원 관련 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
             ConsoleUI.printMenu(new String[]{
                     "[1] 회원 삭제",
                     "[2] 회원 목록 조회",
                     "[3] 회원 상세 조회",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN, 9);
+            }, ConsoleUI.GREEN, 10);
 
             int menu = ConsoleUI.promptInt(sc, "회원 관리 메뉴 번호를 입력하세요");
 
@@ -75,7 +75,7 @@ public class AdminView {
 
     public static void inquiryManage(Member member) {
         while (true) {
-            ConsoleUI.printHeader("문의 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("INQUIRY MANAGEMENT", "문의 조회 및 답변 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN, 3);
             ConsoleUI.printMenu(new String[]{
                     "[1] 문의 목록 조회",
                     "[2] 문의 상세 조회",
@@ -126,7 +126,7 @@ public class AdminView {
 
     public static void movieManager(Member member) {
         while (true) {
-            ConsoleUI.printHeader("영화 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE MANAGEMENT", "영화 관리 기능을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN , 3);
             ConsoleUI.printMenu(new String[]{
                     "[1] 영화 목록 조회",
                     "[2] 영화 상세 조회",
@@ -177,12 +177,12 @@ public class AdminView {
 
     private static void AutoOrpassivity(Member member) {
         while (true) {
-            ConsoleUI.printHeader("영화 등록 방식 선택", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE REGISTRATION", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
             ConsoleUI.printMenu(new String[]{
                     "[1] 개봉 예정작 등록",
                     "[2] 수동 등록",
                     "[0] 돌아가기"
-            }, ConsoleUI.GREEN);
+            }, ConsoleUI.GREEN, 10);
 
             int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요");
             switch (menu){
@@ -217,8 +217,8 @@ public class AdminView {
 
         Genre genre = null;
         while (genre == null) {
-            System.out.println("장르 (액션/애니메이션/스릴러/호러/코미디/로맨스/다큐/드라마/판타지) : ");
-            String inputGenre = sc.nextLine();
+
+            String inputGenre = ConsoleUI.prompt(sc, "장르 (액션/애니메이션/스릴러/호러/코미디/로맨스/드라마/판타지)");
             try {
                 genre = Genre.from(inputGenre);
             } catch (IllegalArgumentException e) {
@@ -229,8 +229,7 @@ public class AdminView {
         int screeningTime = ConsoleUI.promptInt(sc, "상영시간(분)");
         String director   = ConsoleUI.prompt(sc, "감독");
 
-        System.out.print("상영여부 (상영중/상영종료) : ");
-        String status = sc.nextLine().trim();
+        String status = ConsoleUI.prompt(sc, "상영여부 (상영중/상영종료)");
         boolean isScreening = status.equals("상영중");
 
         Movie m = new Movie(movieTitle, actor, releaseDate, genre.name(), screeningTime, director, isScreening);
@@ -246,14 +245,14 @@ public class AdminView {
 
     private static void updateMovie(Member member) {
         while (true){
-            ConsoleUI.printHeader("영화 수정", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE UPDATE", "수정할 작업을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN, 3);
             ConsoleUI.printMenu(new String[]{
                     "[1] 상영 종료",
                     "[2] 영화 정보 수정",
                     "[0] 돌아가기"
             }, ConsoleUI.GREEN);
 
-            int menu = ConsoleUI.promptInt(sc, "수정 방법을 선택하세요 : ");
+            int menu = ConsoleUI.promptInt(sc, "수정 방법을 선택하세요");
             switch (menu) {
                 case 1:
                     //상영 종료
@@ -295,16 +294,16 @@ public class AdminView {
     }
 
     public static void MovieinsertView() {
-        ConsoleUI.printHeader("개봉 예정작 목록", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.blank(1);
+        ConsoleUI.printHeader("UPCOMING MOVIES", "등록할 개봉 예정작을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
-        List<MovieAPI> movies = null;
+        List<MovieAPI> movies;
         try {
             movies = UpcomingMovieAPI.getUpcomingMovies(2026, 2026);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        // ── 이미 DB에 등록된 영화 제목 목록 조회 ──
         MovieService movieService = new MovieService();
         Set<String> registeredTitles = new HashSet<>();
         try {
@@ -316,7 +315,6 @@ public class AdminView {
             // 조회 실패해도 목록은 계속 보여줌
         }
 
-        // ── 이미 등록된 영화 필터링 ──
         movies.removeIf(m -> registeredTitles.contains(m.getTitle()));
 
         if (movies.isEmpty()) {
@@ -324,74 +322,78 @@ public class AdminView {
             return;
         }
 
-        // 이하 기존 페이징 코드 동일
         Scanner sc = new Scanner(System.in);
-        int pageSize = 10;
+        int pageSize = 5;
         int totalPages = (int) Math.ceil((double) movies.size() / pageSize);
         int currentPage = 0;
-
-        int idW = 12, titleW = 30, genreW = 12, dateW = 12;
-        String separator = PagingUtil.makeSeparator(idW, titleW, genreW, dateW, 0)
-                .replaceAll("-\\+-$", "");
 
         while (true) {
             int start = currentPage * pageSize;
             int end = Math.min(start + pageSize, movies.size());
 
-            System.out.println(separator);
-            System.out.println(
-                    PagingUtil.padRight("영화 ID", idW) + " | " +
-                            PagingUtil.padRight("제목",    titleW) + " | " +
-                            PagingUtil.padRight("장르",    genreW) + " | " +
-                            PagingUtil.padRight("개봉예정일", dateW)
-            );
-            System.out.println(separator);
+            ConsoleUI.blank(1);
+            System.out.println("[페이지 " + (currentPage + 1) + " / " + totalPages + "]  등록 가능 " + movies.size() + "건");
+            System.out.println("-".repeat(ConsoleUI.WIDTH));
 
             for (int i = start; i < end; i++) {
                 MovieAPI m = movies.get(i);
-                String openDate = m.getOpenDate();
-                if (openDate != null && openDate.matches("\\d{8}")) {
-                    openDate = openDate.substring(0, 4) + "-"
-                            + openDate.substring(4, 6) + "-"
-                            + openDate.substring(6, 8);
-                }
-                System.out.println(
-                        PagingUtil.padRight(m.getMovieId(), idW) + " | " +
-                                PagingUtil.padRight(m.getTitle(),   titleW) + " | " +
-                                PagingUtil.padRight(m.getGenre(),   genreW) + " | " +
-                                PagingUtil.padRight(openDate != null ? openDate : "", dateW)
-                );
+                String openDate = formatOpenDate(m.getOpenDate());
+
+                System.out.println(ConsoleUI.CYAN + "[#" + (i - start + 1) + "]" + ConsoleUI.RESET);
+                System.out.println("영화 ID    : " + safe(m.getMovieId()));
+                System.out.println("제목       : " + fitTitle(safe(m.getTitle()), 40));
+                System.out.println("장르       : " + safe(m.getGenre()));
+                System.out.println("개봉예정일  : " + safe(openDate));
+                System.out.println("-".repeat(ConsoleUI.WIDTH));
             }
 
-            System.out.println(separator);
-            System.out.printf("페이지 [%d / %d]  전체 %d건%n", currentPage + 1, totalPages, movies.size());
+            System.out.println("[ < ] 이전 페이지    [ > ] 다음 페이지    [ 1 ] 상세조회    [ 0 ] 이전");
+            ConsoleUI.printLine(ConsoleUI.GREEN);
 
-            String input = ConsoleUI.prompt(sc, "[ < 이전 | > 다음 | 1 상세조회 | 0 이전 ]");
+            String input = ConsoleUI.prompt(sc, "이동/조회 메뉴 입력");
             switch (input) {
                 case ">":
-                    if (currentPage < totalPages - 1) currentPage++;
-                    else ConsoleUI.alert("마지막 페이지입니다.");
+                    if (currentPage < totalPages - 1) {
+                        currentPage++;
+                    } else {
+                        ConsoleUI.alert("마지막 페이지입니다.");
+                    }
                     break;
+
                 case "<":
-                    if (currentPage > 0) currentPage--;
-                    else ConsoleUI.alert("첫 번째 페이지입니다.");
+                    if (currentPage > 0) {
+                        currentPage--;
+                    } else {
+                        ConsoleUI.alert("첫 번째 페이지입니다.");
+                    }
                     break;
+
                 case "1":
                     try {
                         ConsoleUI.info("개봉 예정작 상세 정보를 조회합니다...");
                         Movie registeredMovie = UpcomingMovieDetailAPI.showUpcomingMovieDetail(movies);
                         if (registeredMovie != null) {
                             ScheduleView.askAndInsertSchedule(registeredMovie);
-                            // 등록 완료 후 목록에서 제거
                             movies.removeIf(m -> m.getTitle().equals(registeredMovie.getMovieTitle()));
+
+                            if (movies.isEmpty()) {
+                                ConsoleUI.success("모든 등록 가능한 개봉 예정작이 처리되었습니다.");
+                                return;
+                            }
+
+                            totalPages = (int) Math.ceil((double) movies.size() / pageSize);
+                            if (totalPages == 0) totalPages = 1;
+                            if (currentPage >= totalPages) currentPage = totalPages - 1;
                         }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     break;
+
                 case "0":
                     ConsoleUI.info("이전 화면으로 돌아갑니다...");
                     return;
+
                 default:
                     ConsoleUI.alert("올바른 메뉴를 입력하세요.");
             }
@@ -402,6 +404,7 @@ public class AdminView {
                                         String genre, int screeningTime, String director) {
         MovieService movieService = new MovieService();
 
+        ConsoleUI.blank(1);
         String answer = ConsoleUI.prompt(sc, "개봉 예정일 영화를 등록하시겠습니까?(Y/N)");
 
         // 중복 체크
@@ -435,14 +438,14 @@ public class AdminView {
 
     public static void statistics(Member member) {
         while (true) {
-            ConsoleUI.printHeader("DASHBOARD", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("DASHBOARD", "통계 및 분석 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN, 2);
             ConsoleUI.printMenu(new String[]{
                     "[1] 신규 가입자 및 회원 증감 추이",
                     "[2] 영화 장르 선호도",
                     "[3] 영화별 누적 예매 순위 (Top 10)",
                     "[4] 주간 매출 분석",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN, 15);
+            }, ConsoleUI.GREEN, 13);
 
             int menu = ConsoleUI.promptInt(sc, "관리 메뉴 번호를 입력하세요");
             switch (menu) {
@@ -468,5 +471,27 @@ public class AdminView {
                     ConsoleUI.alert("올바른 메뉴 번호를 입력하세요.");
             }
         }
+    }
+
+    private static String formatOpenDate(String openDate) {
+        if (openDate == null || openDate.isBlank()) return "-";
+
+        if (openDate.matches("\\d{8}")) {
+            return openDate.substring(0, 4) + "-"
+                    + openDate.substring(4, 6) + "-"
+                    + openDate.substring(6, 8);
+        }
+
+        return openDate;
+    }
+
+    private static String safe(String text) {
+        return (text == null || text.isBlank()) ? "-" : text;
+    }
+
+    private static String fitTitle(String text, int maxLength) {
+        if (text == null) return "-";
+        if (text.length() <= maxLength) return text;
+        return text.substring(0, maxLength - 3) + "...";
     }
 }

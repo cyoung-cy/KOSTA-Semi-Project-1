@@ -2,23 +2,6 @@ package util;
 
 public class PagingUtil {
 
-    /*
-     * 0314
-     * 김채영
-     * TODO: 문자열을 지정한 출력 너비(칸 수)에 맞게 오른쪽을 공백으로 채워 반환
-     *       출력 너비 초과 시 truncateToWidth()로 잘라낸 뒤 패딩 없이 반환
-     */
-//    public static String padRight(String text, int targetWidth) {
-//        if (text == null) text = "";
-//        int displayWidth = getDisplayWidth(text);
-//        int padding = targetWidth - displayWidth;
-//        if (padding < 0) {
-//            text = truncateToWidth(text, targetWidth);
-//            padding = 0;
-//        }
-//        return text + " ".repeat(padding);
-//    }
-
     /**
      * 출력 폭 기준으로 오른쪽 패딩
      * */
@@ -36,23 +19,6 @@ public class PagingUtil {
         int padding = width - text.length();
         return text + " ".repeat(padding);
     }
-
-    /*
-     * 0314
-     * 김채영
-     * TODO: 문자열의 실제 출력 너비(칸 수)를 계산하여 반환
-     *       한글·전각 문자는 2칸, 영문·숫자·특수문자는 1칸으로 집계
-     */
-//    public static int getDisplayWidth(String text) {
-//        if (text == null) return 0;
-//
-//        int width = 0;
-//        for (char ch : text.toCharArray()) {
-//            width += isFullWidth(ch) ? 2 : 1;
-//        }
-//        return width;
-//    }
-
 
     /*
      * 0314
