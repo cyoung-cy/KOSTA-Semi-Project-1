@@ -1,32 +1,32 @@
 package dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Reservation {
-	
+	/*
+	 * 0313
+	 * 이동혁
+	 * 예약 조회 시 
+	 */
 	private int reservationId;
 	private int memberId;
-	private int movieId;
 	private int scheduleId;
-	private int totalPrice;
-	private int count;
-	private Timestamp startTime;
-	private Timestamp endTime;
+	private int movieId;
+	private String cardInfo;
+	private Timestamp paidAt;
+	// VO 따로 만들어서 좌석, 스케줄, 영화 정보까지 담기.
+
+	public Reservation() {}
 	
-	public Reservation() {
-		
-	}
-	
-	public Reservation(int reservationId, int memberId, int movieId, int scheduleId, int totalPrice, int count,
-			Timestamp startTime, Timestamp endTime) {
+	public Reservation(int reservationId, int memberId, int scheduleId, int movieId, String cardInfo,
+			Timestamp paidAt) {
 		this.reservationId = reservationId;
 		this.memberId = memberId;
-		this.movieId = movieId;
 		this.scheduleId = scheduleId;
-		this.totalPrice = totalPrice;
-		this.count = count;
-		this.startTime = startTime;
-		this.endTime = endTime;
+		this.movieId = movieId;
+		this.cardInfo = cardInfo;
+		this.paidAt = paidAt;
 	}
 
 	public int getReservationId() {
@@ -45,14 +45,6 @@ public class Reservation {
 		this.memberId = memberId;
 	}
 
-	public int getMovieId() {
-		return movieId;
-	}
-
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
-	}
-
 	public int getScheduleId() {
 		return scheduleId;
 	}
@@ -61,36 +53,28 @@ public class Reservation {
 		this.scheduleId = scheduleId;
 	}
 
-	public int getTotalPrice() {
-		return totalPrice;
+	public int getMovieId() {
+		return movieId;
 	}
 
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setMovieId(int movieId) {
+		this.movieId = movieId;
 	}
 
-	public int getCount() {
-		return count;
+	public String getCardInfo() {
+		return cardInfo;
 	}
 
-	public void setCount(int count) {
-		this.count = count;
+	public void setCardInfo(String cardInfo) {
+		this.cardInfo = cardInfo;
 	}
 
-	public Timestamp getStartTime() {
-		return startTime;
+	public Timestamp getPaidAt() {
+		return paidAt;
 	}
 
-	public void setStartTime(Timestamp startTime) {
-		this.startTime = startTime;
-	}
-
-	public Timestamp getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(Timestamp endTime) {
-		this.endTime = endTime;
+	public void setPaidAt(Timestamp paidAt) {
+		this.paidAt = paidAt;
 	}
 
 	@Override
@@ -100,20 +84,16 @@ public class Reservation {
 		builder.append(reservationId);
 		builder.append(", memberId=");
 		builder.append(memberId);
-		builder.append(", movieId=");
-		builder.append(movieId);
 		builder.append(", scheduleId=");
 		builder.append(scheduleId);
-		builder.append(", totalPrice=");
-		builder.append(totalPrice);
-		builder.append(", count=");
-		builder.append(count);
-		builder.append(", startTime=");
-		builder.append(startTime);
-		builder.append(", endTime=");
-		builder.append(endTime);
+		builder.append(", movieId=");
+		builder.append(movieId);
+		builder.append(", cardInfo=");
+		builder.append(cardInfo);
+		builder.append(", paidAt=");
+		builder.append(paidAt);
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }

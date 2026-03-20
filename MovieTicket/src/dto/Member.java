@@ -17,6 +17,7 @@ public class Member {
 	private String phone;
 	private String address;
 	private String birthDate;
+    private String createAt;
 	/**
 	 * 20260312
 	 * 이동혁
@@ -36,7 +37,21 @@ public class Member {
 		this.name = name;
 	}
 
-	public int getMemberId() {
+    public Member(int memberId, String userId, String password, String name, String phone, String address, String birthDate, List<String> genreList, String cardInfo, String role, String createAt) {
+        this.memberId = memberId;
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.preferredGenre = genreList;
+        this.cardInfo = cardInfo;
+        this.role = role;
+        this.createAt = createAt;
+    }
+
+    public int getMemberId() {
 		return memberId;
 	}
 
@@ -132,19 +147,11 @@ public class Member {
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return "===== 회원 정보 =====\n" +
-				"회원 번호 : " + memberId + "\n" +
-				"회원 아이디 : " + userId + "\n" +
-				"비밀번호 : " + password + "\n" +
-				"이름 : " + name + "\n" +
-				"전화번호 : " + phone + "\n" +
-				"주소 : " + address + "\n" +
-				"생년월일 : " + birthDate + "\n" +
-				"선호 장르 : " + preferredGenre.toString() + "\n" +
-				"카드 정보 : " + cardInfo + "\n" +
-				"권한 : " + role + "\n" +
-				"====================";
-	}
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
 }

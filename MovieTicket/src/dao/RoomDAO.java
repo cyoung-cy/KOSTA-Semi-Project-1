@@ -1,10 +1,8 @@
 package dao;
 
-import java.util.List;
 import java.util.Set;
 
 import dto.Room;
-import dto.request.RoomCreateRequest;
 
 public interface RoomDAO {
 	
@@ -13,7 +11,7 @@ public interface RoomDAO {
      * 한상혁
      * TODO:  상영관 등록
      * */
-	void insert(RoomCreateRequest roomRequest);
+	int insert(String roomName);
 
 	 /*
      * 20260312
@@ -34,7 +32,14 @@ public interface RoomDAO {
      * 한상혁
      * TODO:  특정 상영관 상세 조회 (영화 ID 기준)
      * */
-	Room selectRoomByMovieId(int movieId);
+//	Room selectRoomByMovieId(int movieId);
+	
+	/*
+     * 20260316
+     * 한상혁
+     * TODO:  특정 상영관 ID 상세 조회 (영화 이름 기준)
+     * */
+//	 int selectIdByRoomName(String roomName);
 	
 	 /*
      * 20260312
@@ -55,7 +60,7 @@ public interface RoomDAO {
      * 한상혁
      * TODO:  상영관 삭제
      * */
-	void deleteRoom(int roomId);
+	void delete(int roomId);
 	
 	
 }

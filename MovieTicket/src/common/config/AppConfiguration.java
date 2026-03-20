@@ -1,25 +1,49 @@
 package common.config;
 
 import cache.CinemaCache;
+import controller.SchedulesController;
+import dao.ReservationDAO;
+import dao.ReservationInfoDAO;
+import dao.impl.MemberDAOImpl;
+import dao.impl.MovieDAOImpl;
+import dao.impl.ReservationDAOImpl;
+import dao.impl.ReservationInfoDAOImpl;
 import dao.impl.RoomDAOImpl;
+import dao.impl.SchedulesDAOImpl;
 import dao.impl.SeatDAOImpl;
+import service.ReservationService;
+import service.RoomService;
+import service.SchedulesService;
+import service.SeatService;
 
 public class AppConfiguration {
 	
-	private static AppConfiguration instance;
+	private static final AppConfiguration instance = new AppConfiguration();
 
-	// 외부에서 마음대로 공장을 못 차리게 막음
-	private AppConfiguration() {}
+	// 생성자에 주입 코드 넣기
+	private AppConfiguration() {
+		SeatService.init(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
+		RoomService.init(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
+		SchedulesService.init(SchedulesDAOImpl.getInstance(), new MovieDAOImpl(), RoomDAOImpl.getInstance());
+		ReservationService.init(
+				ReservationDAOImpl.getInstance(),
+				ReservationInfoDAOImpl.getInstance(),
+				SchedulesDAOImpl.getInstance(),
+				new MemberDAOImpl(),
+				SeatDAOImpl.getInstance(),
+				new MovieDAOImpl()  // 추가
+		);
+		CinemaCache.init(SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
+	}
 
 	public static AppConfiguration getInstance() {
-		if (instance == null) {
-			instance = new AppConfiguration();
-		}
 		return instance;
 	}
 
-	public CinemaCache cinemaCache() {
-		return CinemaCache.getInstance(new SeatDAOImpl(), new RoomDAOImpl());
-	}
+//	// CinemaCache인스턴스 반환 메소드
+//	public CinemaCache cinemaCache() {
+//		return CinemaCache.init(
+//				SeatDAOImpl.getInstance(), RoomDAOImpl.getInstance());
+//	}
 
 }

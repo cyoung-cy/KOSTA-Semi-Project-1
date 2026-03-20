@@ -3,13 +3,21 @@ package dao.impl;
 import dao.MovieDAO;
 import dto.Movie;
 import exception.NotFoundException;
+import mapper.MovieMapper;
 import util.DbManager;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import common.jdbc.QueryExecutor;
 
 public class MovieDAOImpl implements MovieDAO {
 
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static MovieMapper movieMapper = MovieMapper.getInstance();
+	
     @Override
     public List<Movie> selectAllMovies() {
         Connection con = null;
@@ -18,11 +26,50 @@ public class MovieDAOImpl implements MovieDAO {
 
         List<Movie> list = new ArrayList<>();
         // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
-        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE";
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE order by MOVIE_ID desc";
 
         try {
             con = DbManager.getConnection();
             ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                Movie m = new Movie();
+                m.setMovieId(rs.getInt("MOVIE_ID"));
+                m.setMovieTitle(rs.getString("MOVIE_TITLE"));
+                m.setGenre(rs.getString("GENRE"));
+                m.setScreeningTime((rs.getInt("SCREENING_TIME")));
+                m.setIsScreening(rs.getBoolean("IS_SCREENING"));
+                list.add(m);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbManager.close(con, ps, rs);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Movie> selectAllMoviesByPreferredGenre(List<String> preferredGenre) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        List<Movie> list = new ArrayList<>();
+
+        // 장르 개수만큼 ? 생성하여 SQL문에 담기
+        String placeholder = String.join(",", Collections.nCopies(preferredGenre.size(),"?"));
+        // 100개 조회 시 시인성을 위해 ID, 제목, 장르, 상영여부만 조회
+        String sql = "select MOVIE_ID, MOVIE_TITLE, GENRE, SCREENING_TIME, IS_SCREENING from MOVIE where GENRE in ("+placeholder+") order by IS_SCREENING desc,MOVIE_ID desc";
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+
+            for(int i=0; i<preferredGenre.size(); i++){
+                ps.setString(i+1, preferredGenre.get(i));
+            }
             rs = ps.executeQuery();
 
             while(rs.next()){
@@ -48,7 +95,7 @@ public class MovieDAOImpl implements MovieDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         Movie m = null;
-        String sql = "SELECT * FROM MOVIE WHERE MOVIE_ID = ?";
+        String sql = "select * from MOVIE where MOVIE_ID = ?";
         List<Movie> list = new ArrayList<>();
         try {
             con = DbManager.getConnection();
@@ -60,7 +107,8 @@ public class MovieDAOImpl implements MovieDAO {
                         rs.getInt("MOVIE_ID"), rs.getString("MOVIE_TITLE"),
                         rs.getString("ACTOR"), rs.getString("RELEASE_DATE"),
                         rs.getString("GENRE"), rs.getInt("SCREENING_TIME"),
-                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING")
+                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING"),
+                        rs.getInt("AUDI_ACC")
                 );
                 list.add(m);
             }
@@ -77,17 +125,17 @@ public class MovieDAOImpl implements MovieDAO {
     public int insertMovie(Movie movie) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "INSERT INTO MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into MOVIE (MOVIE_TITLE, ACTOR, RELEASE_DATE, GENRE, SCREENING_TIME, DIRECTOR, IS_SCREENING) " +
+                "values (?, ?, ?, ?, ?, ?, ?)";
         int re = 0;
-
+        int generatedId = 0;
         try {
             con = DbManager.getConnection();
-            ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, movie.getMovieTitle());
             ps.setString(2, movie.getActor());
-            ps.setDate(3, java.sql.Date.valueOf(movie.getReleaseDate())); // 날짜 처리
+            ps.setDate(3, java.sql.Date.valueOf(movie.getReleaseDate()));
             ps.setString(4, movie.getGenre());
             ps.setInt(5, movie.getScreeningTime());
             ps.setString(6, movie.getDirector());
@@ -95,8 +143,18 @@ public class MovieDAOImpl implements MovieDAO {
 
             re = ps.executeUpdate();
 
+            // 생성된 PK 가져오기
+            try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    generatedId = rs.getInt(1);
+                    movie.setMovieId(generatedId);  // Movie 객체에 ID 반영
+                }
+            }
         } catch (SQLException e) {
+            System.out.println("SQL 에러 발생!");
             throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
         }
 
         return re;
@@ -129,6 +187,8 @@ public class MovieDAOImpl implements MovieDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
         }
 
         return re;
@@ -138,7 +198,7 @@ public class MovieDAOImpl implements MovieDAO {
     public int deleteMovie(int movieId) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "DELETE FROM MOVIE WHERE MOVIE_ID = ?";
+        String sql = "delete from MOVIE where MOVIE_ID = ?";
         int result = 0;
         try {
             con = DbManager.getConnection();
@@ -151,6 +211,54 @@ public class MovieDAOImpl implements MovieDAO {
             DbManager.close(con, ps, null);
         }
         return result;
+    }
+
+    @Override
+    public List<Movie> selectMovieByIsScreen() {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from MOVIE where IS_SCREENING = true";
+        Movie m = null;
+        List<Movie> list = new ArrayList<>();
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()){
+                m = new Movie(
+                        rs.getInt("MOVIE_ID"), rs.getString("MOVIE_TITLE"),
+                        rs.getString("ACTOR"), rs.getString("RELEASE_DATE"),
+                        rs.getString("GENRE"), rs.getInt("SCREENING_TIME"),
+                        rs.getString("DIRECTOR"), rs.getBoolean("IS_SCREENING"),
+                        rs.getInt("AUDI_ACC")
+                );
+                list.add(m);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    @Override
+    public Movie selectOne(int movieId) {
+    	String sql = "select * from MOVIE where MOVIE_ID = ?";
+    	
+    	Object[] params = { movieId };
+    	
+    	List<Movie> list = queryExecutor.query(sql, movieMapper, params);
+    	return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public int updateAudiAcc(Connection conn, int movieId, int count) {
+        String sql = "UPDATE MOVIE SET AUDI_ACC = IFNULL(AUDI_ACC, 0) + ? WHERE MOVIE_ID = ?";
+        Object[] params = { count, movieId };
+        return queryExecutor.update(conn, sql, params);
     }
 
 }

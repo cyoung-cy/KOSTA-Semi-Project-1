@@ -1,9 +1,5 @@
 package dao.impl;
 
-import dao.MemberDAO;
-import dto.Member;
-import util.DbManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,17 +9,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import common.jdbc.QueryExecutor;
 import dao.MemberDAO;
+import dto.Member;
+import mapper.MemberMapper;
+import util.DbManager;
 
 public class MemberDAOImpl implements MemberDAO {
 
-
-
+	private static final QueryExecutor queryExecutor = QueryExecutor.getInstance();
+	
+	private static MemberMapper memberMapper = MemberMapper.getInstance();
+	
     @Override
     public int register(Member member) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "insert into MEMBER(USER_ID, PASSWORD, NAME, PHONE, ADDRESS, BIRTH_DATE, PREFERRED_GENRE, CARD_INFO, ROLE) values(?,?,?,?,?,?,?,?,'user')";
+        String sql = "insert into MEMBER(USER_ID, PASSWORD, NAME, PHONE, ADDRESS, BIRTH_DATE, PREFERRED_GENRE, CARD_INFO, ROLE, CREATE_AT) values(?,?,?,?,?,?,?,?,'user', CONVERT_TZ(NOW(), 'UTC', '+09:00'))";
+
         int re = 0;
         try {
         	con = DbManager.getConnection();
@@ -80,7 +83,7 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select * from MEMBER where (ROLE = 'user' or ROLE is null) and USER_ID = ?";
+        String sql = "select * from MEMBER where ROLE = 'user' and USER_ID = ?";
         Member member = null;
         List<Member> list = new ArrayList<>();
 
@@ -105,7 +108,8 @@ public class MemberDAOImpl implements MemberDAO {
                 		rs.getString("BIRTH_DATE"),
                 		genreList,
                 		rs.getString("CARD_INFO"),
-                		rs.getString("ROLE")
+                		rs.getString("ROLE"),
+                        rs.getString("CREATE_AT")
                 );
                 list.add(member);
             }
@@ -122,7 +126,7 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user' or ROLE is null";
+        String sql = "select MEMBER_ID, USER_ID, NAME from MEMBER where ROLE = 'user'";
         Member member = null;
         List<Member> list = new ArrayList<>();
 
@@ -141,6 +145,30 @@ public class MemberDAOImpl implements MemberDAO {
             DbManager.close(con, ps, rs);
         }
         return list;
+    }
+
+    @Override
+    public Member selectUserById(String userId) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from MEMBER where USER_ID = ?";
+        Member member = null;
+
+        try {
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                member = new Member(rs.getInt("MEMBER_ID"), rs.getString("USER_ID"), rs.getString("NAME"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DbManager.close(con, ps, rs);
+        }
+        return member;
     }
 
     @Override
@@ -190,10 +218,68 @@ public class MemberDAOImpl implements MemberDAO {
      * TODO: 회원 정보를 받아서 업데이트 하는 DAO 구현
      */
 	@Override
-	public int updateMemberById(String password, String phone, String address, String[] preferredGenre, String cardInfo)
+	public int updateMember(Member member)
 			throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "update MEMBER set PHONE = ?, PASSWORD = ?, CARD_INFO = ? where member_id = ?";
+		int result = 0;
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			
+			ps.setString(1,member.getPhone());
+			ps.setString(2,member.getPassword());
+			ps.setString(3,member.getCardInfo());
+			ps.setInt(4, member.getMemberId());
+			
+			result = ps.executeUpdate();
+		} catch(SQLException e) {
+//			e.printStackTrace();
+			throw new RuntimeException();
+		} finally {
+			DbManager.close(con, ps, null);
+		}
+		return result;
 	}
+
+	/*
+	 * 20260313
+	 * 이동혁
+	 * TODO: MemberId로 회원 탈퇴
+	 */
+	@Override
+	public int deleteByMemberId(int memberId) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "delete from MEMBER where MEMBER_ID = ?";
+        int re = 0;
+        try {
+           con = DbManager.getConnection();
+           ps = con.prepareStatement(sql);
+
+           ps.setInt(1, memberId);
+
+           re = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DbManager.close(con, ps, null);
+        }
+        return re;
+	}
+	
+	@Override
+	public Member selectOneById(Connection conn, int memberId) {
+		String sql = "select * from MEMBER where Member_ID = ?";
+		
+		Object[] params = { memberId };
+		
+		List<Member> list = queryExecutor.query(sql, memberMapper, params);
+		
+		return list.isEmpty() ? null : list.get(0);
+	}
+		
 
 }

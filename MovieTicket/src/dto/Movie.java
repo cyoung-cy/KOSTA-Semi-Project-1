@@ -3,18 +3,19 @@ package dto;
 import java.sql.Date;
 
 public class Movie {
-    private int movieId;
-    private String movieTitle;
+    private int movieId; //String movieId
+    private String movieTitle; //String title
     private String actor;
-    private String releaseDate;
+    private String releaseDate; //String openDate
     private String genre;
-    private int screeningTime;
+    private int screeningTime; //int showTime
     private String director;
     private boolean isScreening;
+    private int audiAcc;
 
     public Movie() {}
 
-    public Movie(int movieId, String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening) {
+    public Movie(int movieId, String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening, int audiAcc) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.actor = actor;
@@ -23,6 +24,7 @@ public class Movie {
         this.screeningTime = screeningTime;
         this.director = director;
         this.isScreening = isScreening;
+        this.audiAcc = audiAcc;
     }
 
     public Movie(String movieTitle, String actor, String releaseDate, String genre, int screeningTime, String director, boolean isScreening) {
@@ -99,17 +101,15 @@ public class Movie {
         this.isScreening = isScreening;
     }
 
-    @Override
-    public String toString() {
-        return "\n===== 영화 정보 =====\n" +
-                "영화 번호        : " + movieId + "\n" +
-                "제목            : " + movieTitle + "\n" +
-                "배우            : " + actor + "\n" +
-                "개봉일          : " + releaseDate + "\n" +
-                "장르            : " + genre + "\n" +
-                "상영시간         : " + screeningTime + " 분\n" +
-                "감독            : " + director + "\n" +
-                "상영여부         : " + (isScreening ? "상영중" : "상영종료") + "\n" +
-                "======================";
+    public int getAudiAcc() {
+        return audiAcc;
+    }
+
+    public void setAudiAcc(int audiAcc) {
+        this.audiAcc = audiAcc;
+    }
+
+    public boolean isScreening() {
+        return isScreening;
     }
 }

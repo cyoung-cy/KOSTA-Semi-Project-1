@@ -1,22 +1,21 @@
 package dto;
 
+import view.ConsoleUI;
+
+import java.util.List;
 import java.util.Set;
 
 public class Room {
 	
 	private int roomId;
-	private int movieId;
-	private boolean isShowing;
 	private String name;
 	private Set<Seat> seatSet;
 	private Seat[][] layout;
 	
 	public Room() {}
 	
-	public Room(int roomId, int movieId, boolean isShowing, String name, Set<Seat> seatSet) {
+	public Room(int roomId, String name, Set<Seat> seatSet) {
 		this.roomId = roomId;
-		this.movieId = movieId;
-		this.isShowing = isShowing;
 		this.name = name;
 		this.seatSet = seatSet;
 		this.layout = buildLayout(seatSet);
@@ -54,39 +53,81 @@ public class Room {
 
         // 3. 배열 자리에 좌석 배정
         for (Seat seat : seatSet) {
-            newLayout[seat.getRowNum()][seat.getColNum()] = seat;
+            newLayout[seat.getRowNum()-1][seat.getColNum()-1] = seat;
         }
 
         return newLayout;
     }
     
-    public void displayLayout() {
-    	// 1. 열 번호 가이드 (1, 2, 3...)
-        System.out.print("   ");  // 시작지점 비우는 역할
-        for (int j = 0; j < layout[0].length; j++) {
-            System.out.printf("%3d", j + 1);  // 좌석당 띄어씌기 3칸 확보
-        }
-        System.out.println("\n-------------------------");
-        // 행 탐색
-        for (int i = 0; i < layout.length; i++) {
-        	System.out.print((char)('A' + i) + " |"); // 행 가이드 (A, B...)
-            // 해당 행의 열(col) 탐색
-            for (int j = 0; j < layout[i].length; j++) {
-                
-                Seat seat = layout[i][j]; 
+    // 실시간 예약 반영되는 레이아웃
+//    public void displaySeatLayout(List<String> reservedNames) {
+//        System.out.println("\n        	  [ SCREEN ] ");
+//        System.out.println("  1  2  3     4  5  6  7     8  9  10");
+//        System.out.println("  -----------------------------------");
+//
+//        for (int row = 1; row <= 10; row++) {
+//            char rowChar = (char) ('A' + row - 1);
+//            System.out.print(rowChar + " ");
+//
+//            for (int col = 1; col <= 10; col++) {
+//                String seatName = rowChar + String.valueOf(col);
+//                String status = reservedNames.contains(seatName) ? "[X]" : "[O]";
+//
+//                System.out.print(status);
+//
+//                // 통로 만들기 (3번, 7번 뒤에 공백 추가)
+//                if (col == 3 || col == 7) {
+//                    System.out.print("   ");
+//                }
+//            }
+//            System.out.println(); // 줄바꿈
+//
+//            // 중간 가로 통로 (E열 뒤에 한 줄 띄우기)
+//            if (row == 5) {
+//                System.out.println();
+//            }
+//        }
+//    }
+	// 실시간 예약 반영되는 레이아웃
+	public void displaySeatLayout(List<String> reservedNames) {
+		String availableSeat = "[O]";
+		String bookedSeat = ConsoleUI.GRAY + ConsoleUI.BOLD + "[X]" + ConsoleUI.RESET;
 
-                if (seat == null) {
-                    // 통로 출력역할인데 아직 통로 미존재
-                    System.out.print("   "); 
-                } else {
-                    // 예약 상태에 따라 표시
-                    String mark = seat.isReserved() ? "[X]" : "[O]";
-                    System.out.print(mark);
-                }
-            }
-            System.out.println(); // 줄바꿈
-        }
-    }
+		ConsoleUI.blank(1);
+		ConsoleUI.printHeader("SEAT LAYOUT", "원하시는 좌석을 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+
+		System.out.println(ConsoleUI.center(ConsoleUI.YELLOW + ConsoleUI.BOLD + "┌──────────────────── [ SCREEN ] ────────────────────┐" + ConsoleUI.RESET, ConsoleUI.WIDTH));
+		System.out.println(ConsoleUI.center("   1  2  3      4  5  6  7     8  9  10", ConsoleUI.WIDTH));
+		System.out.println(ConsoleUI.center(ConsoleUI.YELLOW + "  ─────────────────────────────────────────────────" + ConsoleUI.RESET, ConsoleUI.WIDTH));
+
+		for (int row = 1; row <= 10; row++) {
+			char rowChar = (char) ('A' + row - 1);
+
+			StringBuilder line = new StringBuilder();
+			line.append(rowChar).append(" ");
+
+			for (int col = 1; col <= 10; col++) {
+				String seatName = rowChar + String.valueOf(col);
+				boolean isReserved = reservedNames.contains(seatName);
+
+				line.append(isReserved ? bookedSeat : availableSeat);
+
+				// 통로 만들기
+				if (col == 3 || col == 7) {
+					line.append("   ");
+				}
+			}
+
+			System.out.println(ConsoleUI.center(line.toString(), ConsoleUI.WIDTH));
+
+			// 중간 가로 통로
+			if (row == 5) {
+				System.out.println();
+			}
+		}
+
+		System.out.println(ConsoleUI.center(ConsoleUI.YELLOW + ConsoleUI.BOLD + "└───────────────────────────────────────────────────┘" + ConsoleUI.RESET, ConsoleUI.WIDTH));
+	}
     
 	public int getRoomId() {
 		return roomId;
@@ -94,22 +135,6 @@ public class Room {
 
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
-	}
-
-	public int getMovieId() {
-		return movieId;
-	}
-
-	public void setMovieId(int movieId) {
-		this.movieId = movieId;
-	}
-
-	public boolean isShowing() {
-		return isShowing;
-	}
-
-	public void setShowing(Boolean isShowing) {
-		this.isShowing = isShowing;
 	}
 
 	public String getName() {
@@ -137,11 +162,7 @@ public class Room {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Room [roomId=");
 		builder.append(roomId);
-		builder.append(", movieId=");
-		builder.append(movieId);
-		builder.append(", isShowing=");
-		builder.append(isShowing);
-		builder.append(", Name=");
+		builder.append(", name=");
 		builder.append(name);
 		builder.append(", seatSet=");
 		builder.append(seatSet);
