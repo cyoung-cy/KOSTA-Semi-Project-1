@@ -19,13 +19,13 @@ public class AdminView {
 
     public static void userManage(Member member) {
         while (true) {
-            ConsoleUI.printHeader("MEMBER MANAGEMENT", "회원 관련 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MEMBER MANAGEMENT", "회원 관련 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
             ConsoleUI.printMenu(new String[]{
                     "[1] 회원 삭제",
                     "[2] 회원 목록 조회",
                     "[3] 회원 상세 조회",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN, 9);
+            }, ConsoleUI.GREEN, 10);
 
             int menu = ConsoleUI.promptInt(sc, "회원 관리 메뉴 번호를 입력하세요");
 
@@ -75,7 +75,7 @@ public class AdminView {
 
     public static void inquiryManage(Member member) {
         while (true) {
-            ConsoleUI.printHeader("INQUIRY MANAGEMENT", "문의 조회 및 답변 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("INQUIRY MANAGEMENT", "문의 조회 및 답변 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN, 3);
             ConsoleUI.printMenu(new String[]{
                     "[1] 문의 목록 조회",
                     "[2] 문의 상세 조회",
@@ -126,7 +126,7 @@ public class AdminView {
 
     public static void movieManager(Member member) {
         while (true) {
-            ConsoleUI.printHeader("MOVIE MANAGEMENT", "영화 관리 기능을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE MANAGEMENT", "영화 관리 기능을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN , 3);
             ConsoleUI.printMenu(new String[]{
                     "[1] 영화 목록 조회",
                     "[2] 영화 상세 조회",
@@ -182,7 +182,7 @@ public class AdminView {
                     "[1] 개봉 예정작 등록",
                     "[2] 수동 등록",
                     "[0] 돌아가기"
-            }, ConsoleUI.GREEN, 11);
+            }, ConsoleUI.GREEN, 10);
 
             int menu = ConsoleUI.promptInt(sc, "등록 방법을 선택하세요");
             switch (menu){
@@ -245,7 +245,7 @@ public class AdminView {
 
     private static void updateMovie(Member member) {
         while (true){
-            ConsoleUI.printHeader("MOVIE UPDATE", "수정할 작업을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE UPDATE", "수정할 작업을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN, 3);
             ConsoleUI.printMenu(new String[]{
                     "[1] 상영 종료",
                     "[2] 영화 정보 수정",
@@ -438,14 +438,14 @@ public class AdminView {
 
     public static void statistics(Member member) {
         while (true) {
-            ConsoleUI.printHeader("DASHBOARD", "통계 및 분석 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("DASHBOARD", "통계 및 분석 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN, 2);
             ConsoleUI.printMenu(new String[]{
                     "[1] 신규 가입자 및 회원 증감 추이",
                     "[2] 영화 장르 선호도",
                     "[3] 영화별 누적 예매 순위 (Top 10)",
                     "[4] 주간 매출 분석",
                     "[0] 이전으로 돌아가기"
-            }, ConsoleUI.GREEN, 15);
+            }, ConsoleUI.GREEN, 13);
 
             int menu = ConsoleUI.promptInt(sc, "관리 메뉴 번호를 입력하세요");
             switch (menu) {

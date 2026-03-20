@@ -126,7 +126,7 @@ public class DashboardView {
 
         // ── 출력 ──
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("USER GROWTH REPORT", "최근 7일 회원 유입 및 증감 추이", GREEN, GREEN);
+        ConsoleUI.printHeader("USER GROWTH REPORT", "최근 7일 회원 유입 및 증감 추이", GREEN, GREEN, 3);
 
         System.out.println(
                 DIM + "  기준일자        가입자 수   시각화  (■ 1명)" + RESET

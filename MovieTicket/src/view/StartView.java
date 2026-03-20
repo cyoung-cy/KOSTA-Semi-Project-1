@@ -372,7 +372,7 @@ public class StartView {
         MemberDAO memberDAO = new MemberDAOImpl();
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("리뷰 작성", "예매한 영화에 대해 리뷰를 작성하세요!", ConsoleUI.RED, ConsoleUI.YELLOW, 9);
+        ConsoleUI.printHeader("WRITE REVIEW", "예매한 영화에 대해 리뷰를 작성하세요!", ConsoleUI.RED, ConsoleUI.YELLOW, 5);
 
         reservationController.selectReservationsByMemberId(memberId);
         List<Member> m = memberDAO.selectUsers();

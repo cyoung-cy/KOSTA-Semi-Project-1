@@ -206,7 +206,6 @@ public class EndView {
 
             if (input.equalsIgnoreCase("q")) {
                 ConsoleUI.info("목록을 종료합니다.");
-                //System.out.println();
                 break;
             } else if (input.equals(">")) {
                 if (currentPage < totalPages - 1) {
@@ -322,8 +321,8 @@ public class EndView {
                 System.out.println("-".repeat(ConsoleUI.WIDTH));
             }
 
-            System.out.println("[ < ] 이전 페이지    [ > ] 다음 페이지    [ Q ] 종료");
-            String input = ConsoleUI.prompt(scanner, "입력").trim();
+            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+            String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("q")) {
                 ConsoleUI.info("예약 목록 조회를 종료합니다.");
@@ -378,13 +377,12 @@ TODO: 예약 리스트 조회 View*/
             ConsoleUI.printHeader("BOOKING HISTORY", "예매 티켓을 확인하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
             PrintTickets.print(pageList);
 
-            System.out.println("[ < ] 이전 페이지    [ > ] 다음 페이지    [ Q ] 종료");
-            ConsoleUI.printLine(ConsoleUI.RED);
-
-            String input = ConsoleUI.prompt(scanner, "입력").trim();
+            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+            String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("q")) {
                 ConsoleUI.info("목록을 종료합니다.");
+                ConsoleUI.printLine(ConsoleUI.RED);
                 return;
             } else if (input.equals(">")) {
                 if (currentPage < totalPage - 1) {
@@ -429,7 +427,8 @@ TODO: 예약 리스트 조회 View*/
                     "MOVIE REVIEWS",
                     "해당 영화의 관람객 리뷰 목록입니다.",
                     ConsoleUI.RED,
-                    ConsoleUI.YELLOW
+                    ConsoleUI.YELLOW,
+                    3
             );
 
             int from = currentPage * PAGE_SIZE;
@@ -450,9 +449,8 @@ TODO: 예약 리스트 조회 View*/
                 printDashLine();
             }
 
-            System.out.println("[ < ] 이전 페이지    [ > ] 다음 페이지    [ Q ] 종료");
-            ConsoleUI.printLine(ConsoleUI.RED);
-            String input = ConsoleUI.prompt(scanner, "입력").trim();
+            System.out.print("[ < 이전 | > 다음 | Q 종료 ] 입력: ");
+            String input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equalsIgnoreCase("q")) {
                 ConsoleUI.info("리뷰 목록을 종료합니다.");

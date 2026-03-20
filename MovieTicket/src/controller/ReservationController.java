@@ -53,7 +53,13 @@ public class ReservationController {
 
         try {
             ConsoleUI.blank(1);
-            ConsoleUI.printHeader("영화 예매", "영화 목록 조회", ConsoleUI.RED, ConsoleUI.YELLOW, 1);
+            ConsoleUI.printHeader(
+                    "MOVIE BOOKING",
+                    "예매할 영화를 선택하세요",
+                    ConsoleUI.RED,
+                    ConsoleUI.YELLOW,
+                    2
+            );
 
             // Step 1: 영화 선택
             List<Movie> movieList = movieService.selectMovieByIsScreen();

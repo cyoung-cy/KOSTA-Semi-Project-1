@@ -188,7 +188,7 @@ public class UserView {
 					"[1] 영화 예매하기",
 					"[2] 영화 리뷰보기",
 					"[3] 뒤로가기"
-			}, null, 11);
+			}, null, 9);
 
 			int menu = ConsoleUI.promptInt(sc, "메뉴를 선택하세요");
 			switch(menu) {
@@ -197,7 +197,7 @@ public class UserView {
 					ConsoleUI.info("영화 예매 메뉴로 이동합니다...");
 					break;
 				case 2:
-					int movieId = ConsoleUI.promptInt(sc, "리뷰를 볼 영화를 선택해주세요");
+					int movieId = ConsoleUI.promptInt(sc, "리뷰를 조회할 영화 ID를 입력하세요");
 					// 영화	리뷰 조회 컨트롤러 호출
 					ReviewController.selectReviewsByMovie(movieId);
 					break;
