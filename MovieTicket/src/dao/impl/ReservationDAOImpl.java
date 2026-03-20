@@ -66,7 +66,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public int insert(Connection conn, Reservation reservation) {
     	 String sql = "insert into RESERVATION(MEMBER_ID, SCHEDULE_ID, MOVIE_ID, CARD_INFO, PAID_AT) "
-    	 		+ "VALUES (?, ?, ?, ?, NOW())";
+    	 		+ "VALUES (?, ?, ?, ?, CONVERT_TZ(NOW(), 'UTC', '+09:00')";
          
          Object[] params = { 
          		reservation.getMemberId(), reservation.getScheduleId(), 
