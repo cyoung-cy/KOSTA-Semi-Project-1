@@ -53,7 +53,7 @@ public class ReservationView {
 
             printDashLine();
         }
-        System.out.println("[0] 뒤로가기");
+        System.out.println("[0] 이전 단계로");
         ConsoleUI.printLine(ConsoleUI.RED);
     }
 
@@ -62,7 +62,7 @@ public class ReservationView {
     // ──────────────────────────────────────────────
     public void printMovieDetail(Movie movie) {
         String subtitle = "[" + movie.getMovieTitle() + "] 상세 정보";
-        ConsoleUI.printHeader("선택한 영화 정보", subtitle, ConsoleUI.RED, ConsoleUI.YELLOW, -2);
+        ConsoleUI.printHeader("MOVIE DETAIL", subtitle, ConsoleUI.RED, ConsoleUI.YELLOW, -2);
 
         printDetailItem("영화 번호", String.valueOf(movie.getMovieId()));
         printDetailItem("배우", movie.getActor());
@@ -77,7 +77,7 @@ public class ReservationView {
     // Step 2 : 스케줄 선택
     // ──────────────────────────────────────────────
     public int askScheduleId(List<Schedules> scheduleList) {
-        ConsoleUI.printHeader("상영 스케줄 선택", "당일 15분 후 상영 스케줄부터 예매가 가능합니다", ConsoleUI.RED, ConsoleUI.YELLOW, 2);
+        ConsoleUI.printHeader("SCREENING SCHEDULE", "당일 15분 후 상영 스케줄부터 예매가 가능합니다", ConsoleUI.RED, ConsoleUI.YELLOW, 2);
 
         for (int i = 0; i < scheduleList.size(); i++) {
             Schedules s = scheduleList.get(i);
@@ -235,7 +235,7 @@ public class ReservationView {
     // ──────────────────────────────────────────────
     public String askCardInfo() {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("결제 정보 확인", "등록된 카드 정보를 입력하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("PAYMENT", "등록된 카드 정보를 입력하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         int choice = ConsoleUI.promptInt(sc, "결제를 진행하시겠습니까? (1: 결제승인 / 2: 취소)");
         if (choice != 1) throw new RuntimeException("결제를 취소하였습니다.");
@@ -252,7 +252,7 @@ public class ReservationView {
                 + (req.getBabyCount() * 0);
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("예매 완료", "예매가 완료되었습니다! 즐거운 관람 되세요 🎬", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("BOOKING COMPLETE", "예매가 완료되었습니다! 즐거운 관람 되세요 🎬", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         printDetailItem("티켓 번호", String.valueOf(System.currentTimeMillis()));
         printDetailItem("좌석", String.valueOf(req.getSelectSeats()));

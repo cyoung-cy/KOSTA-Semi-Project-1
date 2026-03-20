@@ -68,7 +68,7 @@ public class EndView {
      * */
     public static void printUserShort(List<Member> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("회원 목록", "전체 회원 현황 | 총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("MEMBER LIST", "전체 회원 현황 | 총 " + list.size() + "명", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         for (Member member : list) {
             String row =
@@ -88,7 +88,7 @@ public class EndView {
      * */
     public static void printInquiryShort(List<Inquiry> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("문의 목록", "문의 접수 현황 | 총 " + list.size() + "건", ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
+        ConsoleUI.printHeader("INQUIRY LIST", "문의 접수 현황 | 총 " + list.size() + "건", ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
@@ -113,7 +113,7 @@ public class EndView {
      * */
     public static void printUserInquiryShort(List<Inquiry> list) {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("내 문의 목록", "내 문의 내역 | 총 " + list.size() + "건", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("MY INQUIRIES", "내 문의 내역 | 총 " + list.size() + "건", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         for (Inquiry inquiry : list) {
             String processedText = inquiry.getProcessed() ? "resolved" : "pending";
@@ -375,7 +375,7 @@ TODO: 예약 리스트 조회 View*/
             }
 
             ConsoleUI.blank(1);
-            ConsoleUI.printHeader("예매 내역", "예매 티켓을 확인하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+            ConsoleUI.printHeader("BOOKING HISTORY", "예매 티켓을 확인하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
             PrintTickets.print(pageList);
 
             System.out.println("[ < ] 이전 페이지    [ > ] 다음 페이지    [ Q ] 종료");
@@ -426,7 +426,7 @@ TODO: 예약 리스트 조회 View*/
         while (true) {
             ConsoleUI.blank(1);
             ConsoleUI.printHeader(
-                    "영화 리뷰",
+                    "MOVIE REVIEWS",
                     "해당 영화의 관람객 리뷰 목록입니다.",
                     ConsoleUI.RED,
                     ConsoleUI.YELLOW
@@ -477,7 +477,7 @@ TODO: 예약 리스트 조회 View*/
 
     public static void printMovieDetail(Movie movie) {
         String subtitle = "[" + movie.getMovieTitle() + "] 상세 정보";
-        ConsoleUI.printHeader("영화 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
+        ConsoleUI.printHeader("MOVIE DETAIL", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN, 1);
 
         printDetailItem("영화 번호", movie.getMovieId());
         printDetailItem("배우", movie.getActor());
@@ -490,7 +490,7 @@ TODO: 예약 리스트 조회 View*/
 
     public static void printInquiryDetail(Inquiry inquiry) {
         String subtitle = "[문의 #" + inquiry.getInquiryId() + "] 상세 정보";
-        ConsoleUI.printHeader("문의 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("INQUIRY DETAIL", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         printDetailItem("회원 번호", inquiry.getMemberId());
         printDetailItem("제목", inquiry.getTitle());
@@ -504,7 +504,7 @@ TODO: 예약 리스트 조회 View*/
 
     private static void printMemberDetail(Member member) {
         String subtitle = "[" + member.getUserId() + "] 님의 회원 정보";
-        ConsoleUI.printHeader("회원 상세 정보", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("MEMBER DETAIL", subtitle, ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         printDetailItem("회원 번호", member.getMemberId());
         printDetailItem("회원 아이디", member.getUserId());
@@ -557,7 +557,7 @@ TODO: 예약 리스트 조회 View*/
         }
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("영화 목록 조회", "예매할 영화를 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
+        ConsoleUI.printHeader("MOVIE LIST", "예매할 영화를 선택하세요", ConsoleUI.RED, ConsoleUI.YELLOW);
 
         for (int i = 0; i < list.size(); i++) {
             Movie movie = list.get(i);

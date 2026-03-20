@@ -19,7 +19,7 @@ public class AdminView {
 
     public static void userManage(Member member) {
         while (true) {
-            ConsoleUI.printHeader("회원 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MEMBER MANAGEMENT", "회원 관련 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN);
             ConsoleUI.printMenu(new String[]{
                     "[1] 회원 삭제",
                     "[2] 회원 목록 조회",
@@ -75,7 +75,7 @@ public class AdminView {
 
     public static void inquiryManage(Member member) {
         while (true) {
-            ConsoleUI.printHeader("문의 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("INQUIRY MANAGEMENT", "문의 조회 및 답변 관리 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN);
             ConsoleUI.printMenu(new String[]{
                     "[1] 문의 목록 조회",
                     "[2] 문의 상세 조회",
@@ -126,7 +126,7 @@ public class AdminView {
 
     public static void movieManager(Member member) {
         while (true) {
-            ConsoleUI.printHeader("영화 관리", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE MANAGEMENT", "영화 관리 기능을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
             ConsoleUI.printMenu(new String[]{
                     "[1] 영화 목록 조회",
                     "[2] 영화 상세 조회",
@@ -177,7 +177,7 @@ public class AdminView {
 
     private static void AutoOrpassivity(Member member) {
         while (true) {
-            ConsoleUI.printHeader("영화 등록 방식 선택", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE REGISTRATION", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
             ConsoleUI.printMenu(new String[]{
                     "[1] 개봉 예정작 등록",
                     "[2] 수동 등록",
@@ -245,7 +245,7 @@ public class AdminView {
 
     private static void updateMovie(Member member) {
         while (true){
-            ConsoleUI.printHeader("영화 수정", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("MOVIE UPDATE", "수정할 작업을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
             ConsoleUI.printMenu(new String[]{
                     "[1] 상영 종료",
                     "[2] 영화 정보 수정",
@@ -295,7 +295,7 @@ public class AdminView {
 
     public static void MovieinsertView() {
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("개봉 예정작 목록", "등록할 개봉 예정작을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("UPCOMING MOVIES", "등록할 개봉 예정작을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         List<MovieAPI> movies;
         try {
@@ -438,7 +438,7 @@ public class AdminView {
 
     public static void statistics(Member member) {
         while (true) {
-            ConsoleUI.printHeader("DASHBOARD", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+            ConsoleUI.printHeader("DASHBOARD", "통계 및 분석 메뉴입니다", ConsoleUI.GREEN, ConsoleUI.GREEN);
             ConsoleUI.printMenu(new String[]{
                     "[1] 신규 가입자 및 회원 증감 추이",
                     "[2] 영화 장르 선호도",

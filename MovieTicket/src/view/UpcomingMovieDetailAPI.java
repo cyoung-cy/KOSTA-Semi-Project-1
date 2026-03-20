@@ -95,7 +95,7 @@ public class UpcomingMovieDetailAPI {
 
         Scanner sc = new Scanner(System.in);
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("개봉예정작 상세조회", null, ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("UPCOMING MOVIE DETAIL", "상세조회할 개봉 예정작을 선택하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         String inputId = ConsoleUI.prompt(sc, "상세조회할 영화 ID를 입력하세요").trim();
 
@@ -112,11 +112,11 @@ public class UpcomingMovieDetailAPI {
             return null;
         }
 
-        ConsoleUI.info("상세정보를 불러옵니다...");
+        ConsoleUI.info("개봉 예정작 상세 정보를 불러옵니다...");
         MovieAPI detailMovie = getUpcomingMovieDetail(selectedMovie);
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("개봉예정작 상세정보", "등록 전 영화 정보를 확인하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
+        ConsoleUI.printHeader("UPCOMING MOVIE INFO", "등록 전 영화 정보를 확인하세요", ConsoleUI.GREEN, ConsoleUI.GREEN);
 
         // Movie 객체 반환받도록 수정
         return printUpcomingMovieDetail(detailMovie);

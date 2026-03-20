@@ -17,7 +17,7 @@ public class ScheduleView {
      */
     public static void askAndInsertSchedule(Movie movie) {
         ConsoleUI.blank(1);
-        String ans = ConsoleUI.prompt(sc, "스케줄도 등록하시겠습니까? (Y/N)").trim();
+        String ans = ConsoleUI.prompt(sc, "상영 스케줄도 등록하시겠습니까? (Y/N)").trim();
 
         if (ans.equalsIgnoreCase("Y")) {
             insertScheduleForMovie(movie);
@@ -44,7 +44,7 @@ public class ScheduleView {
 
         ConsoleUI.blank(1);
         ConsoleUI.printHeader(
-                "상영 스케줄 등록",
+                "SCHEDULE REGISTRATION",
                 "상영관별 가용 시간을 선택하세요",
                 ConsoleUI.GREEN,
                 ConsoleUI.GREEN
@@ -64,7 +64,7 @@ public class ScheduleView {
             printRoomSlots(room, availableSlots);
 
             if (availableSlots.isEmpty()) {
-                ConsoleUI.info(room.getName() + "은(는) 등록 가능한 시간이 없습니다.");
+                ConsoleUI.info(room.getName() + "에는 등록 가능한 시간대가 없습니다.");
                 System.out.println("-".repeat(ConsoleUI.WIDTH));
                 continue;
             }
@@ -72,11 +72,11 @@ public class ScheduleView {
             // 5. 사용자 선택
             String input = ConsoleUI.prompt(
                     sc,
-                    room.getName() + " 시간 선택 (예: 1,3 / 0: 건너뛰기)"
+                    room.getName() + " 등록 시간을 선택하세요 (예: 1,3 / 0: 건너뛰기)"
             ).trim();
 
             if (input.equals("0") || input.isEmpty()) {
-                ConsoleUI.info(room.getName() + " 등록을 건너뜁니다.");
+                ConsoleUI.info(room.getName() + " 스케줄 등록을 건너뜁니다.");
                 System.out.println("-".repeat(ConsoleUI.WIDTH));
                 continue;
             }

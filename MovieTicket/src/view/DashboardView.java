@@ -126,7 +126,7 @@ public class DashboardView {
 
         // ── 출력 ──
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("회원 유입 및 증감 리포트", null, GREEN, GREEN);
+        ConsoleUI.printHeader("USER GROWTH REPORT", "최근 7일 회원 유입 및 증감 추이", GREEN, GREEN);
 
         System.out.println(
                 DIM + "  기준일자        가입자 수   시각화  (■ 1명)" + RESET
@@ -177,7 +177,7 @@ public class DashboardView {
         int graphMax = 20; // 바 최대 길이
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("선호 장르별 시장 점유율", null, GREEN, GREEN);
+        ConsoleUI.printHeader("GENRE PREFERENCE", "회원 선호 장르 비중 현황", GREEN, GREEN);
 
         System.out.println(
                 DIM + "  순위  장르              회원 수    비중      그래프" + RESET
@@ -222,62 +222,6 @@ public class DashboardView {
     }
 
     // ── 3. 누적 관객 순위 TOP 10 ─────────────────────────────────────
-//    public static void movieTopten(List<Movie> list, int totalAudiAcc) {
-//
-//        // 최대 관객 수 (바 스케일용)
-//        int maxAudi = list.stream().mapToInt(Movie::getAudiAcc).max().orElse(1);
-//        int barMax  = 22;
-//
-//        ConsoleUI.blank(1);
-//        ConsoleUI.printHeader("누적 관객 순위 TOP 10", null, GREEN, GREEN);
-//
-//        System.out.println(
-//                DIM + "  순위  영화 제목                            관객 수          상태      그래프" + RESET
-//        );
-//        System.out.println(GREEN + "  " + "─".repeat(74) + RESET);
-//
-//        for (int i = 0; i < list.size(); i++) {
-//            Movie m = list.get(i);
-//
-//            // 순위 컬럼: 가시 너비 6 고정
-//            // 🥇🥈🥉 이모지는 터미널에서 2칸 차지 → 순수 텍스트 부분만 ANSI 포함
-//            String rankRaw;
-//            if      (i == 0) rankRaw = BOLD + BRIGHT_YELLOW + "1위" + RESET;
-//            else if (i == 1) rankRaw = BOLD + "\u001B[37m"  + "2위" + RESET;
-//            else if (i == 2) rankRaw = BOLD + "\u001B[33m"  + "3위" + RESET;
-//            else             rankRaw = (i + 1) + "위";
-//            String rankCol = padRight(rankRaw, 4); // "1위"~"10위" 최대 가시4칸
-//
-//            // 영화 제목: 가시 너비 28 고정 (한글 2칸 보정)
-//            String titleCol = padKorean(m.getMovieTitle(), 28);
-//
-//            // 관객 수: 우측 정렬 고정폭 (최대 13자리+명)
-//            String audiCol = String.format("%,12d명", m.getAudiAcc());
-//
-//            // 상태: 가시 너비 6 고정 ("상영중" 6칸, "상영종료" 8칸 → padRight로 맞춤)
-//            String status    = getStatus(m);
-//            String statusRaw = switch (status) {
-//                case "상영중"   -> BRIGHT_GREEN  + BOLD + "상영중" + RESET;
-//                case "개봉예정" -> BRIGHT_YELLOW + BOLD + "개봉예정" + RESET;
-//                default         -> DIM + "상영종료" + RESET;
-//            };
-//            String statusCol = padRight(statusRaw, 8); // "상영종료"=8칸 기준
-//
-//            // 바
-//            int barLen = (int) Math.round((double) m.getAudiAcc() / maxAudi * barMax);
-//            String barColor = (i < 3) ? BRIGHT_YELLOW : BAR_COLORS[i % BAR_COLORS.length];
-//            String bar = barColor + "▬".repeat(barLen) + RESET;
-//
-//            System.out.printf("  %s  %s  %s  %s  %s%n",
-//                    rankCol, titleCol, audiCol, statusCol, bar);
-//        }
-//
-//        System.out.println(GREEN + "  " + "─".repeat(74) + RESET);
-//        System.out.printf("  ▶ 전체 누적 관객 수: %s%,d명%s%n", BOLD + BRIGHT_CYAN, totalAudiAcc, RESET);
-//        ConsoleUI.printLine(GREEN);
-//        System.out.print(DIM + "\n  [0] 돌아가기 → " + RESET);
-//        sc.nextLine();
-//    }
     public static void movieTopten(List<Movie> list, int totalAudiAcc) {
 
         int maxAudi = list.stream().mapToInt(Movie::getAudiAcc).max().orElse(1);
@@ -289,7 +233,7 @@ public class DashboardView {
         final int barMax = 14;
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("누적 관객 순위 TOP 10", "누적 관객 수 기준", GREEN, GREEN);
+        ConsoleUI.printHeader("BOX OFFICE TOP 10", "누적 관객 수 기준", GREEN, GREEN);
 
         String header =
                 padRight("순위", rankW) + "  " +
@@ -415,7 +359,7 @@ public class DashboardView {
         int barMax = 24;
 
         ConsoleUI.blank(1);
-        ConsoleUI.printHeader("주간 매출 및 예매 분석", null, GREEN, GREEN);
+        ConsoleUI.printHeader("WEEKLY SALES ANALYSIS", "요일별 예매 수와 매출 현황", GREEN, GREEN);
 
         System.out.println(
                 DIM + "  요일     예매 수   그래프  (★ 5건)          일일 매출액" + RESET
